@@ -72,6 +72,10 @@ async function main() {
     applyAndUpdateCount()
   })
 
+  // Re-route markers on zoom: pixel-space distances change with zoom level,
+  // so _preGroup must re-run to keep cell partitioning correct.
+  map.on('zoomend', applyAndUpdateCount)
+
   // ─── Export panel ─────────────────────────────────────────────────────────────
 
   initExport(registry, getCombinedPredicate)
