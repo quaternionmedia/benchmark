@@ -11,9 +11,16 @@ import { animateBenchCount, animateMapFlyTo } from './animations.js'
 import { onSearchChange, buildSearchPredicate } from './search.js'
 import { initHashSync } from './hash.js'
 import { initExport } from './export.js'
+import { initHeatmap, toggleHeatmap } from './heatmap.js'
 
-const benchCountEl = document.getElementById('bench-count')
-const mapEl        = document.getElementById('map')
+const benchCountEl  = document.getElementById('bench-count')
+const mapEl         = document.getElementById('map')
+const heatmapToggle = document.getElementById('heatmap-toggle')
+
+// ─── PWA service worker ───────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/benchmark/sw.js').catch(() => {})
+}
 
 async function main() {
   // Initialise map
@@ -68,6 +75,15 @@ async function main() {
   // ─── Export panel ─────────────────────────────────────────────────────────────
 
   initExport(registry, getCombinedPredicate)
+
+  // ─── Heatmap layer ────────────────────────────────────────────────────────────
+
+  initHeatmap(map, features)
+  heatmapToggle.addEventListener('click', () => {
+    const visible = toggleHeatmap()
+    heatmapToggle.setAttribute('aria-pressed', String(visible))
+    heatmapToggle.classList.toggle('active', visible)
+  })
 
   // ─── URL hash state ───────────────────────────────────────────────────────────
 

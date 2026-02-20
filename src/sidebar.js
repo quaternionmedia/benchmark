@@ -17,6 +17,11 @@ let isOpen = false
 
 closeBtn.addEventListener('click', closeSidebar)
 
+// Escape key closes the sidebar from anywhere on the page
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && isOpen) closeSidebar()
+})
+
 /**
  * Open the sidebar with data for a specific bench.
  * If already open, swaps content with a cross-fade animation.
@@ -29,7 +34,10 @@ export function openSidebar(props, latlng) {
     animateSidebarContentSwap(contentEl, () => renderContent(props, latlng))
   } else {
     renderContent(props, latlng)
-    animateSidebarIn(sidebarEl, () => { isOpen = true })
+    animateSidebarIn(sidebarEl, () => {
+      isOpen = true
+      closeBtn.focus()   // move keyboard focus into sidebar on open
+    })
   }
 }
 

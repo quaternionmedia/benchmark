@@ -482,6 +482,31 @@ body {
   line-height: 1.5;
 }
 
+/* ─── SKIP LINK ──────────────────────────────────── */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 8px;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 4px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  z-index: 9999;
+  text-decoration: none;
+  transition: top 0.1s;
+}
+
+.skip-link:focus { top: 8px; }
+
+/* Active / pressed state for toggle buttons (e.g. heatmap) */
+.btn-icon.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
 /* ─── MOBILE ─────────────────────────────────────── */
 
 @media (max-width: 600px) {

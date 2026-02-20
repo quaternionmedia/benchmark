@@ -79,8 +79,10 @@ document.querySelectorAll('.chip[data-filter]').forEach((chip) => {
 
     document.querySelectorAll(`.chip[data-filter="${filterKey}"]`).forEach((c) => {
       c.classList.remove('active')
+      c.setAttribute('aria-pressed', 'false')
     })
     chip.classList.add('active')
+    chip.setAttribute('aria-pressed', 'true')
 
     filterState[filterKey] = value
     notifyListeners()

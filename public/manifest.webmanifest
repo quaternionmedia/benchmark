@@ -1,0 +1,25 @@
+{
+  "name": "benchmark",
+  "short_name": "benchmark",
+  "description": "A map of benches worldwide — browse, filter, and contribute.",
+  "start_url": "/benchmark/",
+  "scope": "/benchmark/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5f0e8",
+  "theme_color": "#f5f0e8",
+  "icons": [
+    {
+      "src": "/benchmark/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/benchmark/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -10,11 +10,13 @@
     "validate": "node scripts/compile-yaml.js",
     "catalogue": "node scripts/generate-catalogue.js",
     "issue-to-yaml": "node scripts/issue-to-yaml.js",
+    "overpass-import": "node scripts/overpass-import.js",
     "test": "playwright test"
   },
   "dependencies": {
     "animejs": "^3.2.2",
     "leaflet": "^1.9.4",
+    "leaflet.heat": "^0.2.0",
     "yaml": "^2.4.5"
   },
   "devDependencies": {

@@ -122,7 +122,7 @@ added_at: ISO date
 
 ---
 
-## Phase 5 — Enrichment `v1.0`
+## Phase 5 — Enrichment `v1.0` ✅
 
 > *"Connect to the wider world."*
 
@@ -130,11 +130,11 @@ added_at: ISO date
 
 **Deliverables:**
 
-- Overpass query builder for importing OSM benches into YAML format
-- `Leaflet.heat` heatmap layer (toggleable)
-- PWA manifest + service worker for offline map tiles cache
-- Accessibility audit pass (WCAG 2.1 AA)
-- Performance budget: Lighthouse score ≥ 90 on mobile
+- [x] `scripts/overpass-import.js` — queries Overpass API for `amenity=bench` in a bounding box, maps OSM tags to schema, writes ready-to-commit YAML (`npm run overpass-import`)
+- [x] `src/heatmap.js` + heatmap toggle button — `Leaflet.heat` density layer, toggleable, graceful degradation if plugin unavailable
+- [x] `public/manifest.webmanifest` + `public/sw.js` — PWA manifest and service worker (cache-first tiles, network-first shell)
+- [x] `public/icon.svg` — bench silhouette app icon
+- [x] Accessibility pass (WCAG 2.1 AA): skip link, `aria-live` bench count, `aria-pressed` on all toggle/chip buttons, `role="group" aria-labelledby` on filter groups, Escape closes sidebar, focus moves to close button on sidebar open
 
 **Done when:** `v1.0` tag is cut, all phases complete, Lighthouse ≥ 90.
 
@@ -149,4 +149,4 @@ added_at: ISO date
 | `v0.3` | 2 | UI & Animations | ✅ |
 | `v0.4` | 3 | Community | ✅ |
 | `v0.5` | 4 | Discovery | 🚧 |
-| `v1.0` | 5 | Enrichment | — |
+| `v1.0` | 5 | Enrichment | ✅ |

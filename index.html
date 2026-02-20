@@ -6,6 +6,17 @@
   <title>benchmark — a map of benches</title>
   <meta name="description" content="Browse and discover benches worldwide." />
 
+  <!-- PWA -->
+  <link rel="manifest" href="/benchmark/manifest.webmanifest" />
+  <meta name="theme-color" content="#f5f0e8" />
+  <link rel="icon" href="/benchmark/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/benchmark/icon.svg" />
+
+  <!-- Performance hints for external origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://tile.openstreetmap.org" />
+
   <!-- Leaflet CSS must load before Leaflet JS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -15,13 +26,17 @@
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
+  <!-- Skip link: lets keyboard users bypass the header and jump straight to the map -->
+  <a href="#map" class="skip-link">Skip to map</a>
+
   <div id="app">
 
-    <!-- Header: logo, bench count, search, filter + export toggles -->
+    <!-- Header: logo, bench count, search, filter + heatmap + export toggles -->
     <header id="header">
       <div style="display:flex; align-items:baseline; gap:0">
         <span class="logo">benchmark</span>
-        <span class="bench-count" id="bench-count"></span>
+        <!-- aria-live announces count changes to screen readers -->
+        <span class="bench-count" id="bench-count" aria-live="polite" aria-atomic="true"></span>
       </div>
       <div class="header-actions">
         <input type="search" id="search-input" class="search-input"
@@ -29,6 +44,9 @@
         <button type="button" class="btn-icon" id="filter-toggle" aria-expanded="false"
                 aria-controls="filter-panel">
           filter
+        </button>
+        <button type="button" class="btn-icon" id="heatmap-toggle" aria-pressed="false">
+          heatmap
         </button>
         <button type="button" class="btn-icon" id="export-toggle" aria-expanded="false"
                 aria-controls="export-panel">
@@ -45,34 +63,46 @@
 
         <!-- Condition filter -->
         <div class="filter-group">
-          <label>condition</label>
-          <div class="filter-chips" id="condition-chips">
-            <button type="button" class="chip active" data-filter="condition" data-value="all">all</button>
-            <button type="button" class="chip" data-filter="condition" data-value="good">good</button>
-            <button type="button" class="chip" data-filter="condition" data-value="fair">fair</button>
-            <button type="button" class="chip" data-filter="condition" data-value="poor">poor</button>
-            <button type="button" class="chip" data-filter="condition" data-value="unknown">unknown</button>
+          <label id="label-condition">condition</label>
+          <div class="filter-chips" id="condition-chips" role="group" aria-labelledby="label-condition">
+            <button type="button" class="chip active" data-filter="condition" data-value="all"
+                    aria-pressed="true">all</button>
+            <button type="button" class="chip" data-filter="condition" data-value="good"
+                    aria-pressed="false">good</button>
+            <button type="button" class="chip" data-filter="condition" data-value="fair"
+                    aria-pressed="false">fair</button>
+            <button type="button" class="chip" data-filter="condition" data-value="poor"
+                    aria-pressed="false">poor</button>
+            <button type="button" class="chip" data-filter="condition" data-value="unknown"
+                    aria-pressed="false">unknown</button>
           </div>
         </div>
 
         <!-- Material filter -->
         <div class="filter-group">
-          <label>material</label>
-          <div class="filter-chips" id="material-chips">
-            <button type="button" class="chip active" data-filter="material" data-value="all">all</button>
-            <button type="button" class="chip" data-filter="material" data-value="wood">wood</button>
-            <button type="button" class="chip" data-filter="material" data-value="metal">metal</button>
-            <button type="button" class="chip" data-filter="material" data-value="stone">stone</button>
-            <button type="button" class="chip" data-filter="material" data-value="concrete">concrete</button>
-            <button type="button" class="chip" data-filter="material" data-value="plastic">plastic</button>
-            <button type="button" class="chip" data-filter="material" data-value="other">other</button>
+          <label id="label-material">material</label>
+          <div class="filter-chips" id="material-chips" role="group" aria-labelledby="label-material">
+            <button type="button" class="chip active" data-filter="material" data-value="all"
+                    aria-pressed="true">all</button>
+            <button type="button" class="chip" data-filter="material" data-value="wood"
+                    aria-pressed="false">wood</button>
+            <button type="button" class="chip" data-filter="material" data-value="metal"
+                    aria-pressed="false">metal</button>
+            <button type="button" class="chip" data-filter="material" data-value="stone"
+                    aria-pressed="false">stone</button>
+            <button type="button" class="chip" data-filter="material" data-value="concrete"
+                    aria-pressed="false">concrete</button>
+            <button type="button" class="chip" data-filter="material" data-value="plastic"
+                    aria-pressed="false">plastic</button>
+            <button type="button" class="chip" data-filter="material" data-value="other"
+                    aria-pressed="false">other</button>
           </div>
         </div>
 
         <!-- Feature checkboxes -->
         <div class="filter-group">
-          <label>features</label>
-          <div class="filter-checks">
+          <label id="label-features">features</label>
+          <div class="filter-checks" role="group" aria-labelledby="label-features">
             <label class="check-label">
               <input type="checkbox" id="filter-backrest" data-filter="backrest" />
               backrest
@@ -110,12 +140,12 @@
     </div>
 
     <!-- Leaflet map container -->
-    <div id="map" aria-label="Bench map"></div>
+    <div id="map" role="application" aria-label="Interactive bench map. Use arrow keys to pan, +/- to zoom."></div>
 
     <!-- Sidebar: bench detail panel -->
     <aside id="sidebar" class="sidebar hidden" aria-label="Bench detail">
-      <button type="button" class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">✕</button>
-      <div id="sidebar-content"></div>
+      <button type="button" class="sidebar-close" id="sidebar-close" aria-label="Close bench detail (Escape)">✕</button>
+      <div id="sidebar-content" tabindex="-1"></div>
     </aside>
 
   </div>

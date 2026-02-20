@@ -5,6 +5,9 @@
 
 import L from 'leaflet'
 
+// Expose L as a global so legacy UMD Leaflet plugins (e.g. leaflet.heat) can extend it.
+window.L = L
+
 /**
  * Create and return the Leaflet map bound to #map.
  * @returns {L.Map}
