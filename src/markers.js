@@ -38,13 +38,17 @@ const MIN_CLUSTER = 10  // minimum markers per cell to produce a badge
 
 /**
  * Cluster radius (px) at a given zoom — must match the clusterGroup option.
+ * Grows aggressively at low zoom so distant-but-visible benches cluster
+ * rather than filling the screen as individual icons.
  * @param {number} zoom
  * @returns {number}
  */
 function _maxRadius(zoom) {
-  if (zoom >= 15) return 40
-  if (zoom >= 13) return 55
-  return 70
+  if (zoom >= 15) return 40   // street — fine-grained individual markers
+  if (zoom >= 13) return 60   // block / neighbourhood
+  if (zoom >= 11) return 90   // district
+  if (zoom >= 9)  return 130  // city
+  return 180                  // regional / country
 }
 
 /**
