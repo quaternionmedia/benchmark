@@ -7,8 +7,12 @@
  * are inside the cluster group rather than using opacity animations, which
  * eliminates the O(n × stagger) performance bottleneck.
  *
- * minimumClusterSize: 10 ensures that local groups of fewer than 10 nearby
- * markers are never collapsed into a badge — they always render individually.
+ * Single-digit locality: markers are pre-grouped using a pixel-space grid at a
+ * reference zoom (GRID_ZOOM). Grid cells with < MIN_CLUSTER markers are routed
+ * to a plain L.layerGroup (soloGroup) so they always render as individuals.
+ * Cells with >= MIN_CLUSTER markers go into the MarkerClusterGroup which
+ * produces zoom-adaptive count badges. This avoids small-cluster badges that
+ * leaflet.markercluster would otherwise form for any 2+ nearby markers.
  */
 
 import L from 'leaflet'
@@ -16,7 +20,13 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster'
 import { animateMarkerSelect } from './animations.js'
 
-// ─── Private helper ───────────────────────────────────────────────────────────
+// ─── Spatial pre-grouping constants ───────────────────────────────────────────
+
+const GRID_ZOOM = 13    // reference zoom for grid projection
+const GRID_CELL = 80    // pixels — matches leaflet.markercluster default maxClusterRadius
+const MIN_CLUSTER = 10  // cells with fewer markers always render individually
+
+// ─── Private helpers ──────────────────────────────────────────────────────────
 
 /**
  * Create a registry entry (marker + DOM element + props) for a single feature.
@@ -73,24 +83,69 @@ function _buildEntry(feature, onMarkerClick) {
   return { marker, get el() { return el }, props }
 }
 
+/**
+ * Partition markers into solo (< MIN_CLUSTER per grid cell) and cluster sets
+ * using a pixel-space grid projected at GRID_ZOOM.
+ *
+ * Grid cells that share <= GRID_CELL pixels at GRID_ZOOM are considered local
+ * neighbours. This matches the default maxClusterRadius leaflet.markercluster
+ * uses, so the partition is consistent with what the library would cluster.
+ *
+ * @param {L.Map} map
+ * @param {L.Marker[]} markers
+ * @returns {{ solo: L.Marker[], cluster: L.Marker[] }}
+ */
+function _preGroup(map, markers) {
+  const cells = new Map()
+  for (const m of markers) {
+    const { x, y } = map.project(m.getLatLng(), GRID_ZOOM)
+    const key = `${Math.floor(x / GRID_CELL)},${Math.floor(y / GRID_CELL)}`
+    if (!cells.has(key)) cells.set(key, [])
+    cells.get(key).push(m)
+  }
+  const solo = [], cluster = []
+  for (const cell of cells.values()) {
+    if (cell.length < MIN_CLUSTER) solo.push(...cell)
+    else cluster.push(...cell)
+  }
+  return { solo, cluster }
+}
+
+/**
+ * Route a marker set to the correct layer by local density.
+ * Sparse cells (< MIN_CLUSTER) → soloGroup; dense cells → clusterGroup.
+ * Both groups are cleared on every call so state stays consistent.
+ *
+ * @param {L.Map} map
+ * @param {L.Marker[]} markers
+ * @param {L.MarkerClusterGroup} clusterGroup
+ * @param {L.LayerGroup} soloGroup
+ */
+function _route(map, markers, clusterGroup, soloGroup) {
+  clusterGroup.clearLayers()
+  soloGroup.clearLayers()
+  if (!markers.length) return
+  const { solo, cluster } = _preGroup(map, markers)
+  solo.forEach(m => soloGroup.addLayer(m))
+  if (cluster.length) clusterGroup.addLayers(cluster)
+}
+
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /**
- * Render all bench features via a MarkerClusterGroup.
- * minimumClusterSize: 10 means local groups of < 10 nearby markers are never
- * collapsed into a badge — they always show as individual markers.
+ * Render all bench features via a MarkerClusterGroup (dense areas) and a plain
+ * layerGroup (sparse areas). Returns the registry, cluster group, and solo group.
  *
  * @param {L.Map} map
  * @param {Array} features       - GeoJSON features array
  * @param {Function} onMarkerClick - Called with (properties, latlng) on click
- * @returns {{ registry: Map, clusterGroup: L.MarkerClusterGroup }}
+ * @returns {{ registry: Map, clusterGroup: L.MarkerClusterGroup, soloGroup: L.LayerGroup }}
  */
 export function renderMarkers(map, features, onMarkerClick) {
   const registry = new Map()
 
   const clusterGroup = L.markerClusterGroup({
     chunkedLoading:       true,  // process in rAF chunks — keeps UI responsive during bulk add
-    minimumClusterSize:   10,    // local groups of < 10 nearby markers stay as individuals
     disableClusteringAtZoom: 17, // show individual markers at street / block level and closer
     maxClusterRadius(zoom) {
       // Shrink cluster radius at higher zoom so sparse markers de-cluster naturally
@@ -110,6 +165,8 @@ export function renderMarkers(map, features, onMarkerClick) {
     }
   })
 
+  const soloGroup = L.layerGroup()
+
   const allMarkers = []
   for (const feature of features) {
     const entry = _buildEntry(feature, onMarkerClick)
@@ -118,15 +175,16 @@ export function renderMarkers(map, features, onMarkerClick) {
   }
 
   map.addLayer(clusterGroup)
-  clusterGroup.addLayers(allMarkers)  // batch O(n log n)
+  map.addLayer(soloGroup)
+  _route(map, allMarkers, clusterGroup, soloGroup)
 
-  return { registry, clusterGroup }
+  return { registry, clusterGroup, soloGroup }
 }
 
 /**
  * Add more markers to the layers (used by the bbox import flow).
  * Markers are staged into the cluster group; the caller must follow up with
- * applyMarkerFilter to re-route them into the correct layer.
+ * applyMarkerFilter to re-route them correctly via _preGroup.
  * Returns a partial registry that the caller merges into the main registry.
  *
  * @param {L.MarkerClusterGroup} clusterGroup
@@ -149,19 +207,20 @@ export function addMarkersToGroup(clusterGroup, features, onMarkerClick) {
 }
 
 /**
- * Apply a filter predicate by swapping which markers are in the cluster group.
- * clearLayers + addLayers replaces the old opacity-stagger approach, giving
- * O(n log n) filter performance with no animation delay.
+ * Apply a filter predicate by re-routing matching markers via _preGroup.
+ * Dense cells (>= MIN_CLUSTER) go to clusterGroup; sparse cells to soloGroup.
+ * Both layers are cleared on every call so state stays consistent.
  *
+ * @param {L.Map} map
  * @param {Map} registry
  * @param {L.MarkerClusterGroup} clusterGroup
+ * @param {L.LayerGroup} soloGroup
  * @param {Function} predicate - (props) => boolean
  */
-export function applyMarkerFilter(registry, clusterGroup, predicate) {
+export function applyMarkerFilter(map, registry, clusterGroup, soloGroup, predicate) {
   const visible = []
   for (const { marker, props } of registry.values()) {
     if (predicate(props)) visible.push(marker)
   }
-  clusterGroup.clearLayers()
-  if (visible.length) clusterGroup.addLayers(visible)
+  _route(map, visible, clusterGroup, soloGroup)
 }
