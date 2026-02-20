@@ -32,7 +32,7 @@ async function main() {
   const { features } = await loadBenches()
 
   // Render markers into a cluster group and get the registry
-  const { registry, clusterGroup } = renderMarkers(map, features, (props, latlng) => {
+  const { registry, clusterGroup, soloGroup } = renderMarkers(map, features, (props, latlng) => {
     flyToBench(map, latlng, () => {})
     animateMapFlyTo(mapEl)
     openSidebar(props, latlng)
@@ -57,7 +57,7 @@ async function main() {
 
   function applyAndUpdateCount() {
     const predicate = getCombinedPredicate()
-    applyMarkerFilter(registry, clusterGroup, predicate)
+    applyMarkerFilter(registry, clusterGroup, soloGroup, predicate)
     const visible = [...registry.values()].filter(({ props }) => predicate(props)).length
     benchCountEl.textContent = `— ${visible} bench${visible !== 1 ? 'es' : ''}`
   }
