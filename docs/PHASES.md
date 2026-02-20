@@ -116,7 +116,7 @@ added_at: ISO date
 - [x] URL hash state (`#lat,lng,zoom`) for shareable map positions (`src/hash.js`) — restores view on load, writes silently via `history.replaceState`
 - [x] Export panel: download filtered view as GeoJSON, CSV, or YAML (`src/export.js`)
 - [x] Bench count badge updates live when filters or search narrow results
-- [x] `Leaflet.markercluster` — clusters nearby markers into count badges; zoom in to expand; batch `addLayers/clearLayers` replaces stagger animations, fixing O(n) filter perf
+- [x] `Leaflet.markercluster` — clusters nearby markers into count badges with a guaranteed minimum of 10 per badge. Uses a pixel-space grid (`cellSize = maxRadius / √2`) so every cell's markers are pairwise within `maxRadius`, preventing sub-cluster badges < 10. Radius grows aggressively at low zoom (40 px at zoom 15 → 180 px at zoom < 9) to collapse regional clutter. Routing re-runs on `zoomend` to stay accurate as pixel distances change. Batch `addLayers/clearLayers` replaces stagger animations, fixing O(n) filter perf.
 
 **Done when:** A user can filter, search, find a bench, share the URL, and download the results.
 
