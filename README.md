@@ -10,7 +10,7 @@ A frontend-only, open-source map of benches. Browse, filter, and contribute benc
 
 | Layer | Library |
 |---|---|
-| Map | [Leaflet.js](https://leafletjs.com/) + OpenStreetMap tiles |
+| Map | [Leaflet.js](https://leafletjs.com/) + [leaflet.markercluster](https://github.com/Leaflet/Leaflet.markercluster) + OpenStreetMap tiles |
 | Animations | [anime.js](https://animejs.com/) |
 | Data | YAML per region → compiled to GeoJSON at build time |
 | Build | [Vite](https://vitejs.dev/) |
@@ -35,7 +35,10 @@ npm run dev
 | `npm run dev` | Dev server at localhost:5173 |
 | `npm run build` | Compile YAML + build for production |
 | `npm run validate` | Validate and compile all YAML files |
+| `npm run validate:fix` | Auto-fix minor YAML issues and recompile |
 | `npm run catalogue` | Regenerate docs/CATALOGUE.md |
+| `npm run issue-to-yaml` | Format a GitHub issue into a YAML bench block |
+| `npm run overpass-import` | Maintainer tool: bulk-seed a region from Overpass API |
 | `npm test` | Run Playwright end-to-end tests |
 
 ## Contributing

@@ -9,22 +9,6 @@ import anime from 'animejs/lib/anime.es.js'
 // ─── MARKERS ─────────────────────────────────────────────────────────────────
 
 /**
- * Stagger-animate all bench markers on initial map load.
- * @param {HTMLElement[]} markerEls - Array of marker DOM elements
- */
-export function animateMarkersIn(markerEls) {
-  anime({
-    targets: markerEls,
-    opacity: [0, 1],
-    scale: [0, 1],
-    rotate: [0, -45],           // marker resting state is rotated -45deg
-    delay: anime.stagger(18, { from: 'center' }),
-    duration: 480,
-    easing: 'spring(1, 80, 12, 0)'
-  })
-}
-
-/**
  * Animate a single marker as "selected" (pulse + scale up).
  * @param {HTMLElement} markerEl
  */
@@ -34,38 +18,6 @@ export function animateMarkerSelect(markerEl) {
     scale: [1, 1.4, 1.2],
     duration: 400,
     easing: 'easeOutElastic(1, 0.5)'
-  })
-}
-
-/**
- * Animate filtered-out markers to fade and shrink.
- * @param {HTMLElement[]} markerEls - Markers to hide
- */
-export function animateMarkersOut(markerEls) {
-  if (!markerEls.length) return
-  anime({
-    targets: markerEls,
-    opacity: [null, 0],
-    scale: [null, 0.4],
-    delay: anime.stagger(8),
-    duration: 280,
-    easing: 'easeInQuad'
-  })
-}
-
-/**
- * Animate filtered-in markers back into view.
- * @param {HTMLElement[]} markerEls - Markers to show
- */
-export function animateMarkersVisible(markerEls) {
-  if (!markerEls.length) return
-  anime({
-    targets: markerEls,
-    opacity: [null, 1],
-    scale: [null, 1],
-    delay: anime.stagger(12),
-    duration: 340,
-    easing: 'easeOutBack'
   })
 }
 

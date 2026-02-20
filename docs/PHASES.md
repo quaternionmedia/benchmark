@@ -74,11 +74,11 @@ added_at: ISO date
 **Animation contracts:**
 | Trigger | Animation |
 |---|---|
-| Map load | Markers stagger in with `opacity` + `scale` over 600ms |
+| Map load | Cluster badges animate in natively; individual markers appear at full scale (entrance stagger removed in Phase 4 — O(n) bottleneck at scale) |
 | Marker click | Map `flyTo`, then sidebar slides in from right |
 | Sidebar close | Sidebar slides out, map re-centers |
 | Filter toggle | Filter panel fades + translates in from top |
-| Filter applied | Non-matching markers animate out (`opacity → 0`, `scale → 0.5`) |
+| Filter applied | Cluster group cleared and rebuilt instantly — opacity stagger removed in Phase 4 for O(1) filter performance |
 
 **Done when:** All animations run smoothly at 60fps on mobile.
 

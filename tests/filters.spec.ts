@@ -7,25 +7,13 @@ const TOTAL         = geojson.features.length
 const POOR_COUNT    = geojson.features.filter((f: any) => f.properties.condition === 'poor').length
 const BACKREST_COUNT = geojson.features.filter((f: any) => f.properties.backrest === true).length
 
-/** Wait for bench-count to show a specific numeric value. */
-async function waitForBenchCount(page: any, count: number) {
-  await page.waitForFunction(
-    (expected: number) => {
-      const el = document.getElementById('bench-count')
-      const m  = el?.textContent?.match(/(\d+)/)
-      return m !== null && parseInt(m[1]) === expected
-    },
-    count,
-    { timeout: 10_000 }
-  )
-}
-
 test.describe('Filters', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('.')
-    // Wait for the bench-count animation to complete and settle on TOTAL.
-    // animateBenchCount runs for ~1300ms on load; waiting for the exact total
-    // ensures the animation won't overwrite filter-driven count changes.
+    // Wait for the bench-count animation to reach TOTAL, then hold for an extra
+    // tick so any straggling RAF calls from animateBenchCount have fired.
+    // Without the pause, the animation's last update() tick can fire ~16-33ms
+    // after count first hits TOTAL and overwrite a filter-driven count change.
     await page.waitForFunction(
       (total: number) => {
         const el = document.getElementById('bench-count')
@@ -35,6 +23,7 @@ test.describe('Filters', () => {
       TOTAL,
       { timeout: 15_000 }
     )
+    await page.waitForTimeout(150)  // flush any trailing animation ticks
   })
 
   test('filter panel is hidden on load', async ({ page }) => {
@@ -61,11 +50,9 @@ test.describe('Filters', () => {
 
     await page.locator('.chip[data-filter="condition"][data-value="poor"]').click()
 
-    // applyMarkerFilter is synchronous (clearLayers + addLayers) so the count
-    // updates immediately — no animation delay to wait for.
-    await waitForBenchCount(page, POOR_COUNT)
+    // applyMarkerFilter uses clearLayers/addLayers — bench-count is set synchronously.
     const label = `${POOR_COUNT} bench${POOR_COUNT !== 1 ? 'es' : ''}`
-    await expect(page.locator('#bench-count')).toContainText(label)
+    await expect(page.locator('#bench-count')).toContainText(label, { timeout: 5_000 })
   })
 
   test('resetting condition to all restores full bench count', async ({ page }) => {
@@ -73,12 +60,12 @@ test.describe('Filters', () => {
     await expect(page.locator('#filter-panel')).not.toHaveClass(/hidden/, { timeout: 1_000 })
 
     await page.locator('.chip[data-filter="condition"][data-value="poor"]').click()
-    await waitForBenchCount(page, POOR_COUNT)
+    const poorLabel = `${POOR_COUNT} bench${POOR_COUNT !== 1 ? 'es' : ''}`
+    await expect(page.locator('#bench-count')).toContainText(poorLabel, { timeout: 5_000 })
 
     await page.locator('.chip[data-filter="condition"][data-value="all"]').click()
-    await waitForBenchCount(page, TOTAL)
-    const label = `${TOTAL} bench${TOTAL !== 1 ? 'es' : ''}`
-    await expect(page.locator('#bench-count')).toContainText(label)
+    const allLabel = `${TOTAL} bench${TOTAL !== 1 ? 'es' : ''}`
+    await expect(page.locator('#bench-count')).toContainText(allLabel, { timeout: 10_000 })
   })
 
   test('backrest filter updates bench count to backrest-only benches', async ({ page }) => {
@@ -87,8 +74,7 @@ test.describe('Filters', () => {
 
     await page.locator('#filter-backrest').check()
 
-    await waitForBenchCount(page, BACKREST_COUNT)
     const label = `${BACKREST_COUNT} bench${BACKREST_COUNT !== 1 ? 'es' : ''}`
-    await expect(page.locator('#bench-count')).toContainText(label)
+    await expect(page.locator('#bench-count')).toContainText(label, { timeout: 5_000 })
   })
 })
