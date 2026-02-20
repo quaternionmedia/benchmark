@@ -5,10 +5,20 @@
  *
  * Flow:
  *   1. "import area" button → enter draw mode (crosshair cursor)
- *   2. mousedown → drag → mouseup  → L.Rectangle tracks the selection
+ *   2. pointerdown → drag → pointerup  → L.Rectangle tracks the selection
  *   3. Confirmation panel shows bbox coords + region name input
  *   4. "import to map" → Overpass query → mergeFeatures (IndexedDB) → live re-render
  *   5. "cancel" or Escape → cleanup, exit draw mode
+ *
+ * Pointer events are used instead of separate mouse + touch listeners because:
+ *  - Leaflet uses the Pointer Events API internally on modern browsers.
+ *  - When Leaflet calls preventDefault() on pointerdown, the browser cancels
+ *    any subsequent touchstart events, so raw touch handlers never fire.
+ *  - PointerEvent extends MouseEvent and has clientX/clientY, so
+ *    map.mouseEventToLatLng() works without any conversion.
+ *  - Listeners are attached in capture phase (capture: true) so they fire
+ *    before Leaflet's bubble-phase handlers; stopImmediatePropagation() in
+ *    draw mode then prevents Leaflet from panning/zooming.
  *
  * Imported benches are stored in IndexedDB via store.mergeFeatures() and never
  * written to YAML files — keeping the git repo free of generated data.
@@ -146,20 +156,34 @@ function _enterDrawMode() {
   _drawMode = true
   _toggle.setAttribute('aria-pressed', 'true')
   _toggle.classList.add('active')
-  _map.getContainer().classList.add('draw-mode')
-  // Prevent map panning while drawing
+
+  const container = _map.getContainer()
+  container.classList.add('draw-mode')
+  // touch-action: none tells the browser not to handle pan/zoom gestures,
+  // which is more reliable than relying solely on preventDefault().
+  container.style.touchAction = 'none'
+  container.style.userSelect  = 'none'
+
+  // Disable Leaflet's own interaction handlers as a secondary guard
   _map.dragging.disable()
-  _map.getContainer().style.userSelect = 'none'
+  if (_map.touchZoom) _map.touchZoom.disable()
+  if (_map.tap)       _map.tap.disable()
 }
 
 function _exitDrawMode() {
-  _drawMode  = false
-  _dragging  = false
+  _drawMode = false
+  _dragging = false
   _toggle.setAttribute('aria-pressed', 'false')
   _toggle.classList.remove('active')
-  _map.getContainer().classList.remove('draw-mode')
+
+  const container = _map.getContainer()
+  container.classList.remove('draw-mode')
+  container.style.touchAction = ''
+  container.style.userSelect  = ''
+
   _map.dragging.enable()
-  _map.getContainer().style.userSelect = ''
+  if (_map.touchZoom) _map.touchZoom.enable()
+  if (_map.tap)       _map.tap.enable()
 }
 
 function _removeRect() {
@@ -181,24 +205,16 @@ function _cleanup(andClosePanel = true) {
   _confirm.textContent = 'import to map'
 }
 
-// ─── Mouse event handlers ─────────────────────────────────────────────────────
+// ─── Shared draw logic ────────────────────────────────────────────────────────
 
-function _onMouseDown(e) {
-  if (!_drawMode) return
-  // Only respond to left-button
-  if (e.button !== undefined && e.button !== 0) return
-  e.preventDefault()
-
+function _startDraw(latlng) {
   _dragging = true
   _removeRect()
-  _startLL  = _map.mouseEventToLatLng(e)
+  _startLL  = latlng
 }
 
-function _onMouseMove(e) {
-  if (!_drawMode || !_dragging || !_startLL) return
-  const currentLL = _map.mouseEventToLatLng(e)
-  const bounds    = L.latLngBounds(_startLL, currentLL)
-
+function _updateDraw(latlng) {
+  const bounds = L.latLngBounds(_startLL, latlng)
   if (_rect) {
     _rect.setBounds(bounds)
   } else {
@@ -212,34 +228,74 @@ function _onMouseMove(e) {
   }
 }
 
-function _onMouseUp(e) {
-  if (!_drawMode || !_dragging || !_startLL) return
+function _endDraw(latlng) {
   _dragging = false
+  const bounds = L.latLngBounds(_startLL, latlng)
 
-  const endLL  = _map.mouseEventToLatLng(e)
-  const bounds = L.latLngBounds(_startLL, endLL)
-
-  // Ignore tiny accidental clicks (< 100m span)
+  // Ignore tiny accidental taps (degenerate bbox)
   if (bounds.getNorth() === bounds.getSouth() || bounds.getEast() === bounds.getWest()) {
     _removeRect()
     return
   }
 
-  const s = Math.min(bounds.getSouth(), bounds.getNorth()).toFixed(5)
-  const w = Math.min(bounds.getWest(),  bounds.getEast()).toFixed(5)
-  const n = Math.max(bounds.getSouth(), bounds.getNorth()).toFixed(5)
-  const ee = Math.max(bounds.getWest(), bounds.getEast()).toFixed(5)
+  const s  = Math.min(bounds.getSouth(), bounds.getNorth()).toFixed(5)
+  const w  = Math.min(bounds.getWest(),  bounds.getEast()).toFixed(5)
+  const n  = Math.max(bounds.getSouth(), bounds.getNorth()).toFixed(5)
+  const ee = Math.max(bounds.getWest(),  bounds.getEast()).toFixed(5)
 
   _bboxBounds = [s, w, n, ee]
-
   if (_coords) _coords.textContent = `${s}, ${w}, ${n}, ${ee}`
 
-  // Show confirmation panel
   if (_panel) animateBboxPanelIn(_panel)
   if (_input) {
     _input.focus()
     _input.select()
   }
+}
+
+// ─── Pointer event handlers (mouse + touch, unified) ─────────────────────────
+//
+// Pointer events are registered in capture phase so they fire before Leaflet's
+// bubble-phase handlers. stopImmediatePropagation() in draw mode then prevents
+// Leaflet from panning or zooming in response to the same pointer gesture.
+
+function _onPointerDown(e) {
+  if (!_drawMode) return
+  if (!e.isPrimary) return   // ignore additional fingers in multi-touch
+
+  e.preventDefault()
+  e.stopImmediatePropagation()
+
+  // Capture subsequent pointer events on this element even if the pointer
+  // moves outside the container boundary mid-drag.
+  try { e.target.setPointerCapture(e.pointerId) } catch (_) {}
+
+  _startDraw(_map.mouseEventToLatLng(e))  // PointerEvent has clientX/clientY
+}
+
+function _onPointerMove(e) {
+  if (!_drawMode || !_dragging || !_startLL) return
+  if (!e.isPrimary) return
+
+  e.preventDefault()
+  e.stopImmediatePropagation()
+  _updateDraw(_map.mouseEventToLatLng(e))
+}
+
+function _onPointerUp(e) {
+  if (!_drawMode || !_dragging || !_startLL) return
+  if (!e.isPrimary) return
+
+  e.stopImmediatePropagation()
+  try { e.target.releasePointerCapture(e.pointerId) } catch (_) {}
+  _endDraw(_map.mouseEventToLatLng(e))
+}
+
+function _onPointerCancel(e) {
+  if (!_drawMode || !e.isPrimary) return
+  // Gesture was interrupted (system alert, palm rejection, etc.) — clean up
+  _dragging = false
+  _removeRect()
 }
 
 // ─── Public init ──────────────────────────────────────────────────────────────
@@ -255,7 +311,7 @@ export function initBboxSelect(map, onFeaturesImported) {
 
   if (!_panel || !_toggle) return   // HTML not present, skip silently
 
-  // Toggle draw mode on button click
+  // Toggle draw mode on button click/tap
   _toggle.addEventListener('click', () => {
     if (_drawMode) {
       _cleanup()
@@ -264,11 +320,12 @@ export function initBboxSelect(map, onFeaturesImported) {
     }
   })
 
-  // Attach mouse events to the map container element
+  // Pointer event listeners — capture phase fires before Leaflet's bubble-phase handlers
   const container = map.getContainer()
-  container.addEventListener('mousedown', _onMouseDown)
-  container.addEventListener('mousemove', _onMouseMove)
-  container.addEventListener('mouseup',   _onMouseUp)
+  container.addEventListener('pointerdown',   _onPointerDown,   { capture: true, passive: false })
+  container.addEventListener('pointermove',   _onPointerMove,   { capture: true, passive: false })
+  container.addEventListener('pointerup',     _onPointerUp,     { capture: true })
+  container.addEventListener('pointercancel', _onPointerCancel, { capture: true })
 
   // Escape key cancels draw mode / confirmation
   document.addEventListener('keydown', (e) => {
