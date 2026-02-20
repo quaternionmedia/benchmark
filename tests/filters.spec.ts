@@ -1,9 +1,40 @@
 import { test, expect } from '@playwright/test'
+import { readFileSync } from 'fs'
+import { join } from 'path'
+
+const geojson = JSON.parse(readFileSync(join(process.cwd(), 'public/data/benches.geojson'), 'utf8'))
+const TOTAL         = geojson.features.length
+const POOR_COUNT    = geojson.features.filter((f: any) => f.properties.condition === 'poor').length
+const BACKREST_COUNT = geojson.features.filter((f: any) => f.properties.backrest === true).length
+
+/** Wait for bench-count to show a specific numeric value. */
+async function waitForBenchCount(page: any, count: number) {
+  await page.waitForFunction(
+    (expected: number) => {
+      const el = document.getElementById('bench-count')
+      const m  = el?.textContent?.match(/(\d+)/)
+      return m !== null && parseInt(m[1]) === expected
+    },
+    count,
+    { timeout: 10_000 }
+  )
+}
 
 test.describe('Filters', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('.')
-    await page.waitForTimeout(900)
+    // Wait for the bench-count animation to complete and settle on TOTAL.
+    // animateBenchCount runs for ~1300ms on load; waiting for the exact total
+    // ensures the animation won't overwrite filter-driven count changes.
+    await page.waitForFunction(
+      (total: number) => {
+        const el = document.getElementById('bench-count')
+        const m  = el?.textContent?.match(/(\d+)/)
+        return m !== null && parseInt(m[1]) === total
+      },
+      TOTAL,
+      { timeout: 15_000 }
+    )
   })
 
   test('filter panel is hidden on load', async ({ page }) => {
@@ -24,55 +55,40 @@ test.describe('Filters', () => {
     await expect(page.locator('#filter-panel')).toHaveClass(/hidden/, { timeout: 1_000 })
   })
 
-  test('filtering by condition=poor hides non-poor markers', async ({ page }) => {
+  test('filtering by condition=poor updates bench count', async ({ page }) => {
     await page.locator('#filter-toggle').click()
     await expect(page.locator('#filter-panel')).not.toHaveClass(/hidden/, { timeout: 1_000 })
 
     await page.locator('.chip[data-filter="condition"][data-value="poor"]').click()
 
-    // Poll until a good marker is animated out (animateMarkersOut: 280ms + stagger)
-    await page.waitForFunction(() => {
-      const el = document.querySelector('.bench-marker.cond-good')
-      return el !== null && parseFloat(window.getComputedStyle(el).opacity) < 0.1
-    }, { timeout: 5_000 })
+    // applyMarkerFilter is synchronous (clearLayers + addLayers) so the count
+    // updates immediately — no animation delay to wait for.
+    await waitForBenchCount(page, POOR_COUNT)
+    const label = `${POOR_COUNT} bench${POOR_COUNT !== 1 ? 'es' : ''}`
+    await expect(page.locator('#bench-count')).toContainText(label)
   })
 
-  test('resetting condition to all restores all markers', async ({ page }) => {
+  test('resetting condition to all restores full bench count', async ({ page }) => {
     await page.locator('#filter-toggle').click()
     await expect(page.locator('#filter-panel')).not.toHaveClass(/hidden/, { timeout: 1_000 })
 
     await page.locator('.chip[data-filter="condition"][data-value="poor"]').click()
-    await page.waitForFunction(() => {
-      const el = document.querySelector('.bench-marker.cond-good')
-      return el !== null && parseFloat(window.getComputedStyle(el).opacity) < 0.1
-    }, { timeout: 5_000 })
+    await waitForBenchCount(page, POOR_COUNT)
 
     await page.locator('.chip[data-filter="condition"][data-value="all"]').click()
-
-    // Poll until all 14 markers are restored (animateMarkersVisible: 340ms + stagger)
-    await page.waitForFunction(() => {
-      const markers = document.querySelectorAll('.bench-marker')
-      return markers.length > 0 &&
-        Array.from(markers).every(el => parseFloat(window.getComputedStyle(el).opacity) > 0.9)
-    }, { timeout: 5_000 })
+    await waitForBenchCount(page, TOTAL)
+    const label = `${TOTAL} bench${TOTAL !== 1 ? 'es' : ''}`
+    await expect(page.locator('#bench-count')).toContainText(label)
   })
 
-  test('backrest filter hides benches without backrest', async ({ page }) => {
+  test('backrest filter updates bench count to backrest-only benches', async ({ page }) => {
     await page.locator('#filter-toggle').click()
     await expect(page.locator('#filter-panel')).not.toHaveClass(/hidden/, { timeout: 1_000 })
 
     await page.locator('#filter-backrest').check()
 
-    // kyoto-central-001 (backrest: false) must be animated out
-    await page.waitForFunction(() => {
-      const el = document.querySelector('[data-id="kyoto-central-001"]')
-      return el !== null && parseFloat(window.getComputedStyle(el).opacity) < 0.1
-    }, { timeout: 5_000 })
-
-    // london-south-005 (backrest: true, condition: poor) must be visible
-    await page.waitForFunction(() => {
-      const el = document.querySelector('[data-id="london-south-005"]')
-      return el !== null && parseFloat(window.getComputedStyle(el).opacity) > 0.9
-    }, { timeout: 5_000 })
+    await waitForBenchCount(page, BACKREST_COUNT)
+    const label = `${BACKREST_COUNT} bench${BACKREST_COUNT !== 1 ? 'es' : ''}`
+    await expect(page.locator('#bench-count')).toContainText(label)
   })
 })

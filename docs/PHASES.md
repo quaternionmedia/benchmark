@@ -104,7 +104,7 @@ added_at: ISO date
 
 ---
 
-## Phase 4 — Discovery & Export `v0.5` 🚧
+## Phase 4 — Discovery & Export `v0.5` ✅
 
 > *"Make the data useful."*
 
@@ -116,7 +116,7 @@ added_at: ISO date
 - [x] URL hash state (`#lat,lng,zoom`) for shareable map positions (`src/hash.js`) — restores view on load, writes silently via `history.replaceState`
 - [x] Export panel: download filtered view as GeoJSON, CSV, or YAML (`src/export.js`)
 - [x] Bench count badge updates live when filters or search narrow results
-- [ ] `Leaflet.markercluster` for high-density areas *(pending)*
+- [x] `Leaflet.markercluster` — clusters nearby markers into count badges; zoom in to expand; batch `addLayers/clearLayers` replaces stagger animations, fixing O(n) filter perf
 
 **Done when:** A user can filter, search, find a bench, share the URL, and download the results.
 
@@ -159,5 +159,5 @@ added_at: ISO date
 | `v0.2` | 1 | Data Layer | ✅ |
 | `v0.3` | 2 | UI & Animations | ✅ |
 | `v0.4` | 3 | Community | ✅ |
-| `v0.5` | 4 | Discovery | 🚧 |
+| `v0.5` | 4 | Discovery | ✅ |
 | `v1.0` | 5 | Enrichment | ✅ |

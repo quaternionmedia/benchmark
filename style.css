@@ -18,6 +18,14 @@
   --poor:        #c84b2f;
   --unknown:     #888080;
 
+  /* Material palette — bench marker fill colours */
+  --mat-wood:     #8b6040;   /* aged timber */
+  --mat-metal:    #486878;   /* cast iron / steel */
+  --mat-stone:    #7a6b60;   /* sandstone / granite */
+  --mat-concrete: #686f75;   /* urban concrete */
+  --mat-plastic:  #4d7860;   /* synthetic polymer */
+  --mat-other:    #6b5f78;   /* unclassified */
+
   --sidebar-w:   340px;
   --header-h:    52px;
   --filter-h:    auto;
@@ -116,7 +124,7 @@ body {
   width: 28px;
   height: 28px;
   border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg) scale(0);
+  transform: rotate(-45deg);
   transform-origin: center;
   display: flex;
   align-items: center;
@@ -124,26 +132,61 @@ body {
   cursor: pointer;
   transition: transform 0.15s var(--ease-out), box-shadow 0.15s;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  opacity: 0;
 }
 
-.bench-marker.cond-good    { background: var(--good); }
-.bench-marker.cond-fair    { background: var(--fair); }
-.bench-marker.cond-poor    { background: var(--poor); }
-.bench-marker.cond-unknown { background: var(--unknown); }
+/* Outer diamond fill — material type (primary signal) */
+.bench-marker.mat-wood     { background: var(--mat-wood); }
+.bench-marker.mat-metal    { background: var(--mat-metal); }
+.bench-marker.mat-stone    { background: var(--mat-stone); }
+.bench-marker.mat-concrete { background: var(--mat-concrete); }
+.bench-marker.mat-plastic  { background: var(--mat-plastic); }
+.bench-marker.mat-other    { background: var(--mat-other); }
 
+/* Inner dot — condition (secondary signal) */
 .bench-marker-inner {
-  transform: rotate(45deg);
-  font-size: 11px;
-  color: #fff;
-  font-weight: 500;
-  user-select: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);   /* fallback / unknown */
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
 }
+
+.bench-marker.cond-good    .bench-marker-inner { background: var(--good); border-color: rgba(255,255,255,0.7); }
+.bench-marker.cond-fair    .bench-marker-inner { background: var(--fair); border-color: rgba(255,255,255,0.7); }
+.bench-marker.cond-poor    .bench-marker-inner { background: var(--poor); border-color: rgba(255,255,255,0.7); }
+.bench-marker.cond-unknown .bench-marker-inner { background: rgba(255,255,255,0.25); }
 
 .bench-marker:hover {
   transform: rotate(-45deg) scale(1.25);
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
+
+/* ─── MARKER CLUSTERS ────────────────────────────── */
+
+.bench-cluster {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink, #2d2a24);
+  color: var(--bg, #f5f0e8);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.28);
+  border: 2px solid var(--bg, #f5f0e8);
+  transition: transform 0.15s ease;
+  cursor: pointer;
+}
+.bench-cluster:hover         { transform: scale(1.12); }
+.bench-cluster-md            { font-size: 11px; }
+.bench-cluster-lg            { font-size: 10px; }
+
+/* Spider-leg lines when a cluster is expanded */
+.leaflet-cluster-spider-leg  { stroke: var(--ink, #2d2a24); stroke-opacity: 0.35; }
 
 /* ─── FILTER PANEL ───────────────────────────────── */
 

@@ -1,17 +1,25 @@
 import { test, expect } from '@playwright/test'
-import { readFileSync } from 'fs'
-import { join } from 'path'
 
-const geojson = JSON.parse(readFileSync(join(process.cwd(), 'public/data/benches.geojson'), 'utf8'))
-const TOTAL   = geojson.features.length
+// Tate Modern area — zoom 17 disables clustering so london-south-001 and its
+// neighbours are individually visible in the DOM.
+const LONDON_HASH = '#51.5076,-0.0994,17'
 
 test.describe('Sidebar', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('.')
-    // Wait for all markers to be in the DOM before interacting
+    // Navigate to London area at zoom 17 where individual markers are visible
+    await page.goto(`./${LONDON_HASH}`)
+    // Wait for bench data to load
     await page.waitForFunction(
-      (count) => document.querySelectorAll('.bench-marker').length >= count,
-      TOTAL,
+      () => {
+        const el = document.getElementById('bench-count')
+        const m  = el?.textContent?.match(/(\d+)/)
+        return m !== null && parseInt(m[1]) > 0
+      },
+      { timeout: 15_000 }
+    )
+    // Wait for individual bench markers to appear in the DOM
+    await page.waitForFunction(
+      () => document.querySelectorAll('.bench-marker').length > 0,
       { timeout: 15_000 }
     )
   })
@@ -21,7 +29,6 @@ test.describe('Sidebar', () => {
   })
 
   test('clicking a marker opens the sidebar', async ({ page }) => {
-    // Use dispatchEvent to bypass Leaflet marker overlap pointer interception
     await page.locator('.bench-marker').first().dispatchEvent('click')
     // Sidebar animates in (380ms)
     await expect(page.locator('#sidebar')).not.toHaveClass(/hidden/, { timeout: 2_000 })
@@ -29,7 +36,7 @@ test.describe('Sidebar', () => {
   })
 
   test('sidebar shows correct bench data for london-south-001', async ({ page }) => {
-    // london-south-001 is a stable curated seed bench unaffected by Overpass imports
+    // london-south-001 is at the viewport centre — individually visible at zoom 17
     await page.locator('[data-id="london-south-001"]').dispatchEvent('click')
     await expect(page.locator('#sidebar-content')).toContainText('Tate Modern Riverside Bench', { timeout: 2_000 })
     await expect(page.locator('#sidebar-content')).toContainText('London South')
@@ -43,7 +50,7 @@ test.describe('Sidebar', () => {
     await expect(page.locator('#sidebar')).not.toHaveClass(/hidden/, { timeout: 2_000 })
 
     await page.locator('#sidebar-close').click()
-    // Sidebar animates out (280ms), then hidden class is added
+    // Sidebar animates out (280ms), then hidden class is re-applied
     await expect(page.locator('#sidebar')).toHaveClass(/hidden/, { timeout: 2_000 })
   })
 })

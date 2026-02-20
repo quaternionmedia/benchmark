@@ -18,6 +18,7 @@
     "animejs": "^3.2.2",
     "leaflet": "^1.9.4",
     "leaflet.heat": "^0.2.0",
+    "leaflet.markercluster": "^1.5.3",
     "yaml": "^2.4.5"
   },
   "devDependencies": {

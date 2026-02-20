@@ -4,7 +4,7 @@
  */
 
 import { initMap, flyToBench } from './map.js'
-import { renderMarkers, applyMarkerFilter } from './markers.js'
+import { renderMarkers, addMarkersToGroup, applyMarkerFilter } from './markers.js'
 import { openSidebar } from './sidebar.js'
 import { onFilterChange, buildPredicate } from './filters.js'
 import { animateBenchCount, animateMapFlyTo } from './animations.js'
@@ -31,8 +31,8 @@ async function main() {
   // Load bench data (IndexedDB cache → network fallback via store.js)
   const { features } = await loadBenches()
 
-  // Render markers and get registry
-  const registry = renderMarkers(map, features, (props, latlng) => {
+  // Render markers into a cluster group and get the registry
+  const { registry, clusterGroup } = renderMarkers(map, features, (props, latlng) => {
     flyToBench(map, latlng, () => {})
     animateMapFlyTo(mapEl)
     openSidebar(props, latlng)
@@ -57,7 +57,7 @@ async function main() {
 
   function applyAndUpdateCount() {
     const predicate = getCombinedPredicate()
-    applyMarkerFilter(registry, predicate)
+    applyMarkerFilter(registry, clusterGroup, predicate)
     const visible = [...registry.values()].filter(({ props }) => predicate(props)).length
     benchCountEl.textContent = `— ${visible} bench${visible !== 1 ? 'es' : ''}`
   }
@@ -83,13 +83,13 @@ async function main() {
   // ─── Bbox area import ─────────────────────────────────────────────────────────
 
   initBboxSelect(map, (newFeatures) => {
-    // Merge new markers into the live registry and update the visible count
-    const newRegistry = renderMarkers(map, newFeatures, (props, latlng) => {
+    // Merge new markers into the existing cluster group and registry
+    const newReg = addMarkersToGroup(clusterGroup, newFeatures, (props, latlng) => {
       flyToBench(map, latlng, () => {})
       animateMapFlyTo(mapEl)
       openSidebar(props, latlng)
     })
-    for (const [id, entry] of newRegistry) registry.set(id, entry)
+    for (const [id, entry] of newReg) registry.set(id, entry)
     applyAndUpdateCount()
   })
 
