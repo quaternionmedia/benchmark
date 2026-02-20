@@ -1,10 +1,9 @@
 region:
-  name: "London South"
-  description: "Benches along the South Bank, Borough, and surrounding areas"
-
+  name: London South
+  description: Benches along the South Bank, Borough, and surrounding areas
 benches:
   - id: london-south-001
-    name: "Tate Modern Riverside Bench"
+    name: Tate Modern Riverside Bench
     lat: 51.5076
     lng: -0.0994
     material: stone
@@ -15,14 +14,13 @@ benches:
     seats: 4
     covered: false
     added_by: community
-    added_at: "2024-11-01"
-    notes: "Concrete plinth bench facing the Thames. Good view of St Paul's."
+    added_at: 2024-11-01
+    notes: Concrete plinth bench facing the Thames. Good view of St Paul's.
     image_url: null
-
   - id: london-south-002
-    name: "Borough Market Corner Bench"
+    name: Borough Market Corner Bench
     lat: 51.5055
-    lng: -0.0910
+    lng: -0.091
     material: wood
     backrest: true
     armrests: true
@@ -31,12 +29,11 @@ benches:
     seats: 2
     covered: true
     added_by: community
-    added_at: "2024-11-03"
-    notes: "Covered by market canopy. Gets busy on weekends."
+    added_at: 2024-11-03
+    notes: Covered by market canopy. Gets busy on weekends.
     image_url: null
-
   - id: london-south-003
-    name: "Millennium Bridge South Approach"
+    name: Millennium Bridge South Approach
     lat: 51.5084
     lng: -0.0985
     material: metal
@@ -47,14 +44,13 @@ benches:
     seats: 3
     covered: false
     added_by: community
-    added_at: "2024-11-05"
-    notes: "Excellent bridge views. Popular with artists sketching the skyline."
+    added_at: 2024-11-05
+    notes: Excellent bridge views. Popular with artists sketching the skyline.
     image_url: null
-
   - id: london-south-004
-    name: "Bankside Gallery Terrace"
+    name: Bankside Gallery Terrace
     lat: 51.5081
-    lng: -0.1010
+    lng: -0.101
     material: wood
     backrest: true
     armrests: true
@@ -63,14 +59,13 @@ benches:
     seats: 2
     covered: false
     added_by: community
-    added_at: "2024-11-08"
-    notes: "Quiet spot slightly off the main tourist path."
+    added_at: 2024-11-08
+    notes: Quiet spot slightly off the main tourist path.
     image_url: null
-
   - id: london-south-005
-    name: "Bermondsey Street Courtyard Bench"
+    name: Bermondsey Street Courtyard Bench
     lat: 51.5001
-    lng: -0.0810
+    lng: -0.081
     material: wood
     backrest: true
     armrests: false
@@ -79,6 +74,6 @@ benches:
     seats: 2
     covered: false
     added_by: community
-    added_at: "2024-11-10"
-    notes: "Paint peeling, one slat cracked. Needs maintenance."
+    added_at: 2024-11-10
+    notes: Paint peeling, one slat cracked. Needs maintenance.
     image_url: null

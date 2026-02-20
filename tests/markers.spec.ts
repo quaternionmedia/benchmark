@@ -1,32 +1,55 @@
 import { test, expect } from '@playwright/test'
+import { readFileSync } from 'fs'
+import { join } from 'path'
+
+// Derive expected counts directly from compiled data so tests stay correct
+// after any Overpass refresh.
+const geojson = JSON.parse(readFileSync(join(process.cwd(), 'public/data/benches.geojson'), 'utf8'))
+const TOTAL   = geojson.features.length
+const conditionCounts: Record<string, number> = {}
+for (const f of geojson.features) {
+  const c = f.properties.condition as string
+  conditionCounts[c] = (conditionCounts[c] ?? 0) + 1
+}
 
 test.describe('Markers', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('.')
-    // Wait for marker animation: 200ms delay + 480ms animation
-    await page.waitForTimeout(900)
+    // Wait for all markers to be inserted into the DOM (data load complete).
+    // Use waitForFunction rather than a fixed timeout — with large datasets the
+    // stagger animation takes several seconds before the first marker is visible.
+    await page.waitForFunction(
+      (count) => document.querySelectorAll('.bench-marker').length >= count,
+      TOTAL,
+      { timeout: 15_000 }
+    )
   })
 
-  test('all 14 markers are present in the DOM', async ({ page }) => {
+  test('all markers are present in the DOM', async ({ page }) => {
     const markers = page.locator('.bench-marker')
-    await expect(markers).toHaveCount(14)
+    await expect(markers).toHaveCount(TOTAL)
   })
 
   test('markers have correct condition classes', async ({ page }) => {
-    // Central Park: 3 good (cp-001, cp-002, cp-003), 1 fair (cp-004)
-    // Kyoto Central: 3 good (kc-001, kc-003, kc-004), 1 fair (kc-002), 1 unknown (kc-005)
-    // London South: 3 good (ls-001, ls-003, ls-004), 1 fair (ls-002), 1 poor (ls-005)
-    // Total: 9 good, 3 fair, 1 poor, 1 unknown
-    await expect(page.locator('.bench-marker.cond-good')).toHaveCount(9)
-    await expect(page.locator('.bench-marker.cond-fair')).toHaveCount(3)
-    await expect(page.locator('.bench-marker.cond-poor')).toHaveCount(1)
-    await expect(page.locator('.bench-marker.cond-unknown')).toHaveCount(1)
+    for (const [cond, count] of Object.entries(conditionCounts)) {
+      await expect(page.locator(`.bench-marker.cond-${cond}`)).toHaveCount(count)
+    }
   })
 
   test('markers are visible after animation completes', async ({ page }) => {
-    const firstMarker = page.locator('.bench-marker').first()
-    const opacity = await firstMarker.evaluate(el =>
-      parseFloat(window.getComputedStyle(el).opacity)
+    // Wait until at least the first marker has fully animated in.
+    // With large datasets and center-stagger the outermost markers take several
+    // seconds; poll until opacity > 0.9 rather than sleeping a fixed amount.
+    await page.waitForFunction(
+      () => {
+        const el = document.querySelector('.bench-marker')
+        return !!el && parseFloat(window.getComputedStyle(el).opacity) > 0.9
+      },
+      { timeout: 15_000 }
+    )
+
+    const opacity = await page.locator('.bench-marker').first().evaluate(
+      el => parseFloat(window.getComputedStyle(el).opacity)
     )
     expect(opacity).toBeGreaterThan(0.9)
   })

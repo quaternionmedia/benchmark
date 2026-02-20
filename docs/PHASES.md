@@ -130,11 +130,22 @@ added_at: ISO date
 
 **Deliverables:**
 
-- [x] `scripts/overpass-import.js` — queries Overpass API for `amenity=bench` in a bounding box, maps OSM tags to schema, writes ready-to-commit YAML (`npm run overpass-import`)
+- [x] `scripts/overpass-import.js` — **maintainer tool** that queries Overpass for `amenity=bench` in a named preset area and writes YAML to `public/data/regions/` for review and commit. Use for bulk seeding curated regions only; generated files are not committed automatically.
+- [x] `src/store.js` — IndexedDB stale-while-revalidate cache (`loadBenches`, `mergeFeatures`, `clearCache`). `setBenchProvider(fn)` hook lets a future backend replace the IDB+fetch strategy without touching calling code.
+- [x] `src/bbox-select.js` — In-app drag-to-draw area importer: user draws a rectangle on the map, app queries Overpass, saves new benches to **IndexedDB** via `mergeFeatures()`, and renders live markers immediately. No YAML files created; no git involvement.
 - [x] `src/heatmap.js` + heatmap toggle button — `Leaflet.heat` density layer, toggleable, graceful degradation if plugin unavailable
-- [x] `public/manifest.webmanifest` + `public/sw.js` — PWA manifest and service worker (cache-first tiles, network-first shell)
+- [x] `public/manifest.webmanifest` + `public/sw.js` — PWA manifest and service worker (cache-first tiles, network-first shell; GeoJSON bypasses SW so IndexedDB is sole owner)
 - [x] `public/icon.svg` — bench silhouette app icon
 - [x] Accessibility pass (WCAG 2.1 AA): skip link, `aria-live` bench count, `aria-pressed` on all toggle/chip buttons, `role="group" aria-labelledby` on filter groups, Escape closes sidebar, focus moves to close button on sidebar open
+
+**Data ownership model:**
+
+| Layer | Owner | Committed to git? |
+| --- | --- | --- |
+| `public/data/regions/*.yaml` | Curated seed data | ✅ (hand-reviewed) |
+| `public/data/benches.geojson` | Compiled from YAML at build time | ✅ (build artefact) |
+| IndexedDB `benchmark-store` | Browser, per-user | ❌ (never) |
+| Overpass imports via bbox tool | Browser IDB only | ❌ (never) |
 
 **Done when:** `v1.0` tag is cut, all phases complete, Lighthouse ≥ 90.
 

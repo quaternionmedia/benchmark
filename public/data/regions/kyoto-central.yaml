@@ -1,10 +1,9 @@
 region:
-  name: "Kyoto Central"
-  description: "Benches in and around Kyoto's central temple districts and riverside paths"
-
+  name: Kyoto Central
+  description: Benches in and around Kyoto's central temple districts and riverside paths
 benches:
   - id: kyoto-central-001
-    name: "Kamo River Bank Bench"
+    name: Kamo River Bank Bench
     lat: 35.0116
     lng: 135.7681
     material: concrete
@@ -15,12 +14,11 @@ benches:
     seats: 3
     covered: false
     added_by: community
-    added_at: "2024-09-20"
-    notes: "Step-style riverside seating. Very popular with locals at dusk."
+    added_at: 2024-09-20
+    notes: Step-style riverside seating. Very popular with locals at dusk.
     image_url: null
-
   - id: kyoto-central-002
-    name: "Nishiki Market East Exit Bench"
+    name: Nishiki Market East Exit Bench
     lat: 35.0052
     lng: 135.7659
     material: wood
@@ -31,12 +29,11 @@ benches:
     seats: 2
     covered: true
     added_by: community
-    added_at: "2024-09-22"
-    notes: "Narrow alley bench, mostly used by market vendors during breaks."
+    added_at: 2024-09-22
+    notes: Narrow alley bench, mostly used by market vendors during breaks.
     image_url: null
-
   - id: kyoto-central-003
-    name: "Gion Corner Garden Bench"
+    name: Gion Corner Garden Bench
     lat: 35.0031
     lng: 135.7758
     material: wood
@@ -47,12 +44,11 @@ benches:
     seats: 2
     covered: false
     added_by: community
-    added_at: "2024-09-25"
-    notes: "Lacquered wood, very well maintained. Quiet garden setting."
+    added_at: 2024-09-25
+    notes: Lacquered wood, very well maintained. Quiet garden setting.
     image_url: null
-
   - id: kyoto-central-004
-    name: "Okazaki Park Lakeside"
+    name: Okazaki Park Lakeside
     lat: 35.0168
     lng: 135.7824
     material: stone
@@ -63,13 +59,12 @@ benches:
     seats: 5
     covered: false
     added_by: community
-    added_at: "2024-09-28"
-    notes: "Long stone bench facing the pond. Cherry blossoms overhead in spring."
+    added_at: 2024-09-28
+    notes: Long stone bench facing the pond. Cherry blossoms overhead in spring.
     image_url: null
-
   - id: kyoto-central-005
-    name: "Heian Shrine Approach"
-    lat: 35.0160
+    name: Heian Shrine Approach
+    lat: 35.016
     lng: 135.7822
     material: wood
     backrest: true
@@ -79,6 +74,6 @@ benches:
     seats: 3
     covered: false
     added_by: community
-    added_at: "2024-09-28"
-    notes: "Not assessed in person, added from community photo."
+    added_at: 2024-09-28
+    notes: Not assessed in person, added from community photo.
     image_url: null

@@ -164,6 +164,42 @@ export function animateFilterPanelOut(panelEl) {
   })
 }
 
+// ─── BBOX IMPORT PANEL ───────────────────────────────────────────────────────
+
+/**
+ * Reveal the bbox import panel with a fade + slide-down.
+ * @param {HTMLElement} panelEl
+ */
+export function animateBboxPanelIn(panelEl) {
+  panelEl.classList.remove('hidden')
+  anime({
+    targets: panelEl,
+    opacity: [0, 1],
+    translateY: [-10, 0],
+    duration: 260,
+    easing: 'cubicBezier(0.16, 1, 0.3, 1)'
+  })
+}
+
+/**
+ * Hide the bbox import panel with fade + slide-up.
+ * @param {HTMLElement} panelEl
+ * @param {Function} [onComplete]
+ */
+export function animateBboxPanelOut(panelEl, onComplete) {
+  anime({
+    targets: panelEl,
+    opacity: [1, 0],
+    translateY: [0, -8],
+    duration: 180,
+    easing: 'cubicBezier(0.7, 0, 0.84, 0)',
+    complete: () => {
+      panelEl.classList.add('hidden')
+      if (onComplete) onComplete()
+    }
+  })
+}
+
 // ─── BENCH COUNT ─────────────────────────────────────────────────────────────
 
 /**

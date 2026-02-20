@@ -24,6 +24,7 @@
 import { writeFileSync, existsSync, renameSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { stringify as yamlStringify } from 'yaml'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const OVERPASS_URL = 'https://overpass-api.de/api/interpreter'
@@ -246,43 +247,45 @@ async function main() {
   console.log(`✅ Found ${nodes.length} bench${nodes.length !== 1 ? 'es' : ''}.`)
 
   const today = new Date().toISOString().slice(0, 10)
-  const lines = []
 
-  lines.push(`region:`)
-  lines.push(`  name: "${regionName}"`)
-  lines.push(`  description: "Imported from OpenStreetMap via Overpass API on ${today}"`)
-  lines.push(``)
-  lines.push(`benches:`)
+  const doc = {
+    region: {
+      name:        regionName,
+      description: `Imported from OpenStreetMap via Overpass API on ${today}`
+    },
+    benches: nodes.map((node, i) => {
+      const tags  = node.tags || {}
+      const num   = String(i + 1).padStart(3, '0')
+      const name  = tags.name || `${regionName} bench ${num}`
+      const seats = parseInt(tags.seats) || 2
+      const notes = tags.description
+                    ? tags.description.slice(0, 280)
+                    : tags.inscription
+                    ? tags.inscription.slice(0, 280)
+                    : null
 
-  nodes.forEach((node, i) => {
-    const tags   = node.tags || {}
-    const num    = String(i + 1).padStart(3, '0')
-    const name   = tags.name || `${regionName} bench ${num}`
-    const seats  = parseInt(tags.seats) || 2
-    const notes  = tags.description
-                   ? tags.description.slice(0, 280)
-                   : tags.inscription
-                   ? tags.inscription.slice(0, 280)
-                   : null
+      const bench = {
+        id:         `${regionSlug}-${num}`,
+        name,
+        lat:        node.lat,
+        lng:        node.lon,
+        material:   osmMaterial(tags),
+        backrest:   osmBackrest(tags),
+        armrests:   tags.armrest === 'yes',
+        accessible: null,
+        condition:  osmCondition(tags),
+        seats,
+        covered:    tags.covered === 'yes',
+        added_by:   'overpass-import',
+        added_at:   today
+      }
+      if (notes) bench.notes = notes
+      return bench
+    })
+  }
 
-    lines.push(`  - id: ${regionSlug}-${num}`)
-    lines.push(`    name: "${name.replace(/"/g, "'")}"`)
-    lines.push(`    lat: ${node.lat}`)
-    lines.push(`    lng: ${node.lon}`)
-    lines.push(`    material: ${osmMaterial(tags)}`)
-    lines.push(`    backrest: ${osmBackrest(tags)}`)
-    lines.push(`    armrests: ${tags.armrest === 'yes'}`)
-    lines.push(`    accessible: null`)
-    lines.push(`    condition: ${osmCondition(tags)}`)
-    lines.push(`    seats: ${seats}`)
-    lines.push(`    covered: ${tags.covered === 'yes'}`)
-    lines.push(`    added_by: overpass-import`)
-    lines.push(`    added_at: "${today}"`)
-    if (notes) lines.push(`    notes: "${notes.replace(/"/g, "'")}"`)
-    lines.push(``)
-  })
-
-  writeFileSync(outFile, lines.join('\n'))
+  // yaml.stringify handles all quoting/escaping — no manual char replacement needed
+  writeFileSync(outFile, yamlStringify(doc, { lineWidth: 0 }))
 
   // Success — discard backup
   if (bakFile && existsSync(bakFile)) {

@@ -12,6 +12,8 @@ import { onSearchChange, buildSearchPredicate } from './search.js'
 import { initHashSync } from './hash.js'
 import { initExport } from './export.js'
 import { initHeatmap, toggleHeatmap } from './heatmap.js'
+import { loadBenches } from './store.js'
+import { initBboxSelect } from './bbox-select.js'
 
 const benchCountEl  = document.getElementById('bench-count')
 const mapEl         = document.getElementById('map')
@@ -26,10 +28,8 @@ async function main() {
   // Initialise map
   const map = initMap()
 
-  // Load compiled GeoJSON
-  const res     = await fetch('./data/benches.geojson')
-  const geojson = await res.json()
-  const { features } = geojson
+  // Load bench data (IndexedDB cache → network fallback via store.js)
+  const { features } = await loadBenches()
 
   // Render markers and get registry
   const registry = renderMarkers(map, features, (props, latlng) => {
@@ -79,6 +79,20 @@ async function main() {
   // ─── Heatmap layer ────────────────────────────────────────────────────────────
 
   initHeatmap(map, features)
+
+  // ─── Bbox area import ─────────────────────────────────────────────────────────
+
+  initBboxSelect(map, (newFeatures) => {
+    // Merge new markers into the live registry and update the visible count
+    const newRegistry = renderMarkers(map, newFeatures, (props, latlng) => {
+      flyToBench(map, latlng, () => {})
+      animateMapFlyTo(mapEl)
+      openSidebar(props, latlng)
+    })
+    for (const [id, entry] of newRegistry) registry.set(id, entry)
+    applyAndUpdateCount()
+  })
+
   heatmapToggle.addEventListener('click', () => {
     const visible = toggleHeatmap()
     heatmapToggle.setAttribute('aria-pressed', String(visible))

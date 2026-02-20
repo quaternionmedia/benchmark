@@ -507,6 +507,41 @@ body {
   color: var(--bg);
 }
 
+/* ─── BBOX IMPORT PANEL ─────────────────────────── */
+
+.bbox-panel {
+  position: absolute;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  z-index: 900;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.bbox-panel.hidden { display: none; }
+
+.bbox-panel-inner {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bbox-coords {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+}
+
+/* Crosshair cursor while in draw mode */
+#map.draw-mode,
+#map.draw-mode .leaflet-interactive { cursor: crosshair !important; }
+
 /* ─── MOBILE ─────────────────────────────────────── */
 
 @media (max-width: 600px) {

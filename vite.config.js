@@ -12,6 +12,19 @@ export default defineConfig({
       buildStart() {
         execSync('node scripts/compile-yaml.js', { stdio: 'inherit' })
       }
+    },
+    {
+      // Vite dev server doesn't map .webmanifest → application/manifest+json;
+      // Chrome rejects the PWA manifest without the correct Content-Type.
+      name: 'webmanifest-mime',
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          if (req.url?.endsWith('.webmanifest')) {
+            res.setHeader('Content-Type', 'application/manifest+json')
+          }
+          next()
+        })
+      }
     }
   ]
 })

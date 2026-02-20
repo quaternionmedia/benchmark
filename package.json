@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "validate": "node scripts/compile-yaml.js",
+    "validate:fix": "node scripts/compile-yaml.js --fix",
     "catalogue": "node scripts/generate-catalogue.js",
     "issue-to-yaml": "node scripts/issue-to-yaml.js",
     "overpass-import": "node scripts/overpass-import.js",

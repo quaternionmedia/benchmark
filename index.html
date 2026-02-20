@@ -48,6 +48,10 @@
         <button type="button" class="btn-icon" id="heatmap-toggle" aria-pressed="false">
           heatmap
         </button>
+        <button type="button" class="btn-icon" id="import-toggle" aria-pressed="false"
+                title="Draw a rectangle on the map to import benches from OpenStreetMap">
+          import area
+        </button>
         <button type="button" class="btn-icon" id="export-toggle" aria-expanded="false"
                 aria-controls="export-panel">
           export
@@ -136,6 +140,22 @@
           <button type="button" class="btn-icon" id="export-yaml">yaml</button>
         </div>
         <p class="export-hint">Downloads the currently visible benches.</p>
+      </div>
+    </div>
+
+    <!-- Bbox import panel (hidden by default, spans full width below header) -->
+    <div id="bbox-panel" class="bbox-panel hidden" role="dialog"
+         aria-label="Import benches from drawn map area">
+      <div class="bbox-panel-inner">
+        <h3>import from openstreetmap</h3>
+        <p class="bbox-coords" id="bbox-coords-display">—</p>
+        <input type="text" id="bbox-region-name" class="search-input"
+               placeholder="region name…" aria-label="Region name for imported benches" />
+        <div class="export-actions">
+          <button type="button" class="btn-icon" id="bbox-confirm">import to map</button>
+          <button type="button" class="btn-icon" id="bbox-cancel">cancel</button>
+        </div>
+        <p class="export-hint">Queries OpenStreetMap · saves benches to browser storage · live markers appear instantly.</p>
       </div>
     </div>
 
