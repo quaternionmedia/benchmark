@@ -7,9 +7,8 @@
  * are inside the cluster group rather than using opacity animations, which
  * eliminates the O(n × stagger) performance bottleneck.
  *
- * Single-digit sets (≤ 9 visible markers) bypass the cluster group entirely
- * and are added to a plain L.layerGroup so they always render as individual
- * markers regardless of zoom or proximity.
+ * minimumClusterSize: 10 ensures that local groups of fewer than 10 nearby
+ * markers are never collapsed into a badge — they always render individually.
  */
 
 import L from 'leaflet'
@@ -74,44 +73,24 @@ function _buildEntry(feature, onMarkerClick) {
   return { marker, get el() { return el }, props }
 }
 
-/**
- * Route a set of markers to the correct layer:
- *   < 10 → soloGroup  (plain L.layerGroup, always individual)
- *  >= 10 → clusterGroup (L.MarkerClusterGroup, zoom-adaptive badges)
- *
- * Both groups are cleared before each call so the state is always consistent.
- * @param {L.Marker[]} markers
- * @param {L.MarkerClusterGroup} clusterGroup
- * @param {L.LayerGroup} soloGroup
- */
-function _route(markers, clusterGroup, soloGroup) {
-  clusterGroup.clearLayers()
-  soloGroup.clearLayers()
-  if (!markers.length) return
-  if (markers.length < 10) {
-    markers.forEach(m => soloGroup.addLayer(m))
-  } else {
-    clusterGroup.addLayers(markers)  // batch O(n log n)
-  }
-}
-
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /**
- * Render all bench features via a MarkerClusterGroup (≥ 10 benches) or a
- * plain layer group (< 10 benches so they always show individually).
- * Returns the registry, cluster group, and solo group for use by callers.
+ * Render all bench features via a MarkerClusterGroup.
+ * minimumClusterSize: 10 means local groups of < 10 nearby markers are never
+ * collapsed into a badge — they always show as individual markers.
  *
  * @param {L.Map} map
  * @param {Array} features       - GeoJSON features array
  * @param {Function} onMarkerClick - Called with (properties, latlng) on click
- * @returns {{ registry: Map, clusterGroup: L.MarkerClusterGroup, soloGroup: L.LayerGroup }}
+ * @returns {{ registry: Map, clusterGroup: L.MarkerClusterGroup }}
  */
 export function renderMarkers(map, features, onMarkerClick) {
   const registry = new Map()
 
   const clusterGroup = L.markerClusterGroup({
     chunkedLoading:       true,  // process in rAF chunks — keeps UI responsive during bulk add
+    minimumClusterSize:   10,    // local groups of < 10 nearby markers stay as individuals
     disableClusteringAtZoom: 17, // show individual markers at street / block level and closer
     maxClusterRadius(zoom) {
       // Shrink cluster radius at higher zoom so sparse markers de-cluster naturally
@@ -121,7 +100,7 @@ export function renderMarkers(map, features, onMarkerClick) {
     },
     iconCreateFunction(cluster) {
       const n  = cluster.getChildCount()
-      const sz = n < 10 ? 'sm' : n < 100 ? 'md' : 'lg'
+      const sz = n < 100 ? 'md' : 'lg'
       return L.divIcon({
         html:      `<div class="bench-cluster bench-cluster-${sz}">${n}</div>`,
         className: '',
@@ -131,9 +110,6 @@ export function renderMarkers(map, features, onMarkerClick) {
     }
   })
 
-  // Plain layer group for single-digit sets — no clustering logic involved
-  const soloGroup = L.layerGroup()
-
   const allMarkers = []
   for (const feature of features) {
     const entry = _buildEntry(feature, onMarkerClick)
@@ -142,10 +118,9 @@ export function renderMarkers(map, features, onMarkerClick) {
   }
 
   map.addLayer(clusterGroup)
-  map.addLayer(soloGroup)
-  _route(allMarkers, clusterGroup, soloGroup)
+  clusterGroup.addLayers(allMarkers)  // batch O(n log n)
 
-  return { registry, clusterGroup, soloGroup }
+  return { registry, clusterGroup }
 }
 
 /**
@@ -174,19 +149,19 @@ export function addMarkersToGroup(clusterGroup, features, onMarkerClick) {
 }
 
 /**
- * Apply a filter predicate by routing matching markers into the correct layer.
- * Uses soloGroup (individual, no clustering) for < 10 results and clusterGroup
- * for >= 10. Both layers are cleared on every call so state stays consistent.
+ * Apply a filter predicate by swapping which markers are in the cluster group.
+ * clearLayers + addLayers replaces the old opacity-stagger approach, giving
+ * O(n log n) filter performance with no animation delay.
  *
  * @param {Map} registry
  * @param {L.MarkerClusterGroup} clusterGroup
- * @param {L.LayerGroup} soloGroup
  * @param {Function} predicate - (props) => boolean
  */
-export function applyMarkerFilter(registry, clusterGroup, soloGroup, predicate) {
+export function applyMarkerFilter(registry, clusterGroup, predicate) {
   const visible = []
   for (const { marker, props } of registry.values()) {
     if (predicate(props)) visible.push(marker)
   }
-  _route(visible, clusterGroup, soloGroup)
+  clusterGroup.clearLayers()
+  if (visible.length) clusterGroup.addLayers(visible)
 }
