@@ -12,7 +12,6 @@ test.describe('Filters', () => {
 
   test('clicking filter button shows the filter panel', async ({ page }) => {
     await page.locator('#filter-toggle').click()
-    // animateFilterPanelIn: 260ms
     await expect(page.locator('#filter-panel')).not.toHaveClass(/hidden/, { timeout: 1_000 })
     await expect(page.locator('#filter-panel')).toBeVisible()
   })
@@ -22,7 +21,6 @@ test.describe('Filters', () => {
     await expect(page.locator('#filter-panel')).not.toHaveClass(/hidden/, { timeout: 1_000 })
 
     await page.locator('#filter-toggle').click()
-    // animateFilterPanelOut: 180ms, then hidden class added
     await expect(page.locator('#filter-panel')).toHaveClass(/hidden/, { timeout: 1_000 })
   })
 
@@ -31,31 +29,32 @@ test.describe('Filters', () => {
     await expect(page.locator('#filter-panel')).not.toHaveClass(/hidden/, { timeout: 1_000 })
 
     await page.locator('.chip[data-filter="condition"][data-value="poor"]').click()
-    // Wait for animateMarkersOut to complete (280ms + stagger)
-    await page.waitForTimeout(500)
 
-    // Good markers should be animated out (opacity ~0)
-    const goodMarkerOpacity = await page.locator('.bench-marker.cond-good').first()
-      .evaluate(el => parseFloat(window.getComputedStyle(el).opacity))
-    expect(goodMarkerOpacity).toBeLessThan(0.1)
+    // Poll until a good marker is animated out (animateMarkersOut: 280ms + stagger)
+    await page.waitForFunction(() => {
+      const el = document.querySelector('.bench-marker.cond-good')
+      return el !== null && parseFloat(window.getComputedStyle(el).opacity) < 0.1
+    }, { timeout: 5_000 })
   })
 
   test('resetting condition to all restores all markers', async ({ page }) => {
     await page.locator('#filter-toggle').click()
     await expect(page.locator('#filter-panel')).not.toHaveClass(/hidden/, { timeout: 1_000 })
 
-    // Apply poor filter then reset
     await page.locator('.chip[data-filter="condition"][data-value="poor"]').click()
-    await page.waitForTimeout(500)
+    await page.waitForFunction(() => {
+      const el = document.querySelector('.bench-marker.cond-good')
+      return el !== null && parseFloat(window.getComputedStyle(el).opacity) < 0.1
+    }, { timeout: 5_000 })
 
     await page.locator('.chip[data-filter="condition"][data-value="all"]').click()
-    await page.waitForTimeout(500)
 
-    // All markers should be visible again
-    const allOpacities = await page.locator('.bench-marker').evaluateAll(
-      els => els.map(el => parseFloat(window.getComputedStyle(el).opacity))
-    )
-    expect(allOpacities.every(op => op > 0.9)).toBe(true)
+    // Poll until all 14 markers are restored (animateMarkersVisible: 340ms + stagger)
+    await page.waitForFunction(() => {
+      const markers = document.querySelectorAll('.bench-marker')
+      return markers.length > 0 &&
+        Array.from(markers).every(el => parseFloat(window.getComputedStyle(el).opacity) > 0.9)
+    }, { timeout: 5_000 })
   })
 
   test('backrest filter hides benches without backrest', async ({ page }) => {
@@ -63,16 +62,17 @@ test.describe('Filters', () => {
     await expect(page.locator('#filter-panel')).not.toHaveClass(/hidden/, { timeout: 1_000 })
 
     await page.locator('#filter-backrest').check()
-    await page.waitForTimeout(500)
 
-    // kyoto-central-001 has backrest: false — should be hidden
-    const noBackrestOpacity = await page.locator('[data-id="kyoto-central-001"]')
-      .evaluate(el => parseFloat(window.getComputedStyle(el).opacity))
-    expect(noBackrestOpacity).toBeLessThan(0.1)
+    // kyoto-central-001 (backrest: false) must be animated out
+    await page.waitForFunction(() => {
+      const el = document.querySelector('[data-id="kyoto-central-001"]')
+      return el !== null && parseFloat(window.getComputedStyle(el).opacity) < 0.1
+    }, { timeout: 5_000 })
 
-    // london-south-005 has backrest: true, condition: poor — should remain visible
-    const poorWithBackrestOpacity = await page.locator('[data-id="london-south-005"]')
-      .evaluate(el => parseFloat(window.getComputedStyle(el).opacity))
-    expect(poorWithBackrestOpacity).toBeGreaterThan(0.9)
+    // london-south-005 (backrest: true, condition: poor) must be visible
+    await page.waitForFunction(() => {
+      const el = document.querySelector('[data-id="london-south-005"]')
+      return el !== null && parseFloat(window.getComputedStyle(el).opacity) > 0.9
+    }, { timeout: 5_000 })
   })
 })
