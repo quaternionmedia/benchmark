@@ -6,12 +6,38 @@
  * expands clusters back to individual markers. Filtering swaps which markers
  * are inside the cluster group rather than using opacity animations, which
  * eliminates the O(n × stagger) performance bottleneck.
+ *
+ * Single-digit sets (≤ 9 visible markers) are never clustered — markers are
+ * always rendered individually regardless of zoom level.
  */
 
 import L from 'leaflet'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster'
 import { animateMarkerSelect } from './animations.js'
+
+// ─── Cluster radius helpers ───────────────────────────────────────────────────
+
+/**
+ * Zoom-adaptive cluster radius used when there are 10+ visible markers.
+ * Shrinks at higher zoom levels so sparse markers de-cluster naturally.
+ */
+function _clusterRadius(zoom) {
+  if (zoom >= 15) return 40
+  if (zoom >= 13) return 55
+  return 70
+}
+
+/**
+ * Switch the cluster group between full clustering (≥ 10 markers) and
+ * individual rendering (< 10 markers).  Must be called before addLayers so
+ * the correct radius is in effect when the clustering tree is built.
+ * @param {L.MarkerClusterGroup} clusterGroup
+ * @param {number} visibleCount
+ */
+function _applyClusterRadius(clusterGroup, visibleCount) {
+  clusterGroup.options.maxClusterRadius = visibleCount < 10 ? 0 : _clusterRadius
+}
 
 // ─── Private helper ───────────────────────────────────────────────────────────
 
@@ -86,14 +112,9 @@ export function renderMarkers(map, features, onMarkerClick) {
   const registry = new Map()
 
   const clusterGroup = L.markerClusterGroup({
-    chunkedLoading:       true,  // process in rAF chunks — keeps UI responsive during bulk add
-    disableClusteringAtZoom: 17, // show individual markers at street / block level and closer
-    maxClusterRadius(zoom) {
-      // Shrink cluster radius at higher zoom so sparse markers de-cluster naturally
-      if (zoom >= 15) return 40
-      if (zoom >= 13) return 55
-      return 70
-    },
+    chunkedLoading:          true,  // process in rAF chunks — keeps UI responsive during bulk add
+    disableClusteringAtZoom: 17,    // show individual markers at street / block level and closer
+    maxClusterRadius:        _clusterRadius,  // overridden per-render by _applyClusterRadius
     iconCreateFunction(cluster) {
       const n  = cluster.getChildCount()
       const sz = n < 10 ? 'sm' : n < 100 ? 'md' : 'lg'
@@ -113,6 +134,8 @@ export function renderMarkers(map, features, onMarkerClick) {
     allMarkers.push(entry.marker)
   }
 
+  // Disable clustering for single-digit sets; restore zoom-adaptive radius for 10+
+  _applyClusterRadius(clusterGroup, allMarkers.length)
   // Batch add — O(n log n) vs O(n²) for individual addLayer calls
   clusterGroup.addLayers(allMarkers)
   map.addLayer(clusterGroup)
@@ -158,6 +181,9 @@ export function applyMarkerFilter(registry, clusterGroup, predicate) {
   for (const { marker, props } of registry.values()) {
     if (predicate(props)) visible.push(marker)
   }
+  // Single-digit sets are never clustered; radius is applied before addLayers
+  // so the clustering tree is built with the correct value.
+  _applyClusterRadius(clusterGroup, visible.length)
   clusterGroup.clearLayers()
   if (visible.length) clusterGroup.addLayers(visible)
 }
