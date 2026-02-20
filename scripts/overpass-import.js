@@ -172,8 +172,9 @@ async function main() {
     process.exit(1)
   }
 
+  let bakFile = null
   if (existsSync(outFile) && force) {
-    const bakFile = `${outFile}.bak`
+    bakFile = `${outFile}.bak`
     renameSync(outFile, bakFile)
     console.log(`📦 Backed up existing file to ${bakFile}`)
   }
@@ -184,16 +185,47 @@ async function main() {
     process.exit(1)
   }
 
+  // ── fetch with retry ────────────────────────────────────────────────────────
+  // Overpass can return 429 (rate limit) or 504/503 (overload) transiently.
+  // Retry up to MAX_RETRIES times with exponential back-off before giving up.
+
+  const MAX_RETRIES   = 3
+  const RETRY_DELAY   = 4000   // ms base; doubles each attempt
+  const RETRYABLE     = new Set([429, 500, 503, 504])
+
+  async function fetchWithRetry(url, options) {
+    let delay = RETRY_DELAY
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      const res = await fetch(url, options)
+      if (res.ok) return res
+      if (!RETRYABLE.has(res.status) || attempt === MAX_RETRIES) {
+        throw Object.assign(
+          new Error(`Overpass API returned ${res.status}: ${res.statusText}`),
+          { status: res.status }
+        )
+      }
+      console.warn(`⚠️  Attempt ${attempt}/${MAX_RETRIES} failed (${res.status}). Retrying in ${delay / 1000}s…`)
+      await new Promise(r => setTimeout(r, delay))
+      delay *= 2
+    }
+  }
+
   console.log(`\n🌍 Querying Overpass API for benches in [${bbox}]…`)
 
-  const res = await fetch(OVERPASS_URL, {
-    method:  'POST',
-    body:    `data=${encodeURIComponent(query)}`,
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-  })
-
-  if (!res.ok) {
-    console.error(`❌ Overpass API returned ${res.status}: ${res.statusText}`)
+  let res
+  try {
+    res = await fetchWithRetry(OVERPASS_URL, {
+      method:  'POST',
+      body:    `data=${encodeURIComponent(query)}`,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    })
+  } catch (err) {
+    // Restore backup so the region file is not left missing
+    if (bakFile && existsSync(bakFile)) {
+      renameSync(bakFile, outFile)
+      console.warn(`♻️  Restored backup to ${outFile}`)
+    }
+    console.error(`❌ ${err.message}`)
     process.exit(1)
   }
 
@@ -201,7 +233,13 @@ async function main() {
   const nodes = (data.elements || []).filter(e => e.type === 'node')
 
   if (!nodes.length) {
-    console.log('⚠️  No benches found in that bounding box. Try widening it.')
+    // Nothing found — restore backup so we don't lose curated data
+    if (bakFile && existsSync(bakFile)) {
+      renameSync(bakFile, outFile)
+      console.warn(`♻️  No results found; restored backup to ${outFile}`)
+    } else {
+      console.log('⚠️  No benches found in that bounding box. Try widening it.')
+    }
     process.exit(0)
   }
 
@@ -245,6 +283,12 @@ async function main() {
   })
 
   writeFileSync(outFile, lines.join('\n'))
+
+  // Success — discard backup
+  if (bakFile && existsSync(bakFile)) {
+    const { unlinkSync } = await import('fs')
+    unlinkSync(bakFile)
+  }
 
   console.log(`\n📁 Written to ${outFile}`)
   console.log(`\n⚠️  Please review and verify coordinates before merging.`)
