@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Markers', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/')
+    await page.goto('.')
     // Wait for marker animation: 200ms delay + 480ms animation
     await page.waitForTimeout(900)
   })

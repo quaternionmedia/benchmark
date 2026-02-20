@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Filters', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/')
+    await page.goto('.')
     await page.waitForTimeout(900)
   })
 

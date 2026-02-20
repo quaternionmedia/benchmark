@@ -3,6 +3,7 @@ import { execSync } from 'child_process'
 
 export default defineConfig({
   root: '.',
+  base: '/benchmark/',
   publicDir: 'public',
   build: { outDir: 'dist', emptyOutDir: true },
   plugins: [

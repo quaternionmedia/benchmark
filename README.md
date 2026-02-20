@@ -2,7 +2,7 @@
 
 A frontend-only, open-source map of benches. Browse, filter, and contribute bench data from around the world.
 
-**[→ View the map](https://your-username.github.io/benchmark)**
+**[→ View the map](https://quaternionmedia.github.io/benchmark)**
 
 ---
 
@@ -21,7 +21,7 @@ All open source. No backend. No database. No running costs.
 ## Quick start
 
 ```bash
-git clone https://github.com/your-username/benchmark.git
+git clone https://github.com/quaternionmedia/benchmark.git
 cd benchmark
 npm install
 npm run validate   # compile YAML → GeoJSON (required before dev)

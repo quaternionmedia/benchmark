@@ -138,7 +138,7 @@ benches:
 ### Setup
 
 ```bash
-git clone https://github.com/<you>/benchmark.git
+git clone https://github.com/quaternionmedia/benchmark.git
 cd benchmark
 npm install
 ```

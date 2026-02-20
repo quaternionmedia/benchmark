@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Sidebar', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/')
+    await page.goto('.')
     // Wait for marker animation to complete
     await page.waitForTimeout(900)
   })
