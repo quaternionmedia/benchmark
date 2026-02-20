@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Generated data (compiled from YAML source)
+public/data/benches.geojson
+
+# Playwright
+test-results/
+playwright-report/
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db

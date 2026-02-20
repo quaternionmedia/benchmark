@@ -1,0 +1,23 @@
+{
+  "name": "benchmark",
+  "version": "0.1.0",
+  "description": "A frontend-only map of benches worldwide.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "validate": "node scripts/compile-yaml.js",
+    "catalogue": "node scripts/generate-catalogue.js",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "animejs": "^3.2.2",
+    "leaflet": "^1.9.4",
+    "yaml": "^2.4.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "vite": "^7.3.1"
+  }
+}

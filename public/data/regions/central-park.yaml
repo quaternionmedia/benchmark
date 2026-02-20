@@ -1,0 +1,68 @@
+region:
+  name: "Central Park"
+  description: "Benches throughout Central Park, Manhattan, New York City"
+
+benches:
+  - id: central-park-001
+    name: "Bethesda Terrace West Bench"
+    lat: 40.7739
+    lng: -73.9710
+    material: wood
+    backrest: true
+    armrests: true
+    accessible: true
+    condition: good
+    seats: 3
+    covered: false
+    added_by: community
+    added_at: "2024-10-15"
+    notes: "Cast iron ends, classic Central Park style. Near the fountain."
+    image_url: null
+
+  - id: central-park-002
+    name: "The Ramble Overlook"
+    lat: 40.7769
+    lng: -73.9695
+    material: wood
+    backrest: true
+    armrests: true
+    accessible: false
+    condition: good
+    seats: 2
+    covered: false
+    added_by: community
+    added_at: "2024-10-15"
+    notes: "Hidden gem. Popular with birdwatchers in the morning."
+    image_url: null
+
+  - id: central-park-003
+    name: "Conservatory Garden Entrance"
+    lat: 40.7934
+    lng: -73.9524
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: true
+    condition: good
+    seats: 4
+    covered: false
+    added_by: community
+    added_at: "2024-10-18"
+    notes: "Low stone wall doubles as seating. Faces the formal garden."
+    image_url: null
+
+  - id: central-park-004
+    name: "Sheep Meadow South Edge"
+    lat: 40.7705
+    lng: -73.9769
+    material: wood
+    backrest: true
+    armrests: true
+    accessible: true
+    condition: fair
+    seats: 3
+    covered: false
+    added_by: community
+    added_at: "2024-10-20"
+    notes: "Faded slats but structurally sound. Great meadow views."
+    image_url: null
