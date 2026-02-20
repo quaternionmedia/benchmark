@@ -1,0 +1,61 @@
+name: Overpass data refresh
+
+# Runs every Monday at 03:00 UTC, or on-demand via the Actions tab.
+on:
+  schedule:
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+    inputs:
+      preset:
+        description: 'Preset to refresh (leave blank for all)'
+        required: false
+        default: ''
+
+jobs:
+  refresh:
+    name: Refresh bench data from Overpass
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      # Run all presets (or the one specified via workflow_dispatch input)
+      - name: Import from Overpass
+        run: |
+          if [ -n "${{ github.event.inputs.preset }}" ]; then
+            node scripts/overpass-import.js --preset "${{ github.event.inputs.preset }}" --force
+          else
+            node scripts/overpass-import.js --preset london-south  --force
+            node scripts/overpass-import.js --preset central-park  --force
+            node scripts/overpass-import.js --preset kyoto-central --force
+          fi
+
+      # Validate the freshly written YAML → GeoJSON
+      - name: Validate compiled GeoJSON
+        run: npm run validate
+
+      # Remove any .bak files the importer created
+      - name: Clean up backup files
+        run: rm -f public/data/regions/*.yaml.bak
+
+      # Commit only if something changed
+      - name: Commit updated data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data/regions/ public/data/benches.geojson
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: refresh bench data from Overpass API [skip ci]"
+            git push
+          fi

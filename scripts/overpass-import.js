@@ -8,21 +8,43 @@
  *
  * Usage:
  *   node scripts/overpass-import.js --bbox "S,W,N,E" --region "Region Name"
+ *   node scripts/overpass-import.js --preset <preset-name> [--force]
+ *   node scripts/overpass-import.js --list
  *
  * Examples:
+ *   node scripts/overpass-import.js --list
+ *   node scripts/overpass-import.js --preset london-south
+ *   node scripts/overpass-import.js --preset london-south --force
  *   node scripts/overpass-import.js --bbox "51.48,-0.13,51.52,-0.09" --region "London South"
- *   node scripts/overpass-import.js --bbox "40.76,-73.98,40.80,-73.95" --region "Central Park"
  *
  * After running:
  *   npm run validate
  */
 
-import { writeFileSync, existsSync } from 'fs'
+import { writeFileSync, existsSync, renameSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const OVERPASS_URL = 'https://overpass-api.de/api/interpreter'
+
+// ─── Presets for seed regions ─────────────────────────────────────────────────
+// bbox format: "S,W,N,E"  (add generous padding around known bench coords)
+
+const PRESETS = {
+  'london-south': {
+    region: 'London South',
+    bbox:   '51.490,-0.115,51.520,-0.070'
+  },
+  'central-park': {
+    region: 'Central Park',
+    bbox:   '40.765,-73.985,40.800,-73.945'
+  },
+  'kyoto-central': {
+    region: 'Kyoto Central',
+    bbox:   '34.995,135.760,35.025,135.790'
+  }
+}
 
 // ─── OSM tag mappers ──────────────────────────────────────────────────────────
 
@@ -60,40 +82,100 @@ node[amenity=bench](${parts.join(',')});
 out body;`
 }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
+// ─── Arg helpers ──────────────────────────────────────────────────────────────
 
 function getArg(args, flag) {
   const i = args.indexOf(flag)
   return i !== -1 ? args[i + 1] : null
 }
 
+function hasFlag(args, ...flags) {
+  return flags.some(f => args.includes(f))
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
+
 async function main() {
   const args = process.argv.slice(2)
 
-  if (args.includes('--help') || args.includes('-h')) {
-    console.log(`Usage: node scripts/overpass-import.js --bbox "S,W,N,E" --region "Region Name"`)
-    console.log(`\nExample:`)
-    console.log(`  node scripts/overpass-import.js \\`)
-    console.log(`    --bbox "51.48,-0.13,51.52,-0.09" \\`)
-    console.log(`    --region "London South"`)
+  // ── --help ──────────────────────────────────────────────────────────────────
+  if (hasFlag(args, '--help', '-h')) {
+    console.log(`Usage:`)
+    console.log(`  node scripts/overpass-import.js --list`)
+    console.log(`  node scripts/overpass-import.js --preset <name> [--force]`)
+    console.log(`  node scripts/overpass-import.js --bbox "S,W,N,E" --region "Name" [--force]`)
+    console.log(`\nFlags:`)
+    console.log(`  --list            List available presets`)
+    console.log(`  --preset <name>   Use a pre-configured region bbox`)
+    console.log(`  --bbox "S,W,N,E"  Custom bounding box`)
+    console.log(`  --region "Name"   Region name (required with --bbox)`)
+    console.log(`  --force           Overwrite an existing YAML file`)
+    console.log(`\nPresets: ${Object.keys(PRESETS).join(', ')}`)
     process.exit(0)
   }
 
-  const bbox       = getArg(args, '--bbox')
-  const regionName = getArg(args, '--region') || 'Imported Region'
+  // ── --list ──────────────────────────────────────────────────────────────────
+  if (hasFlag(args, '--list', '--list-presets')) {
+    console.log('\nAvailable presets:\n')
+    for (const [key, { region, bbox }] of Object.entries(PRESETS)) {
+      console.log(`  ${key.padEnd(18)} ${region} (${bbox})`)
+    }
+    console.log(`\nRun with: npm run overpass-import -- --preset <name>`)
+    process.exit(0)
+  }
+
+  // ── no args → show presets ──────────────────────────────────────────────────
+  if (args.length === 0) {
+    console.log('benchmark — Overpass importer\n')
+    console.log('Available presets (run with --preset <name>):\n')
+    for (const [key, { region, bbox }] of Object.entries(PRESETS)) {
+      console.log(`  ${key.padEnd(18)} ${region}  bbox: ${bbox}`)
+    }
+    console.log(`\nOr supply a custom area:`)
+    console.log(`  npm run overpass-import -- --bbox "S,W,N,E" --region "My Region"`)
+    console.log(`\nRun with --help for full usage.`)
+    process.exit(0)
+  }
+
+  // ── resolve bbox + region from --preset or --bbox / --region ────────────────
+  const force      = hasFlag(args, '--force', '-f')
+  const presetKey  = getArg(args, '--preset')
+
+  let bbox, regionName
+
+  if (presetKey) {
+    const preset = PRESETS[presetKey]
+    if (!preset) {
+      console.error(`❌ Unknown preset "${presetKey}". Run with --list to see available presets.`)
+      process.exit(1)
+    }
+    bbox       = preset.bbox
+    regionName = preset.region
+  } else {
+    bbox       = getArg(args, '--bbox')
+    regionName = getArg(args, '--region') || 'Imported Region'
+  }
 
   if (!bbox) {
-    console.error('Error: --bbox is required (format: "S,W,N,E")')
-    console.error('Run with --help for usage.')
+    console.error('Error: --bbox or --preset is required.')
+    console.error('Run with --list to see presets, or --help for full usage.')
     process.exit(1)
   }
 
   const regionSlug = regionName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   const outFile    = join(__dirname, `../public/data/regions/${regionSlug}.yaml`)
 
-  if (existsSync(outFile)) {
-    console.warn(`⚠️  ${outFile} already exists. Use a different --region name or remove the file first.`)
+  if (existsSync(outFile) && !force) {
+    console.warn(`⚠️  ${outFile} already exists.`)
+    console.warn(`   Use --force to overwrite (existing file will be backed up to .bak).`)
+    console.warn(`   Or use a different --region name.`)
     process.exit(1)
+  }
+
+  if (existsSync(outFile) && force) {
+    const bakFile = `${outFile}.bak`
+    renameSync(outFile, bakFile)
+    console.log(`📦 Backed up existing file to ${bakFile}`)
   }
 
   let query
