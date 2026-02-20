@@ -1,0 +1,43 @@
+name: Report bad data
+description: Report incorrect or outdated bench information
+title: "[data] "
+labels: ["data-issue"]
+body:
+  - type: input
+    id: bench_id
+    attributes:
+      label: Bench ID
+      description: The ID of the bench with incorrect data (e.g. london-south-003)
+      placeholder: "london-south-003"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Type of issue
+      options:
+        - Wrong coordinates
+        - Wrong condition
+        - Wrong material
+        - Missing features (backrest, armrests, etc.)
+        - Bench no longer exists
+        - Duplicate entry
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What is wrong?
+      description: Describe the issue and what the correct value should be
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: Source / evidence (optional)
+      description: Link to a photo, street view, or other evidence
+      placeholder: "https://…"

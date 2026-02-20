@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "validate": "node scripts/compile-yaml.js",
     "catalogue": "node scripts/generate-catalogue.js",
+    "issue-to-yaml": "node scripts/issue-to-yaml.js",
     "test": "playwright test"
   },
   "dependencies": {

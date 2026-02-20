@@ -4,7 +4,7 @@ A frontend-only, open-source bench mapping application. Each phase is designed t
 
 ---
 
-## Phase 0 — Scaffold `v0.1`
+## Phase 0 — Scaffold `v0.1` ✅
 
 > *"Get the bones in place."*
 
@@ -21,7 +21,7 @@ A frontend-only, open-source bench mapping application. Each phase is designed t
 
 ---
 
-## Phase 1 — Data Layer `v0.2`
+## Phase 1 — Data Layer `v0.2` ✅
 
 > *"Give the benches a voice."*
 
@@ -57,7 +57,7 @@ added_at: ISO date
 
 ---
 
-## Phase 2 — UI & Animations `v0.3`
+## Phase 2 — UI & Animations `v0.3` ✅
 
 > *"Make it feel alive."*
 
@@ -84,36 +84,39 @@ added_at: ISO date
 
 ---
 
-## Phase 3 — Community Contribution `v0.4`
+## Phase 3 — Community Contribution `v0.4` ✅
 
 > *"Let the map grow."*
 
 **Goal:** Make it easy for anyone to add a bench via a structured GitHub Issue, and document the full contribution workflow.
 
 **Deliverables:**
-- GitHub Issue template: `suggest-a-bench.yml` with all schema fields as form inputs
-- `CONTRIBUTING.md` fully written (see contributing docs)
-- `scripts/issue-to-yaml.js` — helper script that formats an issue response into a ready-to-paste YAML block
-- `docs/SCHEMA.md` — full schema reference
-- PR template with checklist (coordinate verified, YAML valid, no duplicate ID)
+
+- `.github/ISSUE_TEMPLATE/suggest-a-bench.yml` — structured GitHub form with all schema fields
+- `.github/ISSUE_TEMPLATE/data-issue.yml` — form for reporting bad or outdated data
+- `.github/pull_request_template.md` — PR checklist (coordinate verified, YAML valid, no duplicate ID)
+- `scripts/issue-to-yaml.js` — formats an issue response into a ready-to-paste YAML block (`npm run issue-to-yaml`)
+- `docs/SCHEMA.md` — full schema reference with enum values, constraints, and examples
+- `docs/CONTRIBUTING.md` — fully written contribution guide
+- `scripts/generate-catalogue.js` — auto-generates `docs/CATALOGUE.md` from GeoJSON
 
 **Done when:** A non-technical user can open an issue, fill in the form, and a maintainer can merge it in under 5 minutes.
 
 ---
 
-## Phase 4 — Discovery & Export `v0.5`
+## Phase 4 — Discovery & Export `v0.5` 🚧
 
 > *"Make the data useful."*
 
-**Goal:** Add search, clustering, and data export so power users and researchers can work with the bench data.
+**Goal:** Add search, URL-shareable positions, and data export so power users and researchers can work with the bench data.
 
 **Deliverables:**
-- Full-text search across bench names and notes
-- `Leaflet.markercluster` for high-density areas
-- URL hash state (`#lat,lng,zoom`) for shareable map positions
-- Export panel: download filtered view as GeoJSON, CSV, or YAML
-- `scripts/generate-catalogue.js` — generates `docs/CATALOGUE.md` at build time (auto-index of all benches by region)
-- Bench count badge in header (animated counter via anime.js)
+
+- [x] Full-text search across bench names, notes, and region (`src/search.js`) — 200ms debounce, Escape to clear, live count update
+- [x] URL hash state (`#lat,lng,zoom`) for shareable map positions (`src/hash.js`) — restores view on load, writes silently via `history.replaceState`
+- [x] Export panel: download filtered view as GeoJSON, CSV, or YAML (`src/export.js`)
+- [x] Bench count badge updates live when filters or search narrow results
+- [ ] `Leaflet.markercluster` for high-density areas *(pending)*
 
 **Done when:** A user can filter, search, find a bench, share the URL, and download the results.
 
@@ -126,6 +129,7 @@ added_at: ISO date
 **Goal:** Optional Overpass API integration to pull OSM bench data, and a heatmap layer for density visualization.
 
 **Deliverables:**
+
 - Overpass query builder for importing OSM benches into YAML format
 - `Leaflet.heat` heatmap layer (toggleable)
 - PWA manifest + service worker for offline map tiles cache
@@ -138,11 +142,11 @@ added_at: ISO date
 
 ## Milestone Summary
 
-| Version | Phase | Theme |
-|---|---|---|
-| `v0.1` | 0 | Scaffold |
-| `v0.2` | 1 | Data Layer |
-| `v0.3` | 2 | UI & Animations |
-| `v0.4` | 3 | Community |
-| `v0.5` | 4 | Discovery |
-| `v1.0` | 5 | Enrichment |
+| Version | Phase | Theme | Status |
+| --- | --- | --- | --- |
+| `v0.1` | 0 | Scaffold | ✅ |
+| `v0.2` | 1 | Data Layer | ✅ |
+| `v0.3` | 2 | UI & Animations | ✅ |
+| `v0.4` | 3 | Community | ✅ |
+| `v0.5` | 4 | Discovery | 🚧 |
+| `v1.0` | 5 | Enrichment | — |

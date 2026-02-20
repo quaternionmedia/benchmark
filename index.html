@@ -17,16 +17,24 @@
 <body>
   <div id="app">
 
-    <!-- Header: logo, bench count, filter toggle -->
+    <!-- Header: logo, bench count, search, filter + export toggles -->
     <header id="header">
       <div style="display:flex; align-items:baseline; gap:0">
         <span class="logo">benchmark</span>
         <span class="bench-count" id="bench-count"></span>
       </div>
-      <button class="btn-icon" id="filter-toggle" aria-expanded="false"
-              aria-controls="filter-panel">
-        filter
-      </button>
+      <div class="header-actions">
+        <input type="search" id="search-input" class="search-input"
+               placeholder="search…" aria-label="Search benches" autocomplete="off" />
+        <button type="button" class="btn-icon" id="filter-toggle" aria-expanded="false"
+                aria-controls="filter-panel">
+          filter
+        </button>
+        <button type="button" class="btn-icon" id="export-toggle" aria-expanded="false"
+                aria-controls="export-panel">
+          export
+        </button>
+      </div>
     </header>
 
     <!-- Filter panel (hidden by default) -->
@@ -39,11 +47,11 @@
         <div class="filter-group">
           <label>condition</label>
           <div class="filter-chips" id="condition-chips">
-            <button class="chip active" data-filter="condition" data-value="all">all</button>
-            <button class="chip" data-filter="condition" data-value="good">good</button>
-            <button class="chip" data-filter="condition" data-value="fair">fair</button>
-            <button class="chip" data-filter="condition" data-value="poor">poor</button>
-            <button class="chip" data-filter="condition" data-value="unknown">unknown</button>
+            <button type="button" class="chip active" data-filter="condition" data-value="all">all</button>
+            <button type="button" class="chip" data-filter="condition" data-value="good">good</button>
+            <button type="button" class="chip" data-filter="condition" data-value="fair">fair</button>
+            <button type="button" class="chip" data-filter="condition" data-value="poor">poor</button>
+            <button type="button" class="chip" data-filter="condition" data-value="unknown">unknown</button>
           </div>
         </div>
 
@@ -51,13 +59,13 @@
         <div class="filter-group">
           <label>material</label>
           <div class="filter-chips" id="material-chips">
-            <button class="chip active" data-filter="material" data-value="all">all</button>
-            <button class="chip" data-filter="material" data-value="wood">wood</button>
-            <button class="chip" data-filter="material" data-value="metal">metal</button>
-            <button class="chip" data-filter="material" data-value="stone">stone</button>
-            <button class="chip" data-filter="material" data-value="concrete">concrete</button>
-            <button class="chip" data-filter="material" data-value="plastic">plastic</button>
-            <button class="chip" data-filter="material" data-value="other">other</button>
+            <button type="button" class="chip active" data-filter="material" data-value="all">all</button>
+            <button type="button" class="chip" data-filter="material" data-value="wood">wood</button>
+            <button type="button" class="chip" data-filter="material" data-value="metal">metal</button>
+            <button type="button" class="chip" data-filter="material" data-value="stone">stone</button>
+            <button type="button" class="chip" data-filter="material" data-value="concrete">concrete</button>
+            <button type="button" class="chip" data-filter="material" data-value="plastic">plastic</button>
+            <button type="button" class="chip" data-filter="material" data-value="other">other</button>
           </div>
         </div>
 
@@ -87,12 +95,26 @@
       </div>
     </div>
 
+    <!-- Export panel (hidden by default, anchored to top-right) -->
+    <div id="export-panel" class="export-panel hidden" role="region"
+         aria-label="Export bench data">
+      <div class="export-panel-inner">
+        <h3>export filtered data</h3>
+        <div class="export-actions">
+          <button type="button" class="btn-icon" id="export-geojson">geojson</button>
+          <button type="button" class="btn-icon" id="export-csv">csv</button>
+          <button type="button" class="btn-icon" id="export-yaml">yaml</button>
+        </div>
+        <p class="export-hint">Downloads the currently visible benches.</p>
+      </div>
+    </div>
+
     <!-- Leaflet map container -->
     <div id="map" aria-label="Bench map"></div>
 
     <!-- Sidebar: bench detail panel -->
     <aside id="sidebar" class="sidebar hidden" aria-label="Bench detail">
-      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">✕</button>
+      <button type="button" class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">✕</button>
       <div id="sidebar-content"></div>
     </aside>
 

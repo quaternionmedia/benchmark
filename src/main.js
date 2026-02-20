@@ -8,16 +8,19 @@ import { renderMarkers, applyMarkerFilter } from './markers.js'
 import { openSidebar } from './sidebar.js'
 import { onFilterChange, buildPredicate } from './filters.js'
 import { animateBenchCount, animateMapFlyTo } from './animations.js'
+import { onSearchChange, buildSearchPredicate } from './search.js'
+import { initHashSync } from './hash.js'
+import { initExport } from './export.js'
 
 const benchCountEl = document.getElementById('bench-count')
-const mapEl = document.getElementById('map')
+const mapEl        = document.getElementById('map')
 
 async function main() {
   // Initialise map
   const map = initMap()
 
   // Load compiled GeoJSON
-  const res = await fetch('./data/benches.geojson')
+  const res     = await fetch('./data/benches.geojson')
   const geojson = await res.json()
   const { features } = geojson
 
@@ -28,17 +31,50 @@ async function main() {
     openSidebar(props, latlng)
   })
 
-  // Animate bench count
+  // Animate bench count on initial load
   animateBenchCount(benchCountEl, features.length)
 
-  // Wire filter changes to marker visibility
-  onFilterChange((filterState) => {
-    const predicate = buildPredicate(filterState)
+  // ─── Combined filter + search predicate ──────────────────────────────────────
+
+  let latestFilterState = {
+    condition: 'all', material: 'all',
+    backrest: false, armrests: false, accessible: false, covered: false
+  }
+  let latestSearchTerm = ''
+
+  function getCombinedPredicate() {
+    const fp = buildPredicate(latestFilterState)
+    const sp = buildSearchPredicate(latestSearchTerm)
+    return (props) => fp(props) && sp(props)
+  }
+
+  function applyAndUpdateCount() {
+    const predicate = getCombinedPredicate()
     applyMarkerFilter(registry, predicate)
+    const visible = [...registry.values()].filter(({ props }) => predicate(props)).length
+    benchCountEl.textContent = `— ${visible} bench${visible !== 1 ? 'es' : ''}`
+  }
+
+  onFilterChange((filterState) => {
+    latestFilterState = filterState
+    applyAndUpdateCount()
   })
 
-  // Fit map to bounds of all benches
-  if (features.length > 0) {
+  onSearchChange((term) => {
+    latestSearchTerm = term
+    applyAndUpdateCount()
+  })
+
+  // ─── Export panel ─────────────────────────────────────────────────────────────
+
+  initExport(registry, getCombinedPredicate)
+
+  // ─── URL hash state ───────────────────────────────────────────────────────────
+
+  const restoredFromHash = initHashSync(map)
+
+  // Fit to all bench bounds only when no saved hash position exists
+  if (!restoredFromHash && features.length > 0) {
     const coords = features.map(f => [
       f.geometry.coordinates[1],
       f.geometry.coordinates[0]

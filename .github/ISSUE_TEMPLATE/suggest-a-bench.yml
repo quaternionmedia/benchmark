@@ -1,0 +1,106 @@
+name: Suggest a bench
+description: Submit a bench to be added to the map
+title: "[bench] "
+labels: ["bench-suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing a bench! Fill in as many fields as you can.
+        A maintainer will validate and merge it in a few minutes.
+
+  - type: input
+    id: name
+    attributes:
+      label: Bench name
+      description: A short descriptive name (landmark, street, area)
+      placeholder: "e.g. South Bank Riverside Bench"
+    validations:
+      required: true
+
+  - type: input
+    id: region
+    attributes:
+      label: Region
+      description: City, park, or district this bench belongs to
+      placeholder: "e.g. London South"
+    validations:
+      required: true
+
+  - type: input
+    id: lat
+    attributes:
+      label: Latitude
+      description: Decimal latitude — use Google Maps or OSM to find it
+      placeholder: "51.50736"
+    validations:
+      required: true
+
+  - type: input
+    id: lng
+    attributes:
+      label: Longitude
+      description: Decimal longitude
+      placeholder: "-0.12776"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: material
+    attributes:
+      label: Material
+      options:
+        - wood
+        - metal
+        - stone
+        - plastic
+        - concrete
+        - other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: condition
+    attributes:
+      label: Condition
+      description: How is the bench holding up?
+      options:
+        - good
+        - fair
+        - poor
+        - unknown
+    validations:
+      required: true
+
+  - type: input
+    id: seats
+    attributes:
+      label: Number of seats
+      description: How many people can sit on it at once?
+      placeholder: "2"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: features
+    attributes:
+      label: Features
+      options:
+        - label: Has backrest
+        - label: Has armrests
+        - label: Wheelchair accessible
+        - label: Covered / sheltered
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes (optional)
+      description: Anything notable — view, context, quirks. Max 280 characters.
+      placeholder: "Quiet spot near the fountain, great at sunset."
+
+  - type: input
+    id: image_url
+    attributes:
+      label: Photo URL (optional)
+      description: Link to a photo of the bench (Flickr, Wikimedia, etc.)
+      placeholder: "https://…"
