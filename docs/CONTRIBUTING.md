@@ -198,7 +198,9 @@ benchmark/
 │   ├── PHASES.md             ← Project roadmap
 │   ├── CONTRIBUTING.md       ← This file
 │   └── CATALOGUE.md          ← Generated bench index
-├── deploy.yml                ← GitHub Actions CI/CD
+├── .github/
+│   └── workflows/
+│       └── deploy.yml        ← GitHub Actions CI/CD
 ├── playwright.config.ts      ← Playwright test config
 ├── vite.config.js            ← Vite build config
 ├── style.css                 ← Application stylesheet
