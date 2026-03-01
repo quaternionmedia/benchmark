@@ -13,7 +13,8 @@ import { initHashSync } from './hash.js'
 import { initExport } from './export.js'
 import { initHeatmap, toggleHeatmap } from './heatmap.js'
 import { loadBenches } from './store.js'
-import { initBboxSelect } from './bbox-select.js'
+import { initBboxSelect, autoImportNearby } from './bbox-select.js'
+import { initGps } from './gps.js'
 
 const benchCountEl  = document.getElementById('bench-count')
 const mapEl         = document.getElementById('map')
@@ -96,6 +97,43 @@ async function main() {
     for (const [id, entry] of newReg) registry.set(id, entry)
     applyAndUpdateCount()
   })
+
+  // ─── GPS ──────────────────────────────────────────────────────────────────
+
+  initGps(map, registry, (props, latlng) => {
+    flyToBench(map, latlng, () => {})
+    animateMapFlyTo(mapEl)
+    openSidebar(props, latlng)
+  })
+
+  // ─── Auto-import nearby benches on first load ──────────────────────────────
+
+  if (features.length === 0) {
+    const onNearbyImported = (newFeatures) => {
+      const newReg = addMarkersToGroup(clusterGroup, newFeatures, (props, latlng) => {
+        flyToBench(map, latlng, () => {})
+        animateMapFlyTo(mapEl)
+        openSidebar(props, latlng)
+      })
+      for (const [id, entry] of newReg) registry.set(id, entry)
+      applyAndUpdateCount()
+      const coords = newFeatures.map(f => [f.geometry.coordinates[1], f.geometry.coordinates[0]])
+      if (coords.length) map.fitBounds(coords, { padding: [40, 40] })
+    }
+
+    const doImport = (lat, lng, name) => autoImportNearby(lat, lng, name, onNearbyImported)
+    const STOCKHOLM = [59.3293, 18.0686]
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => doImport(pos.coords.latitude, pos.coords.longitude, 'Nearby'),
+        ()    => doImport(...STOCKHOLM, 'Stockholm'),
+        { timeout: 5000 }
+      )
+    } else {
+      doImport(...STOCKHOLM, 'Stockholm')
+    }
+  }
 
   heatmapToggle.addEventListener('click', () => {
     const visible = toggleHeatmap()

@@ -116,6 +116,17 @@ function renderContent(props, latlng) {
 
       ${notesHtml}
 
+      <div class="bench-directions">
+        <a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}"
+           target="_blank" rel="noopener noreferrer" class="btn-icon directions-link">
+          directions ↗
+        </a>
+        <a href="https://maps.apple.com/?daddr=${lat},${lng}"
+           target="_blank" rel="noopener noreferrer" class="btn-icon directions-link">
+          apple maps ↗
+        </a>
+      </div>
+
       <div class="bench-meta-footer">
         added by @${escHtml(props.added_by)} · ${escHtml(String(props.added_at))}
         <span class="bench-coords">${lat.toFixed(5)}, ${lng.toFixed(5)}</span>

@@ -5,10 +5,10 @@
  *
  * Flow:
  *   1. "import area" button → enter draw mode (crosshair cursor)
- *   2. pointerdown → drag → pointerup  → L.Rectangle tracks the selection
- *   3. Confirmation panel shows bbox coords + region name input
- *   4. "import to map" → Overpass query → mergeFeatures (IndexedDB) → live re-render
- *   5. "cancel" or Escape → cleanup, exit draw mode
+ *   2. pointerdown → drag → pointerup → L.Rectangle tracks the selection
+ *   3. Draw ends → region name auto-generated from bbox centre → Overpass query fires immediately
+ *   4. Button label shows live status; markers appear on completion
+ *   5. Escape while drawing → cancel, exit draw mode
  *
  * Pointer events are used instead of separate mouse + touch listeners because:
  *  - Leaflet uses the Pointer Events API internally on modern browsers.
@@ -26,10 +26,6 @@
 
 import L from 'leaflet'
 import { mergeFeatures } from './store.js'
-import {
-  animateBboxPanelIn,
-  animateBboxPanelOut
-} from './animations.js'
 
 // ─── OSM tag mappers (mirrors scripts/overpass-import.js) ─────────────────────
 
@@ -134,21 +130,79 @@ function nodesToFeatures(nodes, regionName) {
   })
 }
 
+// ─── Public auto-import helper ────────────────────────────────────────────────
+
+/**
+ * Build a [S, W, N, E] bbox centred on lat/lng with the given radius in km.
+ */
+function _bboxFromCenter(lat, lng, radiusKm) {
+  const dlat = radiusKm / 111
+  const dlng = radiusKm / (111 * Math.cos(lat * Math.PI / 180))
+  return [
+    (lat - dlat).toFixed(5),
+    (lng - dlng).toFixed(5),
+    (lat + dlat).toFixed(5),
+    (lng + dlng).toFixed(5)
+  ]
+}
+
+/**
+ * Query Overpass for benches within radiusKm of lat/lng, merge into IDB,
+ * and call onFeaturesImported with any genuinely new features.
+ *
+ * @param {number}   lat
+ * @param {number}   lng
+ * @param {string}   regionName
+ * @param {Function} onFeaturesImported
+ * @param {number}   [radiusKm=1]
+ */
+export async function autoImportNearby(lat, lng, regionName, onFeaturesImported, radiusKm = 1) {
+  try {
+    const bbox  = _bboxFromCenter(lat, lng, radiusKm)
+    const nodes = await queryOverpass(bbox)
+    if (!nodes.length) return
+    const candidates = nodesToFeatures(nodes, regionName)
+    const added      = await mergeFeatures(candidates)
+    if (added.length && onFeaturesImported) onFeaturesImported(added)
+  } catch (err) {
+    console.warn('[auto-import] failed:', err)
+  }
+}
+
 // ─── Module state ─────────────────────────────────────────────────────────────
 
-let _map        = null
-let _drawMode   = false
-let _dragging   = false
-let _startLL    = null
-let _rect       = null
-let _bboxBounds = null   // [S, W, N, E] floats
+let _map                 = null
+let _drawMode            = false
+let _dragging            = false
+let _startLL             = null
+let _rect                = null
+let _bboxBounds          = null   // [S, W, N, E] strings
+let _onFeaturesImported  = null
 
-const _panel  = document.getElementById('bbox-panel')
 const _toggle = document.getElementById('import-toggle')
-const _coords = document.getElementById('bbox-coords-display')
-const _input  = document.getElementById('bbox-region-name')
-const _confirm = document.getElementById('bbox-confirm')
-const _cancel  = document.getElementById('bbox-cancel')
+
+/**
+ * Generate a human-readable region name from the bbox centre coordinates.
+ * e.g. "59.33°N 18.07°E"
+ */
+function _autoRegionName(s, w, n, e) {
+  const lat = ((parseFloat(s) + parseFloat(n)) / 2).toFixed(2)
+  const lng = ((parseFloat(w) + parseFloat(e)) / 2).toFixed(2)
+  const ns  = lat >= 0 ? 'N' : 'S'
+  const ew  = lng >= 0 ? 'E' : 'W'
+  return `${Math.abs(lat)}°${ns} ${Math.abs(lng)}°${ew}`
+}
+
+function _setToggleLabel(text, resetAfterMs = 0) {
+  _toggle.textContent = text
+  _toggle.disabled    = resetAfterMs > 0
+  if (resetAfterMs) {
+    setTimeout(() => {
+      _toggle.textContent = 'import area'
+      _toggle.disabled    = false
+    }, resetAfterMs)
+  }
+}
 
 // ─── Draw mode helpers ────────────────────────────────────────────────────────
 
@@ -194,15 +248,9 @@ function _removeRect() {
   _bboxBounds = null
 }
 
-function _cleanup(andClosePanel = true) {
+function _cleanup() {
   _removeRect()
   _exitDrawMode()
-  if (andClosePanel && _panel && !_panel.classList.contains('hidden')) {
-    animateBboxPanelOut(_panel)
-  }
-  _input.value = ''
-  _confirm.disabled = false
-  _confirm.textContent = 'import to map'
 }
 
 // ─── Shared draw logic ────────────────────────────────────────────────────────
@@ -244,12 +292,35 @@ function _endDraw(latlng) {
   const ee = Math.max(bounds.getWest(),  bounds.getEast()).toFixed(5)
 
   _bboxBounds = [s, w, n, ee]
-  if (_coords) _coords.textContent = `${s}, ${w}, ${n}, ${ee}`
+  _exitDrawMode()
+  _triggerImport()
+}
 
-  if (_panel) animateBboxPanelIn(_panel)
-  if (_input) {
-    _input.focus()
-    _input.select()
+async function _triggerImport() {
+  if (!_bboxBounds) return
+  const [s, w, n, ee] = _bboxBounds
+  const regionName = _autoRegionName(s, w, n, ee)
+
+  _setToggleLabel('querying…', 0)
+  _toggle.disabled = true
+
+  try {
+    const nodes = await queryOverpass(_bboxBounds)
+    _removeRect()
+
+    if (!nodes.length) {
+      _setToggleLabel('no benches found', 2500)
+      return
+    }
+
+    const candidates = nodesToFeatures(nodes, regionName)
+    const added      = await mergeFeatures(candidates)
+    _setToggleLabel(`+${added.length} added`, 2500)
+    if (added.length && _onFeaturesImported) _onFeaturesImported(added)
+  } catch (err) {
+    console.error('[bbox-select] import failed:', err)
+    _removeRect()
+    _setToggleLabel('failed — retry?', 3000)
   }
 }
 
@@ -307,9 +378,10 @@ function _onPointerCancel(e) {
  *   update the visible bench count.
  */
 export function initBboxSelect(map, onFeaturesImported) {
-  _map = map
+  _map                = map
+  _onFeaturesImported = onFeaturesImported
 
-  if (!_panel || !_toggle) return   // HTML not present, skip silently
+  if (!_toggle) return   // HTML not present, skip silently
 
   // Toggle draw mode on button click/tap
   _toggle.addEventListener('click', () => {
@@ -327,49 +399,8 @@ export function initBboxSelect(map, onFeaturesImported) {
   container.addEventListener('pointerup',     _onPointerUp,     { capture: true })
   container.addEventListener('pointercancel', _onPointerCancel, { capture: true })
 
-  // Escape key cancels draw mode / confirmation
+  // Escape cancels an in-progress draw
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && (_drawMode || (_panel && !_panel.classList.contains('hidden')))) {
-      _cleanup()
-    }
-  })
-
-  // Cancel button
-  _cancel.addEventListener('click', () => _cleanup())
-
-  // Confirm: query Overpass → merge into IndexedDB → live re-render
-  _confirm.addEventListener('click', async () => {
-    if (!_bboxBounds) return
-
-    const regionName = (_input.value || 'Imported Region').trim()
-    _confirm.disabled    = true
-    _confirm.textContent = 'querying…'
-
-    try {
-      const nodes = await queryOverpass(_bboxBounds)
-
-      if (!nodes.length) {
-        _confirm.textContent = 'no benches found'
-        setTimeout(() => {
-          _confirm.disabled    = false
-          _confirm.textContent = 'import to map'
-        }, 2000)
-        return
-      }
-
-      _confirm.textContent = 'saving…'
-      const candidates = nodesToFeatures(nodes, regionName)
-      const added      = await mergeFeatures(candidates)
-
-      _cleanup()
-      if (added.length && onFeaturesImported) onFeaturesImported(added)
-    } catch (err) {
-      console.error('[bbox-select] import failed:', err)
-      _confirm.textContent = 'failed — retry?'
-      setTimeout(() => {
-        _confirm.disabled    = false
-        _confirm.textContent = 'import to map'
-      }, 3000)
-    }
+    if (e.key === 'Escape' && _drawMode) _cleanup()
   })
 }

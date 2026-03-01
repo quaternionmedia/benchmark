@@ -12,7 +12,7 @@ A frontend-only, open-source map of benches. Browse, filter, and contribute benc
 |---|---|
 | Map | [Leaflet.js](https://leafletjs.com/) + [leaflet.markercluster](https://github.com/Leaflet/Leaflet.markercluster) + OpenStreetMap tiles |
 | Animations | [anime.js](https://animejs.com/) |
-| Data | YAML per region → compiled to GeoJSON at build time |
+| Data | YAML seed regions → GeoJSON at build time; live Overpass import in-browser via IndexedDB |
 | Build | [Vite](https://vitejs.dev/) |
 | Hosting | GitHub Pages via GitHub Actions |
 
@@ -37,7 +37,6 @@ npm run dev
 | `npm run validate` | Validate and compile all YAML files |
 | `npm run validate:fix` | Auto-fix minor YAML issues and recompile |
 | `npm run catalogue` | Regenerate docs/CATALOGUE.md |
-| `npm run issue-to-yaml` | Format a GitHub issue into a YAML bench block |
 | `npm run overpass-import` | Maintainer tool: bulk-seed a region from Overpass API |
 | `npm test` | Run Playwright end-to-end tests |
 
@@ -48,7 +47,8 @@ See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for how to add benches or submi
 ## Docs
 
 - [docs/PHASES.md](docs/PHASES.md) — Project roadmap and milestones
-- [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) — Schema reference and contribution guide
+- [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) — Contribution guide
+- [docs/SCHEMA.md](docs/SCHEMA.md) — Full field reference and GeoJSON output format
 - [docs/CATALOGUE.md](docs/CATALOGUE.md) — Auto-generated bench index (run `npm run catalogue`)
 
 ## License

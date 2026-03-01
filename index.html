@@ -56,6 +56,14 @@
                 aria-controls="export-panel">
           export
         </button>
+        <button type="button" class="btn-icon" id="gps-locate"
+                title="Jump to your current location" aria-label="Jump to current location">
+          locate me
+        </button>
+        <button type="button" class="btn-icon" id="gps-nearest"
+                title="Find the nearest bench" aria-label="Find nearest bench">
+          nearest
+        </button>
       </div>
     </header>
 
@@ -140,22 +148,6 @@
           <button type="button" class="btn-icon" id="export-yaml">yaml</button>
         </div>
         <p class="export-hint">Downloads the currently visible benches.</p>
-      </div>
-    </div>
-
-    <!-- Bbox import panel (hidden by default, spans full width below header) -->
-    <div id="bbox-panel" class="bbox-panel hidden" role="dialog"
-         aria-label="Import benches from drawn map area">
-      <div class="bbox-panel-inner">
-        <h3>import from openstreetmap</h3>
-        <p class="bbox-coords" id="bbox-coords-display">—</p>
-        <input type="text" id="bbox-region-name" class="search-input"
-               placeholder="region name…" aria-label="Region name for imported benches" />
-        <div class="export-actions">
-          <button type="button" class="btn-icon" id="bbox-confirm">import to map</button>
-          <button type="button" class="btn-icon" id="bbox-cancel">cancel</button>
-        </div>
-        <p class="export-hint">Queries OpenStreetMap · saves benches to browser storage · live markers appear instantly.</p>
       </div>
     </div>
 

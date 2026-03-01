@@ -6,25 +6,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap');
 
 :root {
-  --bg:          #f5f0e8;
-  --surface:     #ede8de;
-  --border:      #c8bfa8;
-  --ink:         #1a1510;
-  --ink-muted:   #6b6155;
-  --accent:      #c84b2f;
-  --accent-soft: #e8d5cf;
-  --good:        #3d7a4a;
-  --fair:        #a07020;
-  --poor:        #c84b2f;
+  /* Dark mode — default */
+  --bg:          #18171a;
+  --surface:     #222028;
+  --border:      #3a3742;
+  --ink:         #e0d8cc;
+  --ink-muted:   #9a9288;
+  --accent:      #d4553b;
+  --accent-soft: #3a2820;
+  --good:        #4a9a58;
+  --fair:        #c08030;
+  --poor:        #d4553b;
   --unknown:     #888080;
 
   /* Material palette — bench marker fill colours */
-  --mat-wood:     #8b6040;   /* aged timber */
-  --mat-metal:    #486878;   /* cast iron / steel */
-  --mat-stone:    #7a6b60;   /* sandstone / granite */
-  --mat-concrete: #686f75;   /* urban concrete */
-  --mat-plastic:  #4d7860;   /* synthetic polymer */
-  --mat-other:    #6b5f78;   /* unclassified */
+  --mat-wood:     #8b6040;
+  --mat-metal:    #486878;
+  --mat-stone:    #7a6b60;
+  --mat-concrete: #686f75;
+  --mat-plastic:  #4d7860;
+  --mat-other:    #6b5f78;
 
   --sidebar-w:   340px;
   --header-h:    52px;
@@ -36,6 +37,22 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
   line-height: 1.5;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg:          #f5f0e8;
+    --surface:     #ede8de;
+    --border:      #c8bfa8;
+    --ink:         #1a1510;
+    --ink-muted:   #6b6155;
+    --accent:      #c84b2f;
+    --accent-soft: #e8d5cf;
+    --good:        #3d7a4a;
+    --fair:        #a07020;
+    --poor:        #c84b2f;
+    --unknown:     #888080;
+  }
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -112,11 +129,17 @@ body {
 
 /* Leaflet overrides */
 .leaflet-container {
-  background: #e8e2d4;
+  background: #1a1820;
   font-family: 'JetBrains Mono', monospace;
 }
 
-.leaflet-tile-pane { filter: sepia(0.18) contrast(0.95); }
+/* Dark mode: invert + hue-rotate gives a natural dark map */
+.leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.75) contrast(1.0) saturate(0.5); }
+
+@media (prefers-color-scheme: light) {
+  .leaflet-container { background: #e8e2d4; }
+  .leaflet-tile-pane { filter: sepia(0.18) contrast(0.95); }
+}
 
 /* ─── CUSTOM MARKERS ─────────────────────────────── */
 
@@ -426,6 +449,20 @@ body {
   margin-bottom: 18px;
 }
 
+.bench-directions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.directions-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  flex: 1;
+  justify-content: center;
+}
+
 .bench-meta-footer {
   font-size: 10px;
   color: var(--ink-muted);
@@ -550,40 +587,27 @@ body {
   color: var(--bg);
 }
 
-/* ─── BBOX IMPORT PANEL ─────────────────────────── */
-
-.bbox-panel {
-  position: absolute;
-  top: var(--header-h);
-  left: 0;
-  right: 0;
-  z-index: 900;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(-8px);
-}
-
-.bbox-panel.hidden { display: none; }
-
-.bbox-panel-inner {
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.bbox-coords {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--ink-muted);
-  letter-spacing: 0.02em;
-}
-
 /* Crosshair cursor while in draw mode */
 #map.draw-mode,
 #map.draw-mode .leaflet-interactive { cursor: crosshair !important; }
+
+/* ─── GPS LOCATION DOT ───────────────────────────── */
+
+.gps-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 0 rgba(200, 75, 47, 0.4);
+  animation: gps-pulse 2s ease-out infinite;
+}
+
+@keyframes gps-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(200, 75, 47, 0.4); }
+  70%  { box-shadow: 0 0 0 10px rgba(200, 75, 47, 0);   }
+  100% { box-shadow: 0 0 0 0   rgba(200, 75, 47, 0);   }
+}
 
 /* ─── MOBILE ─────────────────────────────────────── */
 

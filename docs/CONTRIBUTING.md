@@ -8,10 +8,8 @@ Thank you for helping map the world's benches. This document covers everything y
 
 | Type | How |
 |---|---|
-| Suggest a bench | Open a [Bench Suggestion issue](../../issues/new?template=suggest-a-bench.yml) |
-| Fix bench data | Edit the relevant `public/data/regions/*.yaml` and open a PR |
+| Add a bench | Edit the relevant `public/data/regions/*.yaml` and open a PR |
 | Add a region | Create a new `public/data/regions/<region-slug>.yaml` file |
-| Report bad data | Open a [Data Issue](../../issues/new?template=data-issue.yml) |
 | Code contributions | See [Development](#development) below |
 
 ---
@@ -56,7 +54,7 @@ Append to the `benches:` list in the appropriate region file. Copy this template
     condition: good                   # good | fair | poor | unknown
     seats: 2                          # integer
     covered: false                    # true | false
-    added_by: "<your GitHub username>"
+    added_by: "<your name or 'community'>"
     added_at: "2025-01-01"            # ISO date YYYY-MM-DD
     notes: ""                         # optional, keep under 280 chars
     image_url: null                   # optional URL to a photo
@@ -112,7 +110,7 @@ benches:
 | `condition` | enum | ✅ | `good` `fair` `poor` `unknown` |
 | `seats` | int | ✅ | Number of seats (1–20) |
 | `covered` | bool | ✅ | `true` or `false` |
-| `added_by` | string | ✅ | GitHub username or `community` |
+| `added_by` | string | ✅ | Your name, handle, or `community` |
 | `added_at` | string | ✅ | ISO 8601 date: `YYYY-MM-DD` |
 | `notes` | string | ❌ | Max 280 characters |
 | `image_url` | string | ❌ | Full URL to image, `null` if none |
@@ -175,16 +173,15 @@ benchmark/
 ├── public/
 │   └── data/
 │       ├── regions/          ← Edit bench data here
-│       │   ├── central-park.yaml
-│       │   ├── kyoto-central.yaml
-│       │   └── london-south.yaml
+│       │   └── stockholm-demo.yaml   ← Seed example
 │       └── benches.geojson   ← Generated, do not edit
 ├── src/
 │   ├── main.js               ← App entry point
 │   ├── map.js                ← Leaflet map setup
 │   ├── markers.js            ← Marker rendering + filter animations
-│   ├── sidebar.js            ← Bench detail sidebar
+│   ├── sidebar.js            ← Bench detail sidebar (with directions links)
 │   ├── filters.js            ← Filter panel logic
+│   ├── gps.js                ← GPS locate + nearest bench
 │   └── animations.js         ← anime.js animation contracts
 ├── scripts/
 │   ├── compile-yaml.js       ← YAML → GeoJSON compiler + validator
@@ -197,6 +194,7 @@ benchmark/
 ├── docs/
 │   ├── PHASES.md             ← Project roadmap
 │   ├── CONTRIBUTING.md       ← This file
+│   ├── SCHEMA.md             ← Full field reference
 │   └── CATALOGUE.md          ← Generated bench index
 ├── .github/
 │   └── workflows/

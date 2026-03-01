@@ -137,8 +137,14 @@ function compile() {
   const files = readdirSync(REGIONS_DIR).filter(f => (f.endsWith('.yaml') || f.endsWith('.yml')) && !f.endsWith('.bak'))
 
   if (files.length === 0) {
-    console.warn('⚠️  No YAML files found in', REGIONS_DIR)
-    process.exit(1)
+    console.warn('⚠️  No YAML files found in', REGIONS_DIR, '— writing empty GeoJSON')
+    writeFileSync(OUTPUT_FILE, JSON.stringify({
+      type: 'FeatureCollection',
+      metadata: { generated_at: new Date().toISOString(), total_benches: 0, regions: 0 },
+      features: []
+    }, null, 2))
+    console.log('✅ Wrote empty benches.geojson (data will load from Overpass at runtime)')
+    return
   }
 
   const features      = []
