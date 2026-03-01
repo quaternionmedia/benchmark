@@ -1,13 +1,12 @@
 import { test, expect } from '@playwright/test'
 
-// Tate Modern area — zoom 17 disables clustering so london-south-001 and its
-// neighbours are individually visible in the DOM.
-const LONDON_HASH = '#51.5076,-0.0994,17'
+// Kungsträdgården — zoom 17 disables clustering so individual markers are
+// visible in the DOM without needing to click a cluster first.
+const STOCKHOLM_HASH = '#59.332,18.0717,17'
 
 test.describe('Sidebar', () => {
   test.beforeEach(async ({ page }) => {
-    // Navigate to London area at zoom 17 where individual markers are visible
-    await page.goto(`./${LONDON_HASH}`)
+    await page.goto(`./${STOCKHOLM_HASH}`)
     // Wait for bench data to load
     await page.waitForFunction(
       () => {
@@ -35,14 +34,28 @@ test.describe('Sidebar', () => {
     await expect(page.locator('#sidebar-content .bench-detail-name')).toBeVisible()
   })
 
-  test('sidebar shows correct bench data for london-south-001', async ({ page }) => {
-    // london-south-001 is at the viewport centre — individually visible at zoom 17
-    await page.locator('[data-id="london-south-001"]').dispatchEvent('click')
-    await expect(page.locator('#sidebar-content')).toContainText('Tate Modern Riverside Bench', { timeout: 2_000 })
-    await expect(page.locator('#sidebar-content')).toContainText('London South')
+  test('sidebar shows correct bench data for stockholm-demo-001', async ({ page }) => {
+    // Molin's Fountain Bench — the first seed bench, individually visible at zoom 17
+    await page.locator('[data-id="stockholm-demo-001"]').dispatchEvent('click')
+    await expect(page.locator('#sidebar-content')).toContainText("Molin's Fountain Bench", { timeout: 2_000 })
+    await expect(page.locator('#sidebar-content')).toContainText('Stockholm')
     await expect(page.locator('#sidebar-content')).toContainText('good')
-    await expect(page.locator('#sidebar-content')).toContainText('stone')
-    await expect(page.locator('#sidebar-content')).toContainText('4')
+    await expect(page.locator('#sidebar-content')).toContainText('metal')
+    await expect(page.locator('#sidebar-content')).toContainText('3')
+  })
+
+  test('sidebar shows directions links after opening', async ({ page }) => {
+    await page.locator('[data-id="stockholm-demo-001"]').dispatchEvent('click')
+    await expect(page.locator('#sidebar')).not.toHaveClass(/hidden/, { timeout: 2_000 })
+    // Both directions links must be present and point to the right services
+    const googleLink = page.locator('.directions-link').filter({ hasText: 'directions' })
+    const appleLink  = page.locator('.directions-link').filter({ hasText: 'apple maps' })
+    await expect(googleLink).toBeVisible()
+    await expect(appleLink).toBeVisible()
+    const googleHref = await googleLink.getAttribute('href')
+    const appleHref  = await appleLink.getAttribute('href')
+    expect(googleHref).toContain('google.com/maps')
+    expect(appleHref).toContain('maps.apple.com')
   })
 
   test('closing sidebar hides it', async ({ page }) => {
@@ -51,6 +64,14 @@ test.describe('Sidebar', () => {
 
     await page.locator('#sidebar-close').click()
     // Sidebar animates out (280ms), then hidden class is re-applied
+    await expect(page.locator('#sidebar')).toHaveClass(/hidden/, { timeout: 2_000 })
+  })
+
+  test('pressing Escape closes an open sidebar', async ({ page }) => {
+    await page.locator('.bench-marker').first().dispatchEvent('click')
+    await expect(page.locator('#sidebar')).not.toHaveClass(/hidden/, { timeout: 2_000 })
+
+    await page.keyboard.press('Escape')
     await expect(page.locator('#sidebar')).toHaveClass(/hidden/, { timeout: 2_000 })
   })
 })

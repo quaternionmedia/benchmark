@@ -6,6 +6,8 @@ export default defineConfig({
   base: '/benchmark/',
   publicDir: 'public',
   build: { outDir: 'dist', emptyOutDir: true },
+  server: { port: 8347 },
+  preview: { port: 8347 },
   plugins: [
     {
       name: 'compile-yaml',
