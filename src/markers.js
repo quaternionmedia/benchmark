@@ -240,3 +240,22 @@ export function applyMarkerFilter(map, registry, clusterGroup, soloGroup, predic
   }
   _route(map, visible, clusterGroup, soloGroup)
 }
+
+/**
+ * Remove specific markers from both layer groups and the registry.
+ * Used by the area manager when deleting an imported area.
+ *
+ * @param {string[]} ids - Feature IDs to remove
+ * @param {Map} registry
+ * @param {L.MarkerClusterGroup} clusterGroup
+ * @param {L.LayerGroup} soloGroup
+ */
+export function removeBenchesFromGroups(ids, registry, clusterGroup, soloGroup) {
+  for (const id of ids) {
+    const entry = registry.get(id)
+    if (!entry) continue
+    clusterGroup.removeLayer(entry.marker)
+    soloGroup.removeLayer(entry.marker)
+    registry.delete(id)
+  }
+}

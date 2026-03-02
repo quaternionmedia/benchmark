@@ -31,8 +31,10 @@ test.describe('GPS controls', () => {
     await expect(btn).toHaveAttribute('title', 'Find the nearest bench')
   })
 
-  test('import area button is present', async ({ page }) => {
-    await expect(page.locator('#import-toggle')).toBeVisible()
+  test('import area buttons are present', async ({ page }) => {
+    await expect(page.locator('#import-rect')).toBeVisible()
+    await expect(page.locator('#import-poly')).toBeVisible()
+    await expect(page.locator('#import-circle')).toBeVisible()
   })
 
   test('locate me places a location dot on the map', async ({ page }) => {

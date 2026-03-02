@@ -11,8 +11,9 @@
  */
 
 const DB_NAME     = 'benchmark-store'
-const DB_VERSION  = 1
+const DB_VERSION  = 2
 const STORE_NAME  = 'benches'
+const AREAS_STORE = 'areas'
 const RECORD_KEY  = 'v1'
 const STALE_MS    = 4 * 60 * 60 * 1000   // 4 hours
 const GEOJSON_URL = './data/benches.geojson'
@@ -91,13 +92,85 @@ export async function clearCache() {
   })
 }
 
+// ─── Areas API ────────────────────────────────────────────────────────────────
+
+export async function saveArea(area) {
+  let db
+  try { db = await _openDB() } catch { return }
+  return new Promise((resolve, reject) => {
+    const req = db.transaction(AREAS_STORE, 'readwrite').objectStore(AREAS_STORE).put(area)
+    req.onsuccess = () => resolve()
+    req.onerror   = () => reject(req.error)
+  })
+}
+
+export async function loadAreas() {
+  let db
+  try { db = await _openDB() } catch { return [] }
+  return new Promise((resolve, reject) => {
+    const req = db.transaction(AREAS_STORE, 'readonly').objectStore(AREAS_STORE).getAll()
+    req.onsuccess = (e) => {
+      const areas = e.target.result ?? []
+      areas.sort((a, b) => b.created_at.localeCompare(a.created_at))
+      resolve(areas)
+    }
+    req.onerror = () => reject(req.error)
+  })
+}
+
+export async function renameArea(id, newName) {
+  let db
+  try { db = await _openDB() } catch { return }
+  return new Promise((resolve, reject) => {
+    const store  = db.transaction(AREAS_STORE, 'readwrite').objectStore(AREAS_STORE)
+    const getReq = store.get(id)
+    getReq.onsuccess = (e) => {
+      const rec = e.target.result
+      if (!rec) return resolve()
+      rec.name = newName
+      const putReq = store.put(rec)
+      putReq.onsuccess = () => resolve()
+      putReq.onerror   = () => reject(putReq.error)
+    }
+    getReq.onerror = () => reject(getReq.error)
+  })
+}
+
+export async function deleteArea(id) {
+  let db
+  try { db = await _openDB() } catch { return }
+  return new Promise((resolve, reject) => {
+    const req = db.transaction(AREAS_STORE, 'readwrite').objectStore(AREAS_STORE).delete(id)
+    req.onsuccess = () => resolve()
+    req.onerror   = () => reject(req.error)
+  })
+}
+
+export async function removeBenchesByAreaId(areaId) {
+  let db
+  try { db = await _openDB() } catch { return [] }
+  const cached = await _readFromIDB(db)
+  if (!cached) return []
+  const kept = []
+  const ids  = []
+  for (const f of cached.features) {
+    if (f.properties.area_id === areaId) ids.push(f.properties.id)
+    else kept.push(f)
+  }
+  if (ids.length) await _writeToIDB(db, kept, { generated_at: cached.generated_at })
+  return ids
+}
+
 // ─── IDB helpers ──────────────────────────────────────────────────────────────
 
 function _openDB() {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION)
     req.onupgradeneeded = (e) => {
-      e.target.result.createObjectStore(STORE_NAME)
+      const db     = e.target.result
+      const oldVer = e.oldVersion
+      if (oldVer < 1) db.createObjectStore(STORE_NAME)
+      if (oldVer < 2) db.createObjectStore(AREAS_STORE, { keyPath: 'id' })
     }
     req.onsuccess = (e) => resolve(e.target.result)
     req.onerror   = (e) => reject(e.target.error)

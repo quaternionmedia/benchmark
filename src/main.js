@@ -4,7 +4,7 @@
  */
 
 import { initMap, flyToBench } from './map.js'
-import { renderMarkers, addMarkersToGroup, applyMarkerFilter } from './markers.js'
+import { renderMarkers, addMarkersToGroup, applyMarkerFilter, removeBenchesFromGroups } from './markers.js'
 import { openSidebar } from './sidebar.js'
 import { onFilterChange, buildPredicate } from './filters.js'
 import { animateBenchCount, animateMapFlyTo, cancelBenchCountAnimation } from './animations.js'
@@ -13,6 +13,7 @@ import { initHashSync } from './hash.js'
 import { initExport } from './export.js'
 import { loadBenches } from './store.js'
 import { initBboxSelect, autoImportNearby } from './bbox-select.js'
+import { initAreas } from './areas.js'
 import { initGps } from './gps.js'
 
 const benchCountEl  = document.getElementById('bench-count')
@@ -47,11 +48,16 @@ async function main() {
     backrest: false, armrests: false, accessible: false, covered: false
   }
   let latestSearchTerm = ''
+  let _getHiddenAreaIds = () => new Set()
 
   function getCombinedPredicate() {
-    const fp = buildPredicate(latestFilterState)
-    const sp = buildSearchPredicate(latestSearchTerm)
-    return (props) => fp(props) && sp(props)
+    const fp     = buildPredicate(latestFilterState)
+    const sp     = buildSearchPredicate(latestSearchTerm)
+    const hidden = _getHiddenAreaIds()
+    return (props) => {
+      if (props.area_id && hidden.has(props.area_id)) return false
+      return fp(props) && sp(props)
+    }
   }
 
   function applyAndUpdateCount() {
@@ -80,6 +86,15 @@ async function main() {
 
   initExport(registry, getCombinedPredicate)
 
+  // ─── Area manager ─────────────────────────────────────────────────────────────
+
+  const { getHiddenAreaIds, refreshAreaList } = initAreas({
+    map, registry, clusterGroup, soloGroup,
+    applyAndUpdateCount,
+    removeFromGroups: removeBenchesFromGroups
+  })
+  _getHiddenAreaIds = getHiddenAreaIds
+
   // ─── Bbox area import ─────────────────────────────────────────────────────────
 
   initBboxSelect(map, (newFeatures) => {
@@ -91,6 +106,7 @@ async function main() {
     })
     for (const [id, entry] of newReg) registry.set(id, entry)
     applyAndUpdateCount()
+    refreshAreaList()
   })
 
   // ─── GPS ──────────────────────────────────────────────────────────────────
