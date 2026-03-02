@@ -1,9 +1,16 @@
 import { test, expect } from '@playwright/test'
 
+// Place the mock position inside Kungsträdgården — within range of all seed benches.
+const MOCK_LAT = 59.332
+const MOCK_LNG = 18.0717
+
 test.describe('GPS controls', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, context }) => {
+    // Grant geolocation and fix position so both buttons work without a real GPS.
+    await context.grantPermissions(['geolocation'])
+    await context.setGeolocation({ latitude: MOCK_LAT, longitude: MOCK_LNG })
+
     await page.goto('.')
-    // Wait for bench count to show any number (data loaded)
     await page.waitForFunction(
       () => document.getElementById('bench-count')?.textContent?.match(/\d+/),
       { timeout: 15_000 }
@@ -28,13 +35,22 @@ test.describe('GPS controls', () => {
     await expect(page.locator('#import-toggle')).toBeVisible()
   })
 
-  test('locate me button gains active class while locating', async ({ page }) => {
-    // Override geolocation to prevent a real OS prompt; button should still
-    // add the active class before the (denied) response arrives.
-    await page.context().grantPermissions([])   // deny location
-    const btn = page.locator('#gps-locate')
-    await btn.click()
-    // The active class is added synchronously before the async location event
-    await expect(btn).toHaveClass(/active/, { timeout: 1_000 })
+  test('locate me places a location dot on the map', async ({ page }) => {
+    await page.locator('#gps-locate').click()
+    // map.locate() → locationfound → _placeLocationDot adds the .gps-dot element
+    await expect(page.locator('.gps-dot')).toBeVisible({ timeout: 3_000 })
+  })
+
+  test('nearest bench opens the sidebar', async ({ page }) => {
+    // Navigate to Stockholm so seed markers are in the viewport and in the registry
+    await page.goto('./#59.332,18.0717,14')
+    await page.waitForFunction(
+      () => (document.getElementById('bench-count')?.textContent?.match(/(\d+)/)?.[1] ?? '0') !== '0',
+      { timeout: 15_000 }
+    )
+
+    await page.locator('#gps-nearest').click()
+    await expect(page.locator('#sidebar')).not.toHaveClass(/hidden/, { timeout: 3_000 })
+    await expect(page.locator('#sidebar-content .bench-detail-name')).toBeVisible()
   })
 })

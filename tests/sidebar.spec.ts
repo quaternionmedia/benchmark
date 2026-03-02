@@ -69,7 +69,10 @@ test.describe('Sidebar', () => {
 
   test('pressing Escape closes an open sidebar', async ({ page }) => {
     await page.locator('.bench-marker').first().dispatchEvent('click')
-    await expect(page.locator('#sidebar')).not.toHaveClass(/hidden/, { timeout: 2_000 })
+    // Wait for the sidebar-open animation to complete — the app focuses the
+    // close button at animation end, which also sets isOpen = true.  Pressing
+    // Escape before this point would be a no-op because isOpen is still false.
+    await expect(page.locator('#sidebar-close')).toBeFocused({ timeout: 1_000 })
 
     await page.keyboard.press('Escape')
     await expect(page.locator('#sidebar')).toHaveClass(/hidden/, { timeout: 2_000 })

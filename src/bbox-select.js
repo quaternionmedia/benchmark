@@ -301,8 +301,8 @@ async function _triggerImport() {
   const [s, w, n, ee] = _bboxBounds
   const regionName = _autoRegionName(s, w, n, ee)
 
-  _setToggleLabel('querying…', 0)
-  _toggle.disabled = true
+  _toggle.textContent = 'querying…'
+  _toggle.disabled    = true
 
   try {
     const nodes = await queryOverpass(_bboxBounds)

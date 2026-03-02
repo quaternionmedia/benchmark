@@ -154,13 +154,16 @@ export function animateBboxPanelOut(panelEl, onComplete) {
 
 // ─── BENCH COUNT ─────────────────────────────────────────────────────────────
 
+let _countAnim = null
+
 /**
  * Animate the bench count number rolling up from 0.
  * @param {HTMLElement} el - The count display element
  * @param {number} target - Final count value
  */
 export function animateBenchCount(el, target) {
-  anime({
+  if (_countAnim) _countAnim.pause()
+  _countAnim = anime({
     targets: { count: 0 },
     count: target,
     round: 1,
@@ -170,8 +173,20 @@ export function animateBenchCount(el, target) {
     update(anim) {
       const val = Math.round(anim.animations[0].currentValue)
       el.textContent = `— ${val} bench${val !== 1 ? 'es' : ''}`
-    }
+    },
+    complete() { _countAnim = null }
   })
+}
+
+/**
+ * Stop the rolling count animation so that applyAndUpdateCount can write
+ * the exact filtered value without it being overwritten on the next RAF tick.
+ */
+export function cancelBenchCountAnimation() {
+  if (_countAnim) {
+    _countAnim.pause()
+    _countAnim = null
+  }
 }
 
 // ─── MAP FLY-TO COMPANION ────────────────────────────────────────────────────

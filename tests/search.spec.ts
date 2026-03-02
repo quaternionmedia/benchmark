@@ -3,56 +3,57 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 
 const geojson = JSON.parse(readFileSync(join(process.cwd(), 'public/data/benches.geojson'), 'utf8'))
-const TOTAL   = geojson.features.length
-const ALL_LABEL = `${TOTAL} bench${TOTAL !== 1 ? 'es' : ''}`
+const TOTAL = geojson.features.length
+
+// Zoom 17 disables clustering so individual markers are in the DOM.
+const STOCKHOLM_HASH = '#59.332,18.0717,17'
 
 test.describe('Search', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('.')
-    // Wait for bench count to settle on TOTAL
+    await page.goto(`./${STOCKHOLM_HASH}`)
+    // Wait for data to load and markers to appear
     await page.waitForFunction(
-      (total: number) => {
-        const el = document.getElementById('bench-count')
-        const m  = el?.textContent?.match(/(\d+)/)
-        return m !== null && parseInt(m[1]) === total
-      },
-      TOTAL,
+      () => document.querySelectorAll('.bench-marker').length > 0,
       { timeout: 15_000 }
     )
-    await page.waitForTimeout(150)  // flush any trailing animation ticks
+    // Wait for the count animation to finish (it writes on every frame; once it
+    // stabilises at TOTAL the animation is effectively done and the cancel-on-
+    // interact fix ensures subsequent writes are safe).
+    await expect(page.locator('#bench-count')).toContainText(`${TOTAL}`, { timeout: 5_000 })
   })
 
-  test('search input is visible', async ({ page }) => {
-    await expect(page.locator('#search-input')).toBeVisible()
+  test('search by name filters markers and updates count', async ({ page }) => {
+    // "Molin" matches only bench 001 — Molin's Fountain Bench
+    await page.locator('#search-input').fill('Molin')
+    await page.locator('#search-input').dispatchEvent('input')
+    await expect(page.locator('#bench-count')).toContainText('1 bench', { timeout: 1_500 })
+    await expect(page.locator('.bench-marker')).toHaveCount(1)
   })
 
-  test('searching by bench name narrows count', async ({ page }) => {
-    await page.locator('#search-input').fill("Molin")
-    // 200ms debounce — wait for it
-    await page.waitForTimeout(300)
-    await expect(page.locator('#bench-count')).toContainText('1 bench', { timeout: 3_000 })
+  test('search by notes filters markers and updates count', async ({ page }) => {
+    // "granite" appears in bench 003 notes — Karl XII:s Torg Corner
+    await page.locator('#search-input').fill('granite')
+    await page.locator('#search-input').dispatchEvent('input')
+    await expect(page.locator('#bench-count')).toContainText('1 bench', { timeout: 1_500 })
+    await expect(page.locator('.bench-marker')).toHaveCount(1)
+  })
+
+  test('no-match search shows zero benches', async ({ page }) => {
+    await page.locator('#search-input').fill('xyznotfound')
+    await page.locator('#search-input').dispatchEvent('input')
+    await expect(page.locator('#bench-count')).toContainText('0 benches', { timeout: 1_500 })
+    await expect(page.locator('.bench-marker')).toHaveCount(0)
   })
 
   test('clearing search restores full count', async ({ page }) => {
-    await page.locator('#search-input').fill("Molin")
-    await page.waitForTimeout(300)
-    await expect(page.locator('#bench-count')).toContainText('1 bench', { timeout: 3_000 })
+    // Filter down first
+    await page.locator('#search-input').fill('Molin')
+    await page.locator('#search-input').dispatchEvent('input')
+    await expect(page.locator('#bench-count')).toContainText('1 bench', { timeout: 1_500 })
 
-    await page.locator('#search-input').fill('')
-    await page.waitForTimeout(300)
-    await expect(page.locator('#bench-count')).toContainText(ALL_LABEL, { timeout: 5_000 })
-  })
-
-  test('searching by partial notes text narrows count', async ({ page }) => {
-    // "fountain" appears in stockholm-demo-001 notes
-    await page.locator('#search-input').fill('fountain')
-    await page.waitForTimeout(300)
-    await expect(page.locator('#bench-count')).toContainText('1 bench', { timeout: 3_000 })
-  })
-
-  test('search with no matches shows 0 benches', async ({ page }) => {
-    await page.locator('#search-input').fill('xyzzy_no_match_xyzzy')
-    await page.waitForTimeout(300)
-    await expect(page.locator('#bench-count')).toContainText('0 bench', { timeout: 3_000 })
+    // Clear — Escape key path in search.js fires immediately (no debounce)
+    await page.locator('#search-input').press('Escape')
+    await expect(page.locator('#bench-count')).toContainText(`${TOTAL}`, { timeout: 1_500 })
+    await expect(page.locator('.bench-marker')).toHaveCount(TOTAL)
   })
 })

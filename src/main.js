@@ -7,7 +7,7 @@ import { initMap, flyToBench } from './map.js'
 import { renderMarkers, addMarkersToGroup, applyMarkerFilter } from './markers.js'
 import { openSidebar } from './sidebar.js'
 import { onFilterChange, buildPredicate } from './filters.js'
-import { animateBenchCount, animateMapFlyTo } from './animations.js'
+import { animateBenchCount, animateMapFlyTo, cancelBenchCountAnimation } from './animations.js'
 import { onSearchChange, buildSearchPredicate } from './search.js'
 import { initHashSync } from './hash.js'
 import { initExport } from './export.js'
@@ -60,6 +60,7 @@ async function main() {
     const predicate = getCombinedPredicate()
     applyMarkerFilter(map, registry, clusterGroup, soloGroup, predicate)
     const visible = [...registry.values()].filter(({ props }) => predicate(props)).length
+    cancelBenchCountAnimation()
     benchCountEl.textContent = `— ${visible} bench${visible !== 1 ? 'es' : ''}`
   }
 
