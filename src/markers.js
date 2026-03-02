@@ -81,7 +81,7 @@ function _buildEntry(feature, onMarkerClick) {
 
   marker.on('click', () => {
     if (el) animateMarkerSelect(el)
-    onMarkerClick(props, latlng)
+    onMarkerClick(props, latlng, false)
   })
 
   marker.on('add', () => {
@@ -92,7 +92,7 @@ function _buildEntry(feature, onMarkerClick) {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault()
         animateMarkerSelect(markerEl)
-        onMarkerClick(props, latlng)
+        onMarkerClick(props, latlng, true)   // keyboard=true: skip flyTo
       }
     })
   })

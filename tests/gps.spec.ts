@@ -32,9 +32,23 @@ test.describe('GPS controls', () => {
   })
 
   test('import area buttons are present', async ({ page }) => {
+    // Buttons live inside the import panel — open it first
+    await page.locator('#import-toggle').click()
+    await expect(page.locator('#import-panel')).not.toHaveClass(/hidden/, { timeout: 1_000 })
     await expect(page.locator('#import-rect')).toBeVisible()
     await expect(page.locator('#import-poly')).toBeVisible()
     await expect(page.locator('#import-circle')).toBeVisible()
+  })
+
+  test('opening import panel activates circle draw mode by default', async ({ page }) => {
+    await page.locator('#import-toggle').click()
+    await expect(page.locator('#import-panel')).not.toHaveClass(/hidden/, { timeout: 1_000 })
+    // Circle should be pre-selected — aria-pressed=true and map in draw mode (crosshair)
+    await expect(page.locator('#import-circle')).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.locator('#import-rect')).toHaveAttribute('aria-pressed', 'false')
+    await expect(page.locator('#import-poly')).toHaveAttribute('aria-pressed', 'false')
+    // Map container should have the draw-mode class (crosshair cursor)
+    await expect(page.locator('#map')).toHaveClass(/draw-mode/, { timeout: 500 })
   })
 
   test('locate me places a location dot on the map', async ({ page }) => {

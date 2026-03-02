@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>benchmark — a map of benches</title>
   <meta name="description" content="Browse and discover benches worldwide." />
 
@@ -27,48 +27,21 @@
 </head>
 <body>
   <!-- Skip link: lets keyboard users bypass the header and jump straight to the map -->
-  <a href="#map" class="skip-link">Skip to map</a>
+  <a href="#main-content" class="skip-link">Skip to map</a>
 
   <div id="app">
 
-    <!-- Header: logo, bench count, search, filter + import + export + GPS controls -->
+    <!-- Header: logo, bench count, search -->
     <header id="header">
-      <div style="display:flex; align-items:baseline; gap:0">
+      <div class="header-count-row">
         <span class="logo">benchmark</span>
         <!-- aria-live announces count changes to screen readers -->
         <span class="bench-count" id="bench-count" aria-live="polite" aria-atomic="true"></span>
       </div>
       <div class="header-actions">
         <input type="search" id="search-input" class="search-input"
-               placeholder="search…" aria-label="Search benches" autocomplete="off" />
-        <button type="button" class="btn-icon" id="filter-toggle" aria-expanded="false"
-                aria-controls="filter-panel">
-          filter
-        </button>
-        <div class="draw-mode-group" role="group" aria-label="Import draw mode">
-          <button type="button" class="btn-icon draw-mode-btn" id="import-rect" aria-pressed="false"
-                  data-label="bbox" title="Draw a rectangle to import benches">bbox</button>
-          <button type="button" class="btn-icon draw-mode-btn" id="import-poly" aria-pressed="false"
-                  data-label="polygon" title="Click to add vertices, double-click to close">polygon</button>
-          <button type="button" class="btn-icon draw-mode-btn" id="import-circle" aria-pressed="false"
-                  data-label="circle" title="Drag from center to set radius">circle</button>
-        </div>
-        <button type="button" class="btn-icon" id="export-toggle" aria-expanded="false"
-                aria-controls="export-panel">
-          export
-        </button>
-        <button type="button" class="btn-icon" id="areas-toggle" aria-expanded="false"
-                aria-controls="areas-panel">
-          areas
-        </button>
-        <button type="button" class="btn-icon" id="gps-locate"
-                title="Jump to your current location" aria-label="Jump to current location">
-          locate me
-        </button>
-        <button type="button" class="btn-icon" id="gps-nearest"
-                title="Find the nearest bench" aria-label="Find nearest bench">
-          nearest
-        </button>
+               placeholder="search…" aria-label="Search benches"
+               autocomplete="off" inputmode="search" />
       </div>
     </header>
 
@@ -142,6 +115,22 @@
       </div>
     </div>
 
+    <!-- Import panel (hidden by default) — choose draw mode to import OSM benches -->
+    <div id="import-panel" class="import-panel hidden" role="region"
+         aria-label="Import benches from OpenStreetMap">
+      <div class="import-panel-inner">
+        <p class="import-hint">Draw a shape on the map to import nearby benches from OpenStreetMap.</p>
+        <div class="draw-mode-group" role="group" aria-label="Import draw mode">
+          <button type="button" class="btn-icon draw-mode-btn" id="import-rect" aria-pressed="false"
+                  data-label="bbox" title="Draw a rectangle to import benches">bbox</button>
+          <button type="button" class="btn-icon draw-mode-btn" id="import-poly" aria-pressed="false"
+                  data-label="polygon" title="Click to add vertices, double-click to close">polygon</button>
+          <button type="button" class="btn-icon draw-mode-btn" id="import-circle" aria-pressed="false"
+                  data-label="circle" title="Drag from center to set radius">circle</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Export panel (hidden by default, anchored to top-right) -->
     <div id="export-panel" class="export-panel hidden" role="region"
          aria-label="Export bench data">
@@ -165,14 +154,35 @@
       </div>
     </div>
 
-    <!-- Leaflet map container -->
-    <div id="map" role="application" aria-label="Interactive bench map. Use arrow keys to pan, +/- to zoom."></div>
+    <!-- Main content: map + bench detail sidebar (ADR-004) -->
+    <main id="main-content">
 
-    <!-- Sidebar: bench detail panel -->
-    <aside id="sidebar" class="sidebar hidden" aria-label="Bench detail">
-      <button type="button" class="sidebar-close" id="sidebar-close" aria-label="Close bench detail (Escape)">✕</button>
-      <div id="sidebar-content" tabindex="-1"></div>
-    </aside>
+      <!-- Leaflet map container -->
+      <div id="map" role="application" aria-label="Interactive bench map. Use arrow keys to pan, +/- to zoom."></div>
+
+      <!-- Sidebar: bench detail panel -->
+      <aside id="sidebar" class="sidebar hidden" aria-label="Bench detail">
+        <button type="button" class="sidebar-close" id="sidebar-close" aria-label="Close bench detail (Escape)">✕</button>
+        <div id="sidebar-content" tabindex="-1"></div>
+      </aside>
+
+    </main>
+
+    <!-- Bottom toolbar: all map-control buttons in a single row -->
+    <nav id="toolbar" class="toolbar" aria-label="Map controls">
+      <button type="button" class="btn-icon" id="filter-toggle" aria-expanded="false"
+              aria-controls="filter-panel">filter</button>
+      <button type="button" class="btn-icon" id="import-toggle" aria-expanded="false"
+              aria-controls="import-panel" title="Import benches from OpenStreetMap">import</button>
+      <button type="button" class="btn-icon" id="export-toggle" aria-expanded="false"
+              aria-controls="export-panel">export</button>
+      <button type="button" class="btn-icon" id="areas-toggle" aria-expanded="false"
+              aria-controls="areas-panel">areas</button>
+      <button type="button" class="btn-icon" id="gps-locate"
+              title="Jump to your current location" aria-label="Jump to current location">locate</button>
+      <button type="button" class="btn-icon" id="gps-nearest"
+              title="Find the nearest bench" aria-label="Find nearest bench">nearest</button>
+    </nav>
 
   </div>
 

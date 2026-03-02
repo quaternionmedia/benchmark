@@ -1,6 +1,13 @@
 /**
  * src/sidebar.js
  * Bench detail sidebar — open, close, content rendering.
+ *
+ * Accessibility features:
+ *  - Focus moves to the close button when the sidebar opens.
+ *  - A lightweight Tab-key focus trap (ADR-003) keeps keyboard focus inside
+ *    the sidebar while it is open; Shift+Tab wraps to the last focusable element.
+ *  - Focus is restored to the element that triggered the open when the sidebar closes.
+ *  - Escape key closes the sidebar from anywhere on the page.
  */
 
 import {
@@ -13,7 +20,43 @@ const sidebarEl = document.getElementById('sidebar')
 const contentEl = document.getElementById('sidebar-content')
 const closeBtn  = document.getElementById('sidebar-close')
 
-let isOpen = false
+let isOpen      = false
+let _opener     = null   // element that triggered open; focus is restored here on close
+let _openerId   = null   // data-id of opener if it's a bench marker (for re-lookup after DOM replacement)
+let _removeTrap = null   // cleanup fn returned by trapFocus
+
+// ─── Focus trap (ADR-003) ─────────────────────────────────────────────────────
+
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+
+/**
+ * Constrain Tab / Shift+Tab to elements inside `container`.
+ * Queries the DOM on each keypress so newly rendered content is always included.
+ * Returns a cleanup function that removes the listener.
+ * @param {HTMLElement} container
+ * @returns {() => void}
+ */
+function trapFocus(container) {
+  function handler(e) {
+    if (e.key !== 'Tab') return
+    const els = [...container.querySelectorAll(FOCUSABLE_SELECTOR)]
+    if (!els.length) return
+    const first = els[0]
+    const last  = els[els.length - 1]
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault()
+      last.focus()
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault()
+      first.focus()
+    }
+  }
+  document.addEventListener('keydown', handler, { capture: true })
+  return () => document.removeEventListener('keydown', handler, { capture: true })
+}
+
+// ─── Event listeners ─────────────────────────────────────────────────────────
 
 closeBtn.addEventListener('click', closeSidebar)
 
@@ -22,28 +65,48 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && isOpen) closeSidebar()
 })
 
+// ─── Public API ───────────────────────────────────────────────────────────────
+
 /**
  * Open the sidebar with data for a specific bench.
  * If already open, swaps content with a cross-fade animation.
+ * Captures document.activeElement so focus can be restored on close.
  *
  * @param {Object} props  - GeoJSON feature properties
  * @param {[number, number]} latlng - [lat, lng]
  */
 export function openSidebar(props, latlng) {
+  // Capture opener before focus moves — used to restore focus on close.
+  // Also store data-id so we can re-find a marker element if Leaflet replaces
+  // it during a flyTo zoom animation (DOM element gets detached).
+  _opener   = document.activeElement
+  _openerId = _opener?.dataset?.id ?? null
+
   if (isOpen) {
     animateSidebarContentSwap(contentEl, () => renderContent(props, latlng))
   } else {
     renderContent(props, latlng)
     animateSidebarIn(sidebarEl, () => {
       isOpen = true
-      closeBtn.focus()   // move keyboard focus into sidebar on open
+      closeBtn.focus()
+      _removeTrap = trapFocus(sidebarEl)
     })
   }
 }
 
 function closeSidebar() {
   if (!isOpen) return
-  animateSidebarOut(sidebarEl, () => { isOpen = false })
+  if (_removeTrap) { _removeTrap(); _removeTrap = null }
+  const savedOpener   = _opener
+  const savedOpenerId = _openerId
+  _opener   = null
+  _openerId = null
+  animateSidebarOut(sidebarEl, () => {
+    isOpen = false
+    const el = (savedOpenerId && document.querySelector(`[data-id="${savedOpenerId}"]`))
+             || (savedOpener && document.contains(savedOpener) ? savedOpener : null)
+    if (el && typeof el.focus === 'function') el.focus()
+  })
 }
 
 function renderContent(props, latlng) {

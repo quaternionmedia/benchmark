@@ -1,13 +1,19 @@
 /**
  * src/store.js
- * Single source of truth for bench data.
+ * Single source of truth for bench data and imported area metadata.
  *
- * Public API:
- *   loadBenches()        → Promise<{ features, metadata, source: 'cache'|'network' }>
- *   clearCache()         → Promise<void>
- *   setBenchProvider(fn) → void
- *       fn signature: () => Promise<{ features: Array, metadata: Object }>
- *       When set, the entire IDB path is bypassed — the provider owns caching.
+ * Bench data API (IndexedDB stale-while-revalidate, 4-hour TTL):
+ *   loadBenches()              → Promise<{ features, metadata, source: 'cache'|'network' }>
+ *   mergeFeatures(newFeatures) → Promise<Array>   dedup-merges into IDB cache
+ *   clearCache()               → Promise<void>
+ *   setBenchProvider(fn)       → void  bypass IDB with a custom async provider
+ *
+ * Area metadata API (persists imported bbox/polygon/circle regions):
+ *   saveArea(area)                  → Promise<void>
+ *   loadAreas()                     → Promise<Array>   sorted newest-first
+ *   renameArea(id, newName)         → Promise<void>
+ *   deleteArea(id)                  → Promise<void>
+ *   removeBenchesByAreaId(areaId)   → Promise<string[]>  returns removed feature IDs
  */
 
 const DB_NAME     = 'benchmark-store'
@@ -94,6 +100,11 @@ export async function clearCache() {
 
 // ─── Areas API ────────────────────────────────────────────────────────────────
 
+/**
+ * Persist an area record to IndexedDB.
+ * @param {{ id: string, name: string, type: string, bbox: number[], bench_count: number, created_at: string }} area
+ * @returns {Promise<void>}
+ */
 export async function saveArea(area) {
   let db
   try { db = await _openDB() } catch { return }
@@ -104,6 +115,10 @@ export async function saveArea(area) {
   })
 }
 
+/**
+ * Load all area records from IndexedDB, sorted newest-first.
+ * @returns {Promise<Array>}
+ */
 export async function loadAreas() {
   let db
   try { db = await _openDB() } catch { return [] }
@@ -118,6 +133,12 @@ export async function loadAreas() {
   })
 }
 
+/**
+ * Update the name of an area record in IndexedDB.
+ * @param {string} id
+ * @param {string} newName
+ * @returns {Promise<void>}
+ */
 export async function renameArea(id, newName) {
   let db
   try { db = await _openDB() } catch { return }
@@ -136,6 +157,12 @@ export async function renameArea(id, newName) {
   })
 }
 
+/**
+ * Delete an area record from IndexedDB by ID.
+ * Does not remove the associated bench features — call removeBenchesByAreaId first.
+ * @param {string} id
+ * @returns {Promise<void>}
+ */
 export async function deleteArea(id) {
   let db
   try { db = await _openDB() } catch { return }
@@ -146,6 +173,13 @@ export async function deleteArea(id) {
   })
 }
 
+/**
+ * Remove all bench features with a given area_id from the IDB cache.
+ * Returns the array of feature IDs that were removed so callers can clean
+ * up the in-memory registry and layer groups.
+ * @param {string} areaId
+ * @returns {Promise<string[]>}
+ */
 export async function removeBenchesByAreaId(areaId) {
   let db
   try { db = await _openDB() } catch { return [] }

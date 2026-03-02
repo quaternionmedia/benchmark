@@ -75,9 +75,22 @@ This checks:
 - Enum values match the schema
 - `added_at` is a valid ISO date
 
-### 4. Open a Pull Request
+### 4. Fork, branch, and open a Pull Request
 
-Use the PR template checklist. A maintainer will review and merge.
+If you don't have write access to the repo:
+
+1. **Fork** the repository on GitHub (click "Fork" in the top-right)
+2. **Clone** your fork: `git clone https://github.com/<your-username>/benchmark.git`
+3. **Create a branch**: `git checkout -b data/add-my-bench`
+4. Make your changes, run `npm run validate`
+5. **Commit** with a descriptive message: `git commit -m "data: add bench at Hyde Park Corner"`
+6. **Push** your branch: `git push -u origin data/add-my-bench`
+7. Open a **Pull Request** from your fork's branch to `quaternionmedia/benchmark:main`
+
+PR checklist:
+- [ ] `npm run validate` passes with no errors
+- [ ] Commit message follows the convention (`feat:`, `fix:`, `data:`, `docs:`, `chore:`)
+- [ ] For code contributions: `npm test` passes
 
 ---
 
@@ -145,12 +158,12 @@ npm install
 
 | Command | Description |
 |---|---|
-| `npm run dev` | Start dev server at `localhost:5173` |
+| `npm run dev` | Start dev server at `localhost:8347` |
 | `npm run build` | Compile YAML → GeoJSON, then build for production |
 | `npm run validate` | Validate and compile all YAML files |
 | `npm run preview` | Preview the production build locally |
 | `npm run catalogue` | Regenerate `docs/CATALOGUE.md` |
-| `npm test` | Run Playwright end-to-end tests |
+| `npm test` | Run all Playwright end-to-end tests |
 
 ### Build Pipeline
 
@@ -172,38 +185,99 @@ For local dev, run `npm run validate` once to generate `benches.geojson`, then `
 benchmark/
 ├── public/
 │   └── data/
-│       ├── regions/          ← Edit bench data here
+│       ├── regions/            ← Edit bench data here
 │       │   └── stockholm-demo.yaml   ← Seed example
-│       └── benches.geojson   ← Generated, do not edit
+│       └── benches.geojson     ← Generated, do not edit
 ├── src/
-│   ├── main.js               ← App entry point
-│   ├── map.js                ← Leaflet map setup
-│   ├── markers.js            ← Marker rendering + filter animations
-│   ├── sidebar.js            ← Bench detail sidebar (with directions links)
-│   ├── filters.js            ← Filter panel logic
-│   ├── gps.js                ← GPS locate + nearest bench
-│   └── animations.js         ← anime.js animation contracts
+│   ├── main.js                 ← App entry point; wires all modules
+│   ├── map.js                  ← Leaflet map init and flyTo
+│   ├── markers.js              ← Custom marker rendering + clustering
+│   ├── sidebar.js              ← Bench detail panel + focus management
+│   ├── filters.js              ← Filter panel chips and predicates
+│   ├── search.js               ← Full-text search with debounce
+│   ├── gps.js                  ← GPS locate + nearest bench
+│   ├── areas.js                ← Imported area manager panel
+│   ├── export.js               ← GeoJSON / CSV / YAML download
+│   ├── hash.js                 ← URL hash state (#lat,lng,zoom)
+│   ├── store.js                ← IndexedDB stale-while-revalidate cache
+│   ├── animations.js           ← All anime.js animation contracts
+│   └── bbox-select.js          ← Rect / polygon / circle draw tools
 ├── scripts/
-│   ├── compile-yaml.js       ← YAML → GeoJSON compiler + validator
-│   └── generate-catalogue.js ← Auto-generates docs/CATALOGUE.md
+│   ├── compile-yaml.js         ← YAML → GeoJSON compiler + validator
+│   ├── generate-catalogue.js   ← Auto-generates docs/CATALOGUE.md
+│   └── overpass-import.js      ← Maintainer bulk-import tool
 ├── tests/
-│   ├── app.spec.ts           ← App load tests
-│   ├── markers.spec.ts       ← Marker rendering tests
-│   ├── sidebar.spec.ts       ← Sidebar interaction tests
-│   └── filters.spec.ts       ← Filter panel tests
+│   ├── app.spec.ts             ← App load, title, bench count
+│   ├── markers.spec.ts         ← Marker rendering and condition classes
+│   ├── sidebar.spec.ts         ← Sidebar open/close, content, directions
+│   ├── filters.spec.ts         ← Filter chips, checkboxes, count updates
+│   ├── search.spec.ts          ← Full-text search filtering
+│   ├── gps.spec.ts             ← GPS locate and nearest bench
+│   ├── export.spec.ts          ← Export panel visibility and buttons
+│   ├── areas.spec.ts           ← Areas panel visibility and empty state
+│   ├── keyboard.spec.ts        ← Focus management and focus trap
+│   └── mobile.spec.ts          ← Layout and touch targets at 375 px
 ├── docs/
-│   ├── PHASES.md             ← Project roadmap
-│   ├── CONTRIBUTING.md       ← This file
-│   ├── SCHEMA.md             ← Full field reference
-│   └── CATALOGUE.md          ← Generated bench index
+│   ├── PHASES.md               ← Project roadmap
+│   ├── CONTRIBUTING.md         ← This file
+│   ├── SCHEMA.md               ← Full field reference
+│   ├── CATALOGUE.md            ← Generated bench index
+│   └── decisions/              ← Architecture Decision Records (ADRs)
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml        ← GitHub Actions CI/CD
-├── playwright.config.ts      ← Playwright test config
-├── vite.config.js            ← Vite build config
-├── style.css                 ← Application stylesheet
+│       └── deploy.yml          ← GitHub Actions CI/CD
+├── playwright.config.ts        ← Playwright test config
+├── vite.config.js              ← Vite build config
+├── style.css                   ← Application stylesheet
 └── index.html
 ```
+
+### Writing and running tests
+
+Tests live in `tests/` and use [Playwright](https://playwright.dev/). The dev server must be running (or Playwright will start it automatically via `webServer` in `playwright.config.ts`).
+
+**Run all tests:**
+```bash
+npm test
+```
+
+**Run a single spec:**
+```bash
+npx playwright test tests/sidebar.spec.ts
+```
+
+**Run only mobile tests:**
+```bash
+npx playwright test tests/mobile.spec.ts --project=mobile-chrome
+```
+
+**Common pattern for a new test:**
+
+```typescript
+import { test, expect } from '@playwright/test'
+
+test.describe('My feature', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('.')
+    // Wait for data to load before interacting
+    await page.waitForFunction(
+      () => document.getElementById('bench-count')?.textContent !== '',
+      { timeout: 15_000 }
+    )
+  })
+
+  test('something works', async ({ page }) => {
+    await page.locator('#some-button').click()
+    await expect(page.locator('#some-result')).toBeVisible()
+  })
+})
+```
+
+Key patterns used in the test suite:
+- Load data by waiting for `#bench-count` to contain text (not just be present)
+- Navigate to `#59.332,18.0717,17` (Stockholm, zoom 17) to disable clustering and see individual markers
+- Use `dispatchEvent('click')` on `.bench-marker` elements to avoid Leaflet event interception
+- Wait for `#sidebar-close` to be focused before testing keyboard behavior in the sidebar
 
 ---
 
@@ -226,6 +300,31 @@ data: add 3 benches to london-south region
 docs: update schema with image_url field
 chore: bump leaflet to 1.9.4
 ```
+
+---
+
+## Troubleshooting
+
+**`npm install` fails**
+Check your Node version: `node -v`. Requires Node 20+. If you have an older version, use [nvm](https://github.com/nvm-sh/nvm) to switch: `nvm install 20 && nvm use 20`.
+
+**`npm run validate` errors**
+YAML is whitespace-sensitive. Common issues:
+- Indentation must be 2 spaces (no tabs)
+- Boolean values: `true` / `false` (not `yes` / `no`)
+- ID must be unique across all region files — the validator will tell you which ID is duplicated
+
+**Dev server shows a blank map or "0 benches"**
+Run `npm run validate` first to compile the YAML seed data into `public/data/benches.geojson`. The dev server doesn't run this step automatically.
+
+**Tests fail with timeout errors**
+Make sure the dev server is running in a separate terminal (`npm run dev`) before running `npm test`. Playwright will try to start it automatically, but if port 8347 is already in use by something else, the server will fail silently.
+
+**Playwright can't find a browser**
+Run `npx playwright install chromium` to download the bundled browser. If you want all browsers: `npx playwright install`.
+
+**The sidebar doesn't open when I click a marker in tests**
+Use `dispatchEvent('click')` instead of `.click()` — Leaflet intercepts native pointer events on the map container, so synthetic events dispatched directly on the marker div are more reliable.
 
 ---
 

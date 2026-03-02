@@ -1,6 +1,21 @@
 /**
  * src/main.js
  * Application entry point — wires all modules together.
+ *
+ * Startup sequence:
+ *  1. initMap()          — Create the Leaflet map (map.js)
+ *  2. loadBenches()      — Load GeoJSON from IDB cache or network (store.js)
+ *  3. renderMarkers()    — Build the cluster + solo layer groups (markers.js)
+ *  4. animateBenchCount()— Roll the count up from 0 on initial load (animations.js)
+ *  5. Wire filters, search, zoom events → applyAndUpdateCount()
+ *  6. initExport()       — Export panel (export.js)
+ *  7. initAreas()        — Area manager panel (areas.js)
+ *  8. initBboxSelect()   — Draw tools for importing areas (bbox-select.js)
+ *  9. initGps()          — GPS locate + nearest bench (gps.js)
+ * 10. autoImportNearby() — First-run auto-import if no seed data is cached
+ * 11. initHashSync()     — Restore map position from URL hash; write on moveend (hash.js)
+ *
+ * No exports — this file is loaded as the sole <script type="module"> entry point.
  */
 
 import { initMap, flyToBench } from './map.js'
@@ -32,9 +47,8 @@ async function main() {
   const { features } = await loadBenches()
 
   // Render markers into a cluster group and get the registry
-  const { registry, clusterGroup, soloGroup } = renderMarkers(map, features, (props, latlng) => {
-    flyToBench(map, latlng, () => {})
-    animateMapFlyTo(mapEl)
+  const { registry, clusterGroup, soloGroup } = renderMarkers(map, features, (props, latlng, isKeyboard = false) => {
+    if (!isKeyboard) { flyToBench(map, latlng, () => {}); animateMapFlyTo(mapEl) }
     openSidebar(props, latlng)
   })
 
@@ -99,9 +113,8 @@ async function main() {
 
   initBboxSelect(map, (newFeatures) => {
     // Merge new markers into the existing cluster group and registry
-    const newReg = addMarkersToGroup(clusterGroup, newFeatures, (props, latlng) => {
-      flyToBench(map, latlng, () => {})
-      animateMapFlyTo(mapEl)
+    const newReg = addMarkersToGroup(clusterGroup, newFeatures, (props, latlng, isKeyboard = false) => {
+      if (!isKeyboard) { flyToBench(map, latlng, () => {}); animateMapFlyTo(mapEl) }
       openSidebar(props, latlng)
     })
     for (const [id, entry] of newReg) registry.set(id, entry)
@@ -121,9 +134,8 @@ async function main() {
 
   if (features.length === 0) {
     const onNearbyImported = (newFeatures) => {
-      const newReg = addMarkersToGroup(clusterGroup, newFeatures, (props, latlng) => {
-        flyToBench(map, latlng, () => {})
-        animateMapFlyTo(mapEl)
+      const newReg = addMarkersToGroup(clusterGroup, newFeatures, (props, latlng, isKeyboard = false) => {
+        if (!isKeyboard) { flyToBench(map, latlng, () => {}); animateMapFlyTo(mapEl) }
         openSidebar(props, latlng)
       })
       for (const [id, entry] of newReg) registry.set(id, entry)

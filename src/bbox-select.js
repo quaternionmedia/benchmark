@@ -20,6 +20,7 @@
 
 import L from 'leaflet'
 import { mergeFeatures, saveArea } from './store.js'
+import { animateFilterPanelIn, animateFilterPanelOut } from './animations.js'
 
 // ─── OSM tag mappers (mirrors scripts/overpass-import.js) ─────────────────────
 
@@ -207,6 +208,38 @@ const _buttons = {
   circle:  document.getElementById('import-circle')
 }
 
+// Import panel toggle
+const _importToggleBtn = document.getElementById('import-toggle')
+const _importPanelEl   = document.getElementById('import-panel')
+let   _importPanelOpen = false
+
+/** Close panel visually only — no draw-mode side-effects (avoids circular calls). */
+function _dismissImportPanel() {
+  if (!_importPanelOpen) return
+  animateFilterPanelOut(_importPanelEl)
+  _importToggleBtn.setAttribute('aria-expanded', 'false')
+  _importPanelOpen = false
+}
+
+/**
+ * Open the panel AND immediately enter circle draw mode so the common case
+ * (circle import) requires only one tap.  Rect/polygon are available if the
+ * user wants to change shape.
+ */
+function _openImportPanel() {
+  animateFilterPanelIn(_importPanelEl)
+  _importToggleBtn.setAttribute('aria-expanded', 'true')
+  _importPanelOpen = true
+  // Auto-activate circle as the default draw mode
+  if (_map) _enterDrawMode('circle', _buttons.circle)
+}
+
+/** Close panel and cancel any active draw. */
+function _closeImportPanel() {
+  _dismissImportPanel()
+  if (_drawMode) _cleanup()
+}
+
 // ─── ID and name helpers ──────────────────────────────────────────────────────
 
 function _generateAreaId() {
@@ -256,6 +289,7 @@ function _exitDrawMode() {
     _activeButton.setAttribute('aria-pressed', 'false')
     _activeButton.classList.remove('active')
   }
+  _dismissImportPanel()   // close panel when draw mode ends for any reason
 
   const container = _map.getContainer()
   container.classList.remove('draw-mode')
@@ -332,6 +366,7 @@ function _onPointerDown(e) {
   e.preventDefault()
   e.stopImmediatePropagation()
   try { e.target.setPointerCapture(e.pointerId) } catch (_) {}
+  _dismissImportPanel()   // clear the panel so the full map is visible while drawing
 
   const latlng = _map.mouseEventToLatLng(e)
 
@@ -586,14 +621,19 @@ export function initBboxSelect(map, onFeaturesImported) {
   _map                = map
   _onFeaturesImported = onFeaturesImported
 
+  _importToggleBtn.addEventListener('click', () => {
+    if (_importPanelOpen) _closeImportPanel()
+    else                  _openImportPanel()
+  })
+
   for (const [mode, btn] of Object.entries(_buttons)) {
     if (!btn) continue
     btn.addEventListener('click', () => {
-      if (_drawMode) {
-        _cleanup()   // cancel current draw; second click re-enters draw
-      } else {
-        _enterDrawMode(mode, btn)
-      }
+      const wasSameMode = _drawMode && _activeButton === btn
+      if (_drawMode) _cleanup()        // cancel any current draw
+      _dismissImportPanel()            // close panel (map needs to be clear)
+      if (!wasSameMode) _enterDrawMode(mode, btn)
+      // wasSameMode = user clicked the already-active button → cancel only
     })
   }
 
@@ -604,6 +644,7 @@ export function initBboxSelect(map, onFeaturesImported) {
   container.addEventListener('pointercancel', _onPointerCancel, { capture: true })
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && _drawMode) _cleanup()
+    if (e.key === 'Escape' && _drawMode)       _cleanup()
+    if (e.key === 'Escape' && _importPanelOpen) _closeImportPanel()
   })
 }

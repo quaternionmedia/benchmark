@@ -6,6 +6,19 @@ A frontend-only, open-source map of benches. Browse, filter, and contribute benc
 
 ---
 
+## What you can do
+
+- Browse and search benches worldwide by name, region, or notes
+- Filter by condition (good / fair / poor), material, and features (backrest, armrests, covered, accessible)
+- Use **locate me** to jump to your current position on the map
+- Use **nearest bench** to fly to the closest bench from where you are
+- Export the current filtered view as GeoJSON, CSV, or YAML
+- Import bench areas from the map by drawing a rectangle, polygon, or circle
+- Dark mode adapts automatically to your system preference
+- Install as an app (PWA) on iOS and Android — works offline
+
+---
+
 ## Stack
 
 | Layer | Library |
@@ -42,14 +55,15 @@ npm run dev
 
 ## Contributing
 
-See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for how to add benches or submit code changes.
+To add a bench, edit a YAML file in `public/data/regions/` and open a PR — no coding knowledge required. See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for the full guide, including field reference, validation steps, and code contribution workflow.
 
 ## Docs
 
+- [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) — Contribution guide (data + code)
 - [docs/PHASES.md](docs/PHASES.md) — Project roadmap and milestones
-- [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) — Contribution guide
 - [docs/SCHEMA.md](docs/SCHEMA.md) — Full field reference and GeoJSON output format
 - [docs/CATALOGUE.md](docs/CATALOGUE.md) — Auto-generated bench index (run `npm run catalogue`)
+- [docs/decisions/](docs/decisions/) — Architecture Decision Records (ADRs)
 
 ## License
 
