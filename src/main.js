@@ -4,20 +4,20 @@
  */
 
 import { initMap, flyToBench } from './map.js'
-import { renderMarkers, addMarkersToGroup, applyMarkerFilter } from './markers.js'
+import { renderMarkers, addMarkersToGroup, applyMarkerFilter, removeBenchesFromGroups } from './markers.js'
 import { openSidebar } from './sidebar.js'
 import { onFilterChange, buildPredicate } from './filters.js'
-import { animateBenchCount, animateMapFlyTo } from './animations.js'
+import { animateBenchCount, animateMapFlyTo, cancelBenchCountAnimation } from './animations.js'
 import { onSearchChange, buildSearchPredicate } from './search.js'
 import { initHashSync } from './hash.js'
 import { initExport } from './export.js'
-import { initHeatmap, toggleHeatmap } from './heatmap.js'
 import { loadBenches } from './store.js'
-import { initBboxSelect } from './bbox-select.js'
+import { initBboxSelect, autoImportNearby } from './bbox-select.js'
+import { initAreas } from './areas.js'
+import { initGps } from './gps.js'
 
 const benchCountEl  = document.getElementById('bench-count')
 const mapEl         = document.getElementById('map')
-const heatmapToggle = document.getElementById('heatmap-toggle')
 
 // ─── PWA service worker ───────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
@@ -48,17 +48,23 @@ async function main() {
     backrest: false, armrests: false, accessible: false, covered: false
   }
   let latestSearchTerm = ''
+  let _getHiddenAreaIds = () => new Set()
 
   function getCombinedPredicate() {
-    const fp = buildPredicate(latestFilterState)
-    const sp = buildSearchPredicate(latestSearchTerm)
-    return (props) => fp(props) && sp(props)
+    const fp     = buildPredicate(latestFilterState)
+    const sp     = buildSearchPredicate(latestSearchTerm)
+    const hidden = _getHiddenAreaIds()
+    return (props) => {
+      if (props.area_id && hidden.has(props.area_id)) return false
+      return fp(props) && sp(props)
+    }
   }
 
   function applyAndUpdateCount() {
     const predicate = getCombinedPredicate()
     applyMarkerFilter(map, registry, clusterGroup, soloGroup, predicate)
     const visible = [...registry.values()].filter(({ props }) => predicate(props)).length
+    cancelBenchCountAnimation()
     benchCountEl.textContent = `— ${visible} bench${visible !== 1 ? 'es' : ''}`
   }
 
@@ -80,9 +86,14 @@ async function main() {
 
   initExport(registry, getCombinedPredicate)
 
-  // ─── Heatmap layer ────────────────────────────────────────────────────────────
+  // ─── Area manager ─────────────────────────────────────────────────────────────
 
-  initHeatmap(map, features)
+  const { getHiddenAreaIds, refreshAreaList } = initAreas({
+    map, registry, clusterGroup, soloGroup,
+    applyAndUpdateCount,
+    removeFromGroups: removeBenchesFromGroups
+  })
+  _getHiddenAreaIds = getHiddenAreaIds
 
   // ─── Bbox area import ─────────────────────────────────────────────────────────
 
@@ -95,13 +106,45 @@ async function main() {
     })
     for (const [id, entry] of newReg) registry.set(id, entry)
     applyAndUpdateCount()
+    refreshAreaList()
   })
 
-  heatmapToggle.addEventListener('click', () => {
-    const visible = toggleHeatmap()
-    heatmapToggle.setAttribute('aria-pressed', String(visible))
-    heatmapToggle.classList.toggle('active', visible)
+  // ─── GPS ──────────────────────────────────────────────────────────────────
+
+  initGps(map, registry, (props, latlng) => {
+    flyToBench(map, latlng, () => {})
+    animateMapFlyTo(mapEl)
+    openSidebar(props, latlng)
   })
+
+  // ─── Auto-import nearby benches on first load ──────────────────────────────
+
+  if (features.length === 0) {
+    const onNearbyImported = (newFeatures) => {
+      const newReg = addMarkersToGroup(clusterGroup, newFeatures, (props, latlng) => {
+        flyToBench(map, latlng, () => {})
+        animateMapFlyTo(mapEl)
+        openSidebar(props, latlng)
+      })
+      for (const [id, entry] of newReg) registry.set(id, entry)
+      applyAndUpdateCount()
+      const coords = newFeatures.map(f => [f.geometry.coordinates[1], f.geometry.coordinates[0]])
+      if (coords.length) map.fitBounds(coords, { padding: [40, 40] })
+    }
+
+    const doImport = (lat, lng, name) => autoImportNearby(lat, lng, name, onNearbyImported)
+    const STOCKHOLM = [59.3293, 18.0686]
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => doImport(pos.coords.latitude, pos.coords.longitude, 'Nearby'),
+        ()    => doImport(...STOCKHOLM, 'Stockholm'),
+        { timeout: 5000 }
+      )
+    } else {
+      doImport(...STOCKHOLM, 'Stockholm')
+    }
+  }
 
   // ─── URL hash state ───────────────────────────────────────────────────────────
 

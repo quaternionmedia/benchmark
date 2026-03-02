@@ -11,7 +11,7 @@ export default defineConfig({
   reporter: 'list',
 
   use: {
-    baseURL: 'http://localhost:5173/benchmark/',
+    baseURL: 'http://localhost:8347/benchmark/',
     trace: 'on-first-retry',
   },
 
@@ -23,8 +23,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'vite --port 5173',
-    url: 'http://localhost:5173/benchmark/',
+    command: 'vite --port 8347',
+    url: 'http://localhost:8347/benchmark/',
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
   },

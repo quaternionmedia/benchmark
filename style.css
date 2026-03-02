@@ -6,25 +6,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap');
 
 :root {
-  --bg:          #f5f0e8;
-  --surface:     #ede8de;
-  --border:      #c8bfa8;
-  --ink:         #1a1510;
-  --ink-muted:   #6b6155;
-  --accent:      #c84b2f;
-  --accent-soft: #e8d5cf;
-  --good:        #3d7a4a;
-  --fair:        #a07020;
-  --poor:        #c84b2f;
+  /* Dark mode — default */
+  --bg:          #18171a;
+  --surface:     #222028;
+  --border:      #3a3742;
+  --ink:         #e0d8cc;
+  --ink-muted:   #9a9288;
+  --accent:      #d4553b;
+  --accent-soft: #3a2820;
+  --good:        #4a9a58;
+  --fair:        #c08030;
+  --poor:        #d4553b;
   --unknown:     #888080;
 
   /* Material palette — bench marker fill colours */
-  --mat-wood:     #8b6040;   /* aged timber */
-  --mat-metal:    #486878;   /* cast iron / steel */
-  --mat-stone:    #7a6b60;   /* sandstone / granite */
-  --mat-concrete: #686f75;   /* urban concrete */
-  --mat-plastic:  #4d7860;   /* synthetic polymer */
-  --mat-other:    #6b5f78;   /* unclassified */
+  --mat-wood:     #8b6040;
+  --mat-metal:    #486878;
+  --mat-stone:    #7a6b60;
+  --mat-concrete: #686f75;
+  --mat-plastic:  #4d7860;
+  --mat-other:    #6b5f78;
 
   --sidebar-w:   340px;
   --header-h:    52px;
@@ -36,6 +37,22 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
   line-height: 1.5;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg:          #f5f0e8;
+    --surface:     #ede8de;
+    --border:      #c8bfa8;
+    --ink:         #1a1510;
+    --ink-muted:   #6b6155;
+    --accent:      #c84b2f;
+    --accent-soft: #e8d5cf;
+    --good:        #3d7a4a;
+    --fair:        #a07020;
+    --poor:        #c84b2f;
+    --unknown:     #888080;
+  }
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -101,6 +118,11 @@ body {
   border-color: var(--ink-muted);
 }
 
+/* Connected button group for the three draw modes */
+.draw-mode-group { display: flex; }
+.draw-mode-group .btn-icon { border-right-width: 0; }
+.draw-mode-group .btn-icon:last-child { border-right-width: 1px; }
+
 /* ─── MAP ────────────────────────────────────────── */
 
 #map {
@@ -112,11 +134,17 @@ body {
 
 /* Leaflet overrides */
 .leaflet-container {
-  background: #e8e2d4;
+  background: #1a1820;
   font-family: 'JetBrains Mono', monospace;
 }
 
-.leaflet-tile-pane { filter: sepia(0.18) contrast(0.95); }
+/* Dark mode: invert + hue-rotate gives a natural dark map */
+.leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.75) contrast(1.0) saturate(0.5); }
+
+@media (prefers-color-scheme: light) {
+  .leaflet-container { background: #e8e2d4; }
+  .leaflet-tile-pane { filter: sepia(0.18) contrast(0.95); }
+}
 
 /* ─── CUSTOM MARKERS ─────────────────────────────── */
 
@@ -322,8 +350,6 @@ body {
   padding: 20px;
 }
 
-.bench-detail {}
-
 .bench-detail-header {
   margin-bottom: 18px;
   padding-right: 36px;
@@ -426,6 +452,20 @@ body {
   margin-bottom: 18px;
 }
 
+.bench-directions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.directions-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  flex: 1;
+  justify-content: center;
+}
+
 .bench-meta-footer {
   font-size: 10px;
   color: var(--ink-muted);
@@ -525,6 +565,106 @@ body {
   line-height: 1.5;
 }
 
+/* ─── AREAS PANEL ───────────────────────────────── */
+
+.areas-panel {
+  position: absolute;
+  top: var(--header-h);
+  right: 0;
+  width: 280px;
+  z-index: 900;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  max-height: calc(100dvh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+}
+
+.areas-panel.hidden { display: none; }
+
+.areas-panel-inner {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.areas-panel h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 15px;
+  font-weight: normal;
+  color: var(--ink-muted);
+  letter-spacing: 0.03em;
+}
+
+.areas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.area-item {
+  background: var(--bg);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.area-item-main { display: flex; align-items: flex-start; gap: 8px; }
+
+.area-visibility-btn {
+  background: none;
+  border: 1px solid var(--border);
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--ink-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.12s;
+  padding: 0;
+  line-height: 1;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.area-visibility-btn:hover { border-color: var(--ink-muted); }
+.area-visibility-btn.active { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+
+.area-item-info { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+
+.area-item-name {
+  font-size: 12px;
+  color: var(--ink);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.area-item-meta { font-size: 10px; color: var(--ink-muted); letter-spacing: 0.03em; }
+.area-item-actions { display: flex; gap: 4px; }
+.area-action-btn { padding: 3px 8px; font-size: 10px; }
+
+.areas-empty, .areas-loading {
+  font-size: 11px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  padding: 4px 0;
+  background: var(--bg);
+}
+
 /* ─── SKIP LINK ──────────────────────────────────── */
 
 .skip-link {
@@ -543,47 +683,34 @@ body {
 
 .skip-link:focus { top: 8px; }
 
-/* Active / pressed state for toggle buttons (e.g. heatmap) */
+/* Active / pressed state for toggle buttons (e.g. import area) */
 .btn-icon.active {
   background: var(--ink);
   border-color: var(--ink);
   color: var(--bg);
 }
 
-/* ─── BBOX IMPORT PANEL ─────────────────────────── */
-
-.bbox-panel {
-  position: absolute;
-  top: var(--header-h);
-  left: 0;
-  right: 0;
-  z-index: 900;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(-8px);
-}
-
-.bbox-panel.hidden { display: none; }
-
-.bbox-panel-inner {
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.bbox-coords {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--ink-muted);
-  letter-spacing: 0.02em;
-}
-
 /* Crosshair cursor while in draw mode */
 #map.draw-mode,
 #map.draw-mode .leaflet-interactive { cursor: crosshair !important; }
+
+/* ─── GPS LOCATION DOT ───────────────────────────── */
+
+.gps-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 0 rgba(200, 75, 47, 0.4);
+  animation: gps-pulse 2s ease-out infinite;
+}
+
+@keyframes gps-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(200, 75, 47, 0.4); }
+  70%  { box-shadow: 0 0 0 10px rgba(200, 75, 47, 0);   }
+  100% { box-shadow: 0 0 0 0   rgba(200, 75, 47, 0);   }
+}
 
 /* ─── MOBILE ─────────────────────────────────────── */
 
@@ -594,4 +721,5 @@ body {
   .search-input { width: 100px; }
   .search-input:focus { width: 130px; }
   .export-panel { width: 100vw; border-left: none; }
+  .areas-panel  { width: 100vw; border-left: none; }
 }

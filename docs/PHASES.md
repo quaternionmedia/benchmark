@@ -29,10 +29,10 @@ A frontend-only, open-source bench mapping application. Each phase is designed t
 
 **Deliverables:**
 - `/public/data/regions/*.yaml` — one file per region
-- `scripts/compile-yaml.js` — Node build script that reads all YAML files and emits `benches.geojson`
+- `scripts/compile-yaml.js` — Node build script that reads all YAML files and emits `benches.geojson`; writes empty GeoJSON and exits 0 when no YAML files are present
 - Vite plugin hook that runs the compile step before every build
 - Schema validation (required fields, coordinate bounds check)
-- At least 3 seed regions with 3–5 benches each
+- Small seed region (`stockholm-demo.yaml`) as the canonical example
 
 **Schema per bench:**
 ```yaml
@@ -88,19 +88,17 @@ added_at: ISO date
 
 > *"Let the map grow."*
 
-**Goal:** Make it easy for anyone to add a bench via a structured GitHub Issue, and document the full contribution workflow.
+**Goal:** Document the full contribution workflow and generate a browsable bench catalogue.
 
 **Deliverables:**
 
-- `.github/ISSUE_TEMPLATE/suggest-a-bench.yml` — structured GitHub form with all schema fields
-- `.github/ISSUE_TEMPLATE/data-issue.yml` — form for reporting bad or outdated data
 - `.github/pull_request_template.md` — PR checklist (coordinate verified, YAML valid, no duplicate ID)
-- `scripts/issue-to-yaml.js` — formats an issue response into a ready-to-paste YAML block (`npm run issue-to-yaml`)
+- `scripts/issue-to-yaml.js` — formats a freeform bench report into a ready-to-paste YAML block
 - `docs/SCHEMA.md` — full schema reference with enum values, constraints, and examples
 - `docs/CONTRIBUTING.md` — fully written contribution guide
 - `scripts/generate-catalogue.js` — auto-generates `docs/CATALOGUE.md` from GeoJSON
 
-**Done when:** A non-technical user can open an issue, fill in the form, and a maintainer can merge it in under 5 minutes.
+**Done when:** A contributor can follow CONTRIBUTING.md, add a bench via YAML, and get it on the map via a PR.
 
 ---
 
@@ -126,14 +124,14 @@ added_at: ISO date
 
 > *"Connect to the wider world."*
 
-**Goal:** Optional Overpass API integration to pull OSM bench data, and a heatmap layer for density visualization.
+**Goal:** Optional Overpass API integration to pull OSM bench data.
 
 **Deliverables:**
 
 - [x] `scripts/overpass-import.js` — **maintainer tool** that queries Overpass for `amenity=bench` in a named preset area and writes YAML to `public/data/regions/` for review and commit. Use for bulk seeding curated regions only; generated files are not committed automatically.
 - [x] `src/store.js` — IndexedDB stale-while-revalidate cache (`loadBenches`, `mergeFeatures`, `clearCache`). `setBenchProvider(fn)` hook lets a future backend replace the IDB+fetch strategy without touching calling code.
 - [x] `src/bbox-select.js` — In-app drag-to-draw area importer: user draws a rectangle on the map, app queries Overpass, saves new benches to **IndexedDB** via `mergeFeatures()`, and renders live markers immediately. No YAML files created; no git involvement.
-- [x] `src/heatmap.js` + heatmap toggle button — `Leaflet.heat` density layer, toggleable, graceful degradation if plugin unavailable
+- [-] `src/heatmap.js` — `Leaflet.heat` density layer (removed; toolbar complexity outweighed the benefit)
 - [x] `public/manifest.webmanifest` + `public/sw.js` — PWA manifest and service worker (cache-first tiles, network-first shell; GeoJSON bypasses SW so IndexedDB is sole owner)
 - [x] `public/icon.svg` — bench silhouette app icon
 - [x] Accessibility pass (WCAG 2.1 AA): skip link, `aria-live` bench count, `aria-pressed` on all toggle/chip buttons, `role="group" aria-labelledby` on filter groups, Escape closes sidebar, focus moves to close button on sidebar open
@@ -151,6 +149,27 @@ added_at: ISO date
 
 ---
 
+## Phase 6 — GPS & Live Data `v1.1` ✅
+
+> *"Meet the user where they are."*
+
+**Goal:** Remove the dependency on curated seed data as the primary data source; add GPS-aware features and a first-class dark mode.
+
+**Deliverables:**
+
+- [x] `src/gps.js` — GPS module with two header buttons:
+  - **locate me** — `map.locate()` flies to the user's current position and drops a pulsing accent dot
+  - **nearest** — `navigator.geolocation` + Haversine distance ranking; flies to and opens the closest bench
+- [x] Auto-import on first load — when the registry is empty, queries Overpass for benches within 1 km of the user's GPS position, falling back to central Stockholm if denied or unavailable
+- [x] Directions button in bench sidebar — "directions ↗" (Google Maps) and "apple maps ↗" links using exact bench coordinates, opening in a new tab
+- [x] Dark mode by default — CSS custom properties default to a dark palette; `@media (prefers-color-scheme: light)` restores the warm cream theme; Leaflet tiles inverted + hue-rotated in dark mode
+- [x] Contribution model simplified — GitHub issue templates removed; benches added via direct YAML pull requests only
+- [x] Fictional seed data replaced with `stockholm-demo.yaml` — three verified Kungsträdgården benches
+
+**Done when:** A new user opens the app on mobile, grants location, and immediately sees benches nearby — no manual setup.
+
+---
+
 ## Milestone Summary
 
 | Version | Phase | Theme | Status |
@@ -161,3 +180,4 @@ added_at: ISO date
 | `v0.4` | 3 | Community | ✅ |
 | `v0.5` | 4 | Discovery | ✅ |
 | `v1.0` | 5 | Enrichment | ✅ |
+| `v1.1` | 6 | GPS & Live Data | ✅ |

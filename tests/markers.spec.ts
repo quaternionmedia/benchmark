@@ -7,14 +7,14 @@ import { join } from 'path'
 const geojson = JSON.parse(readFileSync(join(process.cwd(), 'public/data/benches.geojson'), 'utf8'))
 const TOTAL   = geojson.features.length
 
-// Tate Modern area — zoom 17 disables clustering (disableClusteringAtZoom: 17)
+// Kungsträdgården — zoom 17 disables clustering (disableClusteringAtZoom: 17)
 // so individual bench markers appear in the DOM rather than cluster badges.
-const LONDON_HASH = '#51.5076,-0.0994,17'
+const STOCKHOLM_HASH = '#59.332,18.0717,17'
 
 test.describe('Markers', () => {
   test.beforeEach(async ({ page }) => {
-    // Navigate to London area at zoom 17 where clustering is disabled
-    await page.goto(`./${LONDON_HASH}`)
+    // Navigate to Stockholm area at zoom 17 where clustering is disabled
+    await page.goto(`./${STOCKHOLM_HASH}`)
     // Wait for bench data to load (bench-count animates to a number > 0)
     await page.waitForFunction(
       () => {
@@ -48,5 +48,10 @@ test.describe('Markers', () => {
       el => parseFloat(window.getComputedStyle(el).opacity)
     )
     expect(opacity).toBeGreaterThan(0.9)
+  })
+
+  test('all seed markers are present as individual DOM elements', async ({ page }) => {
+    const count = await page.locator('.bench-marker').count()
+    expect(count).toBe(TOTAL)
   })
 })

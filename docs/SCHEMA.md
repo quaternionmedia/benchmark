@@ -38,7 +38,7 @@ File naming convention: `<region-slug>.yaml` — e.g. `london-south.yaml`, `cent
 | `condition` | enum | ✅ | See [Condition](#condition) |
 | `seats` | int | ✅ | Number of seats (1–20) |
 | `covered` | bool | ✅ | `true` or `false` |
-| `added_by` | string | ✅ | GitHub username or `community` |
+| `added_by` | string | ✅ | Your name, handle, or `community` |
 | `added_at` | string | ✅ | ISO 8601 date: `YYYY-MM-DD` |
 | `notes` | string | ❌ | Optional. Max 280 characters |
 | `image_url` | string | ❌ | Full URL or `null` |
@@ -74,20 +74,20 @@ Use `unknown` rather than guessing if you haven't seen the bench yourself.
 ## Example Entry
 
 ```yaml
-  - id: london-south-001
-    name: "Tate Modern Riverside Bench"
-    lat: 51.5076
-    lng: -0.0994
-    material: stone
-    backrest: false
-    armrests: false
+  - id: stockholm-demo-001
+    name: "Molin's Fountain Bench"
+    lat: 59.3320
+    lng: 18.0717
+    material: metal
+    backrest: true
+    armrests: true
     accessible: true
     condition: good
-    seats: 4
+    seats: 3
     covered: false
     added_by: community
-    added_at: "2024-11-01"
-    notes: "Concrete plinth bench facing the Thames. Good view of St Paul's."
+    added_at: "2026-03-01"
+    notes: "Cast-iron bench facing the fountain. Busy on summer evenings."
     image_url: null
 ```
 
@@ -104,22 +104,22 @@ Each bench becomes a GeoJSON `Feature`:
   "type": "Feature",
   "geometry": {
     "type": "Point",
-    "coordinates": [-0.0994, 51.5076]
+    "coordinates": [18.0717, 59.3320]
   },
   "properties": {
-    "id": "london-south-001",
-    "name": "Tate Modern Riverside Bench",
-    "region": "London South",
-    "material": "stone",
-    "backrest": false,
-    "armrests": false,
+    "id": "stockholm-demo-001",
+    "name": "Molin's Fountain Bench",
+    "region": "Stockholm — Kungsträdgården",
+    "material": "metal",
+    "backrest": true,
+    "armrests": true,
     "accessible": true,
     "condition": "good",
-    "seats": 4,
+    "seats": 3,
     "covered": false,
     "added_by": "community",
-    "added_at": "2024-11-01",
-    "notes": "Concrete plinth bench facing the Thames. Good view of St Paul's.",
+    "added_at": "2026-03-01",
+    "notes": "Cast-iron bench facing the fountain. Busy on summer evenings.",
     "image_url": null
   }
 }
@@ -149,8 +149,8 @@ If validation fails the build is aborted and errors are printed to the console.
 
 IDs follow the pattern `<region-slug>-<NNN>`:
 
-- `london-south-001`
-- `central-park-012`
-- `kyoto-central-003`
+- `stockholm-demo-001`
+- `my-city-park-001`
+- `some-region-012`
 
 When adding to an existing region, use the next available number. IDs must never be reused, even if a bench is removed.

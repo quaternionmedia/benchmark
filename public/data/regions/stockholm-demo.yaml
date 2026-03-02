@@ -1,0 +1,57 @@
+# public/data/regions/stockholm-demo.yaml
+# Seed dataset — Kungsträdgården (King's Garden), central Stockholm.
+# Used as the GPS fallback region on first load.
+# Coordinates verified against OpenStreetMap.
+
+region:
+  name: "Stockholm — Kungsträdgården"
+  description: "King's Garden, central Stockholm. A popular city-centre park on the waterfront."
+
+benches:
+  - id: stockholm-demo-001
+    name: "Molin's Fountain Bench"
+    lat: 59.3320
+    lng: 18.0717
+    material: metal
+    backrest: true
+    armrests: true
+    accessible: true
+    condition: good
+    seats: 3
+    covered: false
+    added_by: community
+    added_at: "2026-03-01"
+    notes: "Cast-iron bench facing the fountain. Busy on summer evenings."
+    image_url: null
+
+  - id: stockholm-demo-002
+    name: "Kungsträdgården East Promenade"
+    lat: 59.3312
+    lng: 18.0731
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: false
+    condition: good
+    seats: 2
+    covered: false
+    added_by: community
+    added_at: "2026-03-01"
+    notes: "Slatted wooden bench along the tree-lined promenade."
+    image_url: null
+
+  - id: stockholm-demo-003
+    name: "Karl XII:s Torg Corner"
+    lat: 59.3298
+    lng: 18.0716
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: true
+    condition: fair
+    seats: 4
+    covered: false
+    added_by: community
+    added_at: "2026-03-01"
+    notes: "Low granite plinth seating at the south end of the park."
+    image_url: null

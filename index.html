@@ -31,7 +31,7 @@
 
   <div id="app">
 
-    <!-- Header: logo, bench count, search, filter + heatmap + export toggles -->
+    <!-- Header: logo, bench count, search, filter + import + export + GPS controls -->
     <header id="header">
       <div style="display:flex; align-items:baseline; gap:0">
         <span class="logo">benchmark</span>
@@ -45,16 +45,29 @@
                 aria-controls="filter-panel">
           filter
         </button>
-        <button type="button" class="btn-icon" id="heatmap-toggle" aria-pressed="false">
-          heatmap
-        </button>
-        <button type="button" class="btn-icon" id="import-toggle" aria-pressed="false"
-                title="Draw a rectangle on the map to import benches from OpenStreetMap">
-          import area
-        </button>
+        <div class="draw-mode-group" role="group" aria-label="Import draw mode">
+          <button type="button" class="btn-icon draw-mode-btn" id="import-rect" aria-pressed="false"
+                  data-label="bbox" title="Draw a rectangle to import benches">bbox</button>
+          <button type="button" class="btn-icon draw-mode-btn" id="import-poly" aria-pressed="false"
+                  data-label="polygon" title="Click to add vertices, double-click to close">polygon</button>
+          <button type="button" class="btn-icon draw-mode-btn" id="import-circle" aria-pressed="false"
+                  data-label="circle" title="Drag from center to set radius">circle</button>
+        </div>
         <button type="button" class="btn-icon" id="export-toggle" aria-expanded="false"
                 aria-controls="export-panel">
           export
+        </button>
+        <button type="button" class="btn-icon" id="areas-toggle" aria-expanded="false"
+                aria-controls="areas-panel">
+          areas
+        </button>
+        <button type="button" class="btn-icon" id="gps-locate"
+                title="Jump to your current location" aria-label="Jump to current location">
+          locate me
+        </button>
+        <button type="button" class="btn-icon" id="gps-nearest"
+                title="Find the nearest bench" aria-label="Find nearest bench">
+          nearest
         </button>
       </div>
     </header>
@@ -143,19 +156,12 @@
       </div>
     </div>
 
-    <!-- Bbox import panel (hidden by default, spans full width below header) -->
-    <div id="bbox-panel" class="bbox-panel hidden" role="dialog"
-         aria-label="Import benches from drawn map area">
-      <div class="bbox-panel-inner">
-        <h3>import from openstreetmap</h3>
-        <p class="bbox-coords" id="bbox-coords-display">—</p>
-        <input type="text" id="bbox-region-name" class="search-input"
-               placeholder="region name…" aria-label="Region name for imported benches" />
-        <div class="export-actions">
-          <button type="button" class="btn-icon" id="bbox-confirm">import to map</button>
-          <button type="button" class="btn-icon" id="bbox-cancel">cancel</button>
-        </div>
-        <p class="export-hint">Queries OpenStreetMap · saves benches to browser storage · live markers appear instantly.</p>
+    <!-- Areas panel (hidden by default, anchored to top-right) -->
+    <div id="areas-panel" class="areas-panel hidden" role="region"
+         aria-label="Imported areas">
+      <div class="areas-panel-inner">
+        <h3>imported areas</h3>
+        <div id="areas-list" class="areas-list"></div>
       </div>
     </div>
 
