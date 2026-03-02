@@ -345,8 +345,6 @@ body {
   padding: 20px;
 }
 
-.bench-detail {}
-
 .bench-detail-header {
   margin-bottom: 18px;
   padding-right: 36px;
@@ -580,7 +578,7 @@ body {
 
 .skip-link:focus { top: 8px; }
 
-/* Active / pressed state for toggle buttons (e.g. heatmap) */
+/* Active / pressed state for toggle buttons (e.g. import area) */
 .btn-icon.active {
   background: var(--ink);
   border-color: var(--ink);

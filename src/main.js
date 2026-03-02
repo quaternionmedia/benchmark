@@ -11,14 +11,12 @@ import { animateBenchCount, animateMapFlyTo, cancelBenchCountAnimation } from '.
 import { onSearchChange, buildSearchPredicate } from './search.js'
 import { initHashSync } from './hash.js'
 import { initExport } from './export.js'
-import { initHeatmap, toggleHeatmap } from './heatmap.js'
 import { loadBenches } from './store.js'
 import { initBboxSelect, autoImportNearby } from './bbox-select.js'
 import { initGps } from './gps.js'
 
 const benchCountEl  = document.getElementById('bench-count')
 const mapEl         = document.getElementById('map')
-const heatmapToggle = document.getElementById('heatmap-toggle')
 
 // ─── PWA service worker ───────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
@@ -82,10 +80,6 @@ async function main() {
 
   initExport(registry, getCombinedPredicate)
 
-  // ─── Heatmap layer ────────────────────────────────────────────────────────────
-
-  initHeatmap(map, features)
-
   // ─── Bbox area import ─────────────────────────────────────────────────────────
 
   initBboxSelect(map, (newFeatures) => {
@@ -135,12 +129,6 @@ async function main() {
       doImport(...STOCKHOLM, 'Stockholm')
     }
   }
-
-  heatmapToggle.addEventListener('click', () => {
-    const visible = toggleHeatmap()
-    heatmapToggle.setAttribute('aria-pressed', String(visible))
-    heatmapToggle.classList.toggle('active', visible)
-  })
 
   // ─── URL hash state ───────────────────────────────────────────────────────────
 

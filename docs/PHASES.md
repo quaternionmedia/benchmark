@@ -124,14 +124,14 @@ added_at: ISO date
 
 > *"Connect to the wider world."*
 
-**Goal:** Optional Overpass API integration to pull OSM bench data, and a heatmap layer for density visualization.
+**Goal:** Optional Overpass API integration to pull OSM bench data.
 
 **Deliverables:**
 
 - [x] `scripts/overpass-import.js` — **maintainer tool** that queries Overpass for `amenity=bench` in a named preset area and writes YAML to `public/data/regions/` for review and commit. Use for bulk seeding curated regions only; generated files are not committed automatically.
 - [x] `src/store.js` — IndexedDB stale-while-revalidate cache (`loadBenches`, `mergeFeatures`, `clearCache`). `setBenchProvider(fn)` hook lets a future backend replace the IDB+fetch strategy without touching calling code.
 - [x] `src/bbox-select.js` — In-app drag-to-draw area importer: user draws a rectangle on the map, app queries Overpass, saves new benches to **IndexedDB** via `mergeFeatures()`, and renders live markers immediately. No YAML files created; no git involvement.
-- [x] `src/heatmap.js` + heatmap toggle button — `Leaflet.heat` density layer, toggleable, graceful degradation if plugin unavailable
+- [-] `src/heatmap.js` — `Leaflet.heat` density layer (removed; toolbar complexity outweighed the benefit)
 - [x] `public/manifest.webmanifest` + `public/sw.js` — PWA manifest and service worker (cache-first tiles, network-first shell; GeoJSON bypasses SW so IndexedDB is sole owner)
 - [x] `public/icon.svg` — bench silhouette app icon
 - [x] Accessibility pass (WCAG 2.1 AA): skip link, `aria-live` bench count, `aria-pressed` on all toggle/chip buttons, `role="group" aria-labelledby` on filter groups, Escape closes sidebar, focus moves to close button on sidebar open
