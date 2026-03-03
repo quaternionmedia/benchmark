@@ -68,7 +68,7 @@ body {
 
 #app {
   display: grid;
-  grid-template-rows: var(--header-h) 1fr var(--toolbar-h);
+  grid-template-rows: var(--header-h) 1fr;
   grid-template-columns: 1fr;
   height: 100dvh;
   position: relative;
@@ -155,13 +155,15 @@ body {
 /* ─── BOTTOM TOOLBAR ─────────────────────────────── */
 
 .toolbar {
-  grid-row: 3;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: stretch;
   background: var(--bg);
   border-top: 1px solid var(--border);
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  position: relative;
   z-index: 950;
 }
 
