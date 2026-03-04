@@ -54,13 +54,22 @@ test.describe('Mobile layout (375 × 667)', () => {
 
   // ─── Touch targets ────────────────────────────────────────────────────────
 
-  test('header buttons meet 44 px minimum height', async ({ page }) => {
+  test('toolbar buttons meet 44 px minimum height', async ({ page }) => {
+    // Buttons now live in the fixed toolbar (not the header)
     const buttons = ['#filter-toggle', '#export-toggle', '#areas-toggle', '#gps-locate', '#gps-nearest']
     for (const selector of buttons) {
       const box = await page.locator(selector).boundingBox()
       expect(box, `${selector} height`).not.toBeNull()
       expect(box!.height, `${selector} should be ≥ 44px`).toBeGreaterThanOrEqual(44)
     }
+  })
+
+  test('map bottom edge does not overlap the fixed toolbar', async ({ page }) => {
+    const mapBox     = await page.locator('#map').boundingBox()
+    const toolbarBox = await page.locator('#toolbar').boundingBox()
+    expect(mapBox).not.toBeNull()
+    expect(toolbarBox).not.toBeNull()
+    expect(mapBox!.y + mapBox!.height).toBeLessThanOrEqual(toolbarBox!.y + 2)
   })
 
   // ─── Filter panel ────────────────────────────────────────────────────────

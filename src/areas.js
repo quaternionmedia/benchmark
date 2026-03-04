@@ -1,25 +1,28 @@
 /**
  * src/areas.js
  * Area manager panel — lists imported areas with visibility toggle, zoom, rename, delete.
+ * Also renders a subtle Leaflet boundary overlay for each area on the map.
  *
  * Public API:
  *   initAreas(opts) → { getHiddenAreaIds, refreshAreaList }
- *
- * initAreas wires the #areas-toggle button and #areas-panel element.
- * The returned getHiddenAreaIds() is a live getter for the main predicate.
- * The returned refreshAreaList() re-renders the list (call after importing).
  */
 
+import L from 'leaflet'
 import { loadAreas, renameArea, deleteArea, removeBenchesByAreaId } from './store.js'
 import { animateFilterPanelIn, animateFilterPanelOut } from './animations.js'
 
-// ─── Minimal HTML escaping to prevent XSS in user-supplied area names ──────────
+// ─── Minimal HTML escaping ─────────────────────────────────────────────────────
 
 const escHtml = (s) => String(s)
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
   .replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;')
+
+// ─── Overlay style constants ───────────────────────────────────────────────────
+
+const OVERLAY_VISIBLE = { color: '#c84b2f', weight: 1.5, dashArray: '6 4', fillOpacity: 0.05, opacity: 0.40, interactive: false }
+const OVERLAY_HIDDEN  = { color: '#c84b2f', weight: 1,   dashArray: '4 6', fillOpacity: 0,    opacity: 0.15, interactive: false }
 
 // ─── Module state ─────────────────────────────────────────────────────────────
 
@@ -30,18 +33,54 @@ let _panelOpen = false
 let _panelEl   = null
 let _toggleBtn = null
 
+/** areaId → L.Layer — keyed so we can update style without re-adding */
+const _overlays = new Map()
+
+// ─── Overlay helpers ──────────────────────────────────────────────────────────
+
+function _makeLayer(area) {
+  if (area.type === 'circle' && area.center && area.radius) {
+    return L.circle(area.center, { radius: area.radius, ...OVERLAY_VISIBLE })
+  }
+  if (area.type === 'polygon' && area.polygon?.length >= 3) {
+    return L.polygon(area.polygon, OVERLAY_VISIBLE)
+  }
+  // rect (default) — use bbox
+  const [s, w, n, e] = area.bbox
+  return L.rectangle([[+s, +w], [+n, +e]], OVERLAY_VISIBLE)
+}
+
+function _ensureOverlay(area) {
+  const hidden = _hiddenAreaIds.has(area.id)
+  if (_overlays.has(area.id)) {
+    // Update style only
+    const layer = _overlays.get(area.id)
+    layer.setStyle(hidden ? OVERLAY_HIDDEN : OVERLAY_VISIBLE)
+    return
+  }
+  const layer = _makeLayer(area)
+  layer.addTo(_map)
+  _overlays.set(area.id, layer)
+  if (hidden) layer.setStyle(OVERLAY_HIDDEN)
+}
+
+function _dropOverlay(areaId) {
+  const layer = _overlays.get(areaId)
+  if (layer) { layer.remove(); _overlays.delete(areaId) }
+}
+
+/** Load all areas from IDB and sync overlays (called on init + after import). */
+async function _syncOverlays() {
+  const areas = await loadAreas()
+  const ids = new Set(areas.map(a => a.id))
+  // Remove overlays for deleted areas
+  for (const [id] of _overlays) { if (!ids.has(id)) _dropOverlay(id) }
+  // Add/update overlays for all current areas
+  for (const area of areas) _ensureOverlay(area)
+}
+
 // ─── Public init ──────────────────────────────────────────────────────────────
 
-/**
- * @param {Object} opts
- * @param {L.Map}                  opts.map
- * @param {Map}                    opts.registry
- * @param {L.MarkerClusterGroup}   opts.clusterGroup
- * @param {L.LayerGroup}           opts.soloGroup
- * @param {Function}               opts.applyAndUpdateCount
- * @param {Function}               opts.removeFromGroups - removeBenchesFromGroups(ids, registry, clusterGroup, soloGroup)
- * @returns {{ getHiddenAreaIds: () => Set, refreshAreaList: () => void }}
- */
 export function initAreas({ map, registry, clusterGroup, soloGroup, applyAndUpdateCount, removeFromGroups }) {
   _map                  = map
   _registry             = registry
@@ -59,9 +98,15 @@ export function initAreas({ map, registry, clusterGroup, soloGroup, applyAndUpda
     if (e.key === 'Escape' && _panelOpen) _closePanel()
   })
 
+  // Draw overlays even before the panel is opened
+  _syncOverlays()
+
   return {
     getHiddenAreaIds: () => _hiddenAreaIds,
-    refreshAreaList:  () => { if (_panelOpen) _renderAreaList() }
+    refreshAreaList:  () => {
+      if (_panelOpen) _renderAreaList()
+      _syncOverlays()
+    }
   }
 }
 
@@ -89,6 +134,9 @@ async function _renderAreaList() {
   listEl.innerHTML = '<p class="areas-loading">loading…</p>'
 
   const areas = await loadAreas()
+
+  // Sync overlays whenever the list is rendered
+  for (const area of areas) _ensureOverlay(area)
 
   if (!areas.length) {
     listEl.innerHTML = '<p class="areas-empty">no imported areas yet.<br>draw on the map to import.</p>'
@@ -153,6 +201,7 @@ async function _deleteArea(area) {
   const removedIds = await removeBenchesByAreaId(area.id)
   _removeFromGroups(removedIds, _registry, _clusterGroup, _soloGroup)
   _hiddenAreaIds.delete(area.id)
+  _dropOverlay(area.id)
   await deleteArea(area.id)
   _applyAndUpdateCount()
   _renderAreaList()
@@ -161,6 +210,7 @@ async function _deleteArea(area) {
 function _toggleVisibility(area) {
   if (_hiddenAreaIds.has(area.id)) _hiddenAreaIds.delete(area.id)
   else _hiddenAreaIds.add(area.id)
+  _ensureOverlay(area)   // update overlay opacity to reflect new state
   _applyAndUpdateCount()
   _renderAreaList()
 }
