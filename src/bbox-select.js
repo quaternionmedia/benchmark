@@ -4,18 +4,23 @@
  *
  * Three draw modes:
  *   rect    — drag to draw a bounding box (original behaviour)
- *   polygon — click to add vertices, double-click to close and query
+ *   polygon — tap vertices, tap "close polygon" button (or double-tap) to finish
  *   circle  — drag from center to set radius
  *
  * Flow (all modes):
  *   1. Click one of the three mode buttons → enter draw mode (crosshair cursor)
  *   2. Draw shape on map (mode-specific interaction)
  *   3. Shape complete → Overpass query fires → markers appear on completion
- *   4. Button label shows live status; resets after 2.5 s
+ *   4. Import toggle button shows live status; resets after 2.5 s
  *   5. Escape or second button click → cancel and exit draw mode
  *
- * Pointer events (capture phase) are used for cross-device compatibility.
- * stopImmediatePropagation() prevents Leaflet from panning while drawing.
+ * Mobile notes:
+ *   - Pointer events use the stable map *container* for setPointerCapture,
+ *     not e.target (which can be a Leaflet tile img that gets swapped out).
+ *   - Circle draw mode survives a tiny drag (< 50 m) — it just resets the
+ *     center so the user can try again without re-tapping the mode button.
+ *   - Polygon: a floating "close polygon" button appears when ≥ 3 vertices
+ *     are placed; double-tap detection uses 500 ms / 20 px for touch safety.
  */
 
 import L from 'leaflet'
@@ -101,13 +106,6 @@ async function _queryCircleOverpass(lat, lng, radiusMeters) {
 
 // ─── GeoJSON feature builder ──────────────────────────────────────────────────
 
-/**
- * Convert Overpass nodes to GeoJSON features ready for IndexedDB storage.
- * @param {Array}  nodes      - Overpass element objects
- * @param {string} regionName - Human-readable label for display
- * @param {string} [areaId]   - If present, stamped as props.area_id for visibility filtering
- * @returns {Array} GeoJSON Feature objects
- */
 function nodesToFeatures(nodes, regionName, areaId) {
   const today = new Date().toISOString().slice(0, 10)
 
@@ -145,9 +143,6 @@ function nodesToFeatures(nodes, regionName, areaId) {
 
 // ─── Public auto-import helper ────────────────────────────────────────────────
 
-/**
- * Build a [S, W, N, E] bbox centred on lat/lng with the given radius in km.
- */
 function _bboxFromCenter(lat, lng, radiusKm) {
   const dlat = radiusKm / 111
   const dlng = radiusKm / (111 * Math.cos(lat * Math.PI / 180))
@@ -159,17 +154,12 @@ function _bboxFromCenter(lat, lng, radiusKm) {
   ]
 }
 
-/**
- * Query Overpass for benches within radiusKm of lat/lng, merge into IDB,
- * and call onFeaturesImported with any genuinely new features.
- * No area record is saved (auto-import is ephemeral).
- */
 export async function autoImportNearby(lat, lng, regionName, onFeaturesImported, radiusKm = 1) {
   try {
     const bbox  = _bboxFromCenter(lat, lng, radiusKm)
     const nodes = await _queryRectOverpass(bbox)
     if (!nodes.length) return
-    const candidates = nodesToFeatures(nodes, regionName)  // no areaId — ephemeral
+    const candidates = nodesToFeatures(nodes, regionName)
     const added      = await mergeFeatures(candidates)
     if (added.length && onFeaturesImported) onFeaturesImported(added)
   } catch (err) {
@@ -181,8 +171,8 @@ export async function autoImportNearby(lat, lng, regionName, onFeaturesImported,
 
 let _map                = null
 let _drawMode           = false
-let _drawType           = 'rect'   // 'rect' | 'polygon' | 'circle'
-let _activeButton       = null     // the button that triggered the current draw
+let _drawType           = 'rect'
+let _activeButton       = null
 let _onFeaturesImported = null
 
 // Rect state
@@ -192,28 +182,39 @@ let _rect       = null
 let _bboxBounds = null
 
 // Polygon state
-let _polyPoints     = []    // L.LatLng array of placed vertices
-let _polyLine       = null  // L.Polyline — committed edges
-let _polyRubberBand = null  // L.Polyline — cursor preview to last vertex
-let _lastPolyClick  = null  // { x, y, t } for double-click detection
+let _polyPoints     = []
+let _polyLine       = null
+let _polyRubberBand = null
+let _lastPolyClick  = null   // { x, y, t } for double-tap detection
 
 // Circle state
-let _circleCenter  = null   // L.LatLng
-let _circlePreview = null   // L.Circle
+let _circleCenter  = null
+let _circlePreview = null
 
-// Button references (resolved at module load; DOM is ready because modules are deferred)
+// ─── DOM refs ─────────────────────────────────────────────────────────────────
+
 const _buttons = {
   rect:    document.getElementById('import-rect'),
   polygon: document.getElementById('import-poly'),
   circle:  document.getElementById('import-circle')
 }
 
-// Import panel toggle
 const _importToggleBtn = document.getElementById('import-toggle')
 const _importPanelEl   = document.getElementById('import-panel')
 let   _importPanelOpen = false
 
-/** Close panel visually only — no draw-mode side-effects (avoids circular calls). */
+// Floating "close polygon" button — created once, toggled visible/hidden.
+const _polyDoneBtn = (() => {
+  const btn = document.createElement('button')
+  btn.className   = 'poly-done-btn'
+  btn.textContent = 'close polygon'
+  btn.setAttribute('aria-label', 'Close and import polygon')
+  document.body.appendChild(btn)
+  return btn
+})()
+
+// ─── Panel helpers ────────────────────────────────────────────────────────────
+
 function _dismissImportPanel() {
   if (!_importPanelOpen) return
   animateFilterPanelOut(_importPanelEl)
@@ -221,26 +222,44 @@ function _dismissImportPanel() {
   _importPanelOpen = false
 }
 
-/**
- * Open the panel AND immediately enter circle draw mode so the common case
- * (circle import) requires only one tap.  Rect/polygon are available if the
- * user wants to change shape.
- */
 function _openImportPanel() {
   animateFilterPanelIn(_importPanelEl)
   _importToggleBtn.setAttribute('aria-expanded', 'true')
   _importPanelOpen = true
-  // Auto-activate circle as the default draw mode
   if (_map) _enterDrawMode('circle', _buttons.circle)
 }
 
-/** Close panel and cancel any active draw. */
 function _closeImportPanel() {
   _dismissImportPanel()
   if (_drawMode) _cleanup()
 }
 
-// ─── ID and name helpers ──────────────────────────────────────────────────────
+// ─── Status feedback on the always-visible toolbar button ─────────────────────
+
+function _setImportStatus(text, durationMs) {
+  _importToggleBtn.textContent = text
+  if (durationMs) {
+    setTimeout(() => { _importToggleBtn.textContent = 'import' }, durationMs)
+  }
+}
+
+// ─── Loading shape animation ──────────────────────────────────────────────────
+
+/** Add the marching-dash CSS animation to a Leaflet vector layer while querying. */
+function _setLayerLoading(layer) {
+  if (!layer) return
+  try {
+    const el = layer.getElement ? layer.getElement() : layer._path
+    if (el) el.classList.add('import-querying')
+  } catch (_) {}
+}
+
+/** Remove a Leaflet layer from the map (tolerates null). */
+function _dropLayer(layer) {
+  if (layer) { try { layer.remove() } catch (_) {} }
+}
+
+// ─── ID / name helpers ────────────────────────────────────────────────────────
 
 function _generateAreaId() {
   if (typeof crypto !== 'undefined' && crypto.randomUUID)
@@ -289,7 +308,8 @@ function _exitDrawMode() {
     _activeButton.setAttribute('aria-pressed', 'false')
     _activeButton.classList.remove('active')
   }
-  _dismissImportPanel()   // close panel when draw mode ends for any reason
+  // Note: _dismissImportPanel is NOT called here.
+  // The panel closes on draw start (_onPointerDown) or on explicit cancel (Escape / pointer cancel).
 
   const container = _map.getContainer()
   container.classList.remove('draw-mode')
@@ -299,6 +319,8 @@ function _exitDrawMode() {
   _map.dragging.enable()
   if (_map.touchZoom) _map.touchZoom.enable()
   if (_map.tap)       _map.tap.enable()
+
+  _polyDoneBtn.classList.remove('visible')
 }
 
 function _cleanup() {
@@ -332,7 +354,8 @@ function _updateDraw(latlng) {
       weight:      2,
       fillOpacity: 0.08,
       dashArray:   '5 4',
-      interactive: false
+      interactive: false,
+      className:   'import-drawing'
     }).addTo(_map)
   }
 }
@@ -352,21 +375,56 @@ function _endDraw(latlng) {
   const ee = Math.max(bounds.getWest(),  bounds.getEast()).toFixed(5)
 
   _bboxBounds = [s, w, n, ee]
+  // Capture button ref before exiting (exitDrawMode nulls state but not _activeButton)
+  const btn = _activeButton
   _exitDrawMode()
-  _triggerRectImport()
+  _triggerRectImport(btn)
+}
+
+// ─── Polygon done-button helper ───────────────────────────────────────────────
+
+function _updatePolyDoneBtn() {
+  if (_polyPoints.length >= 3) {
+    _polyDoneBtn.classList.add('visible')
+  } else {
+    _polyDoneBtn.classList.remove('visible')
+  }
+}
+
+function _closePolygon() {
+  if (_polyPoints.length < 3) return
+  const points = [..._polyPoints]
+  const btn    = _activeButton
+
+  // Build a closed polygon overlay to keep visible during the query, then
+  // clean up the open polyline/rubber-band but not the new polygon.
+  const loadingLayer = L.polygon(points, {
+    color: 'var(--accent, #c84b2f)', weight: 2, dashArray: '5 4',
+    fillOpacity: 0.06, interactive: false
+  }).addTo(_map)
+
+  _cleanup()   // removes _polyLine, _polyRubberBand, exits draw mode
+  _triggerPolygonImport(points, btn, loadingLayer)
 }
 
 // ─── Pointer event handlers ───────────────────────────────────────────────────
 //
-// Registered in capture phase so they fire before Leaflet's bubble-phase handlers.
-// stopImmediatePropagation() in draw mode prevents Leaflet from panning/zooming.
+// All listeners are registered in the *capture* phase so they fire before
+// Leaflet's bubble-phase handlers and can call stopImmediatePropagation().
+//
+// FIX: setPointerCapture is called on the stable map *container* element, not
+// on e.target (which is often a Leaflet tile <img> that gets swapped out
+// during panning/loading, silently losing pointer capture mid-drag).
 
 function _onPointerDown(e) {
   if (!_drawMode || !e.isPrimary) return
   e.preventDefault()
   e.stopImmediatePropagation()
-  try { e.target.setPointerCapture(e.pointerId) } catch (_) {}
-  _dismissImportPanel()   // clear the panel so the full map is visible while drawing
+
+  // Capture on the container, not the potentially-transient tile element.
+  try { _map.getContainer().setPointerCapture(e.pointerId) } catch (_) {}
+
+  _dismissImportPanel()
 
   const latlng = _map.mouseEventToLatLng(e)
 
@@ -374,15 +432,14 @@ function _onPointerDown(e) {
     const now = Date.now()
     const pos = { x: e.clientX, y: e.clientY }
 
-    // Double-click detection: same spot within 400ms → close polygon
+    // Double-tap detection: same spot within 500ms / 20px → close polygon.
+    // Thresholds are wider than desktop to accommodate touch imprecision.
     if (_lastPolyClick &&
-        Math.abs(pos.x - _lastPolyClick.x) < 12 &&
-        Math.abs(pos.y - _lastPolyClick.y) < 12 &&
-        now - _lastPolyClick.t < 400) {
+        Math.abs(pos.x - _lastPolyClick.x) < 20 &&
+        Math.abs(pos.y - _lastPolyClick.y) < 20 &&
+        now - _lastPolyClick.t < 500) {
       _lastPolyClick = null
-      const points = [..._polyPoints]
-      _cleanup()
-      if (points.length >= 3) _triggerPolygonImport(points)
+      _closePolygon()
       return
     }
 
@@ -396,6 +453,8 @@ function _onPointerDown(e) {
         color: 'var(--accent, #c84b2f)', weight: 2, dashArray: '5 4', interactive: false
       }).addTo(_map)
     }
+
+    _updatePolyDoneBtn()
     return
   }
 
@@ -435,7 +494,8 @@ function _onPointerMove(e) {
       _circlePreview.setRadius(radius)
     } else {
       _circlePreview = L.circle(_circleCenter, {
-        radius, color: 'var(--accent, #c84b2f)', weight: 2, fillOpacity: 0.08, interactive: false
+        radius, color: 'var(--accent, #c84b2f)', weight: 2, fillOpacity: 0.08,
+        interactive: false, className: 'import-drawing'
       }).addTo(_map)
     }
     return
@@ -448,21 +508,30 @@ function _onPointerMove(e) {
 function _onPointerUp(e) {
   if (!_drawMode || !e.isPrimary) return
   e.stopImmediatePropagation()
-  try { e.target.releasePointerCapture(e.pointerId) } catch (_) {}
+  try { _map.getContainer().releasePointerCapture(e.pointerId) } catch (_) {}
 
   const latlng = _map.mouseEventToLatLng(e)
 
-  if (_drawType === 'polygon') return  // polygon vertices are added on pointerdown
+  if (_drawType === 'polygon') return
 
   if (_drawType === 'circle' && _dragging && _circleCenter) {
     _dragging = false
     const center = _circleCenter
     const radius = Math.round(center.distanceTo(latlng))
     _circleCenter = null
-    if (_circlePreview) { _circlePreview.remove(); _circlePreview = null }
-    if (radius < 50) { _exitDrawMode(); return }   // accidental tap — too small
+
+    if (radius < 30) {
+      // Tap too small — keep draw mode active so the user can try again.
+      if (_circlePreview) { _circlePreview.remove(); _circlePreview = null }
+      return
+    }
+
+    // Hand the preview layer to the trigger so it stays visible during the query.
+    const layer = _circlePreview
+    _circlePreview = null
+    const btn = _activeButton
     _exitDrawMode()
-    _triggerCircleImport(center, radius)
+    _triggerCircleImport(center, radius, btn, layer)
     return
   }
 
@@ -473,27 +542,32 @@ function _onPointerUp(e) {
 function _onPointerCancel(e) {
   if (!_drawMode || !e.isPrimary) return
   _cleanup()
+  _dismissImportPanel()
 }
 
 // ─── Import trigger functions ─────────────────────────────────────────────────
 
-async function _triggerRectImport() {
+async function _triggerRectImport(btn) {
   if (!_bboxBounds) return
   const [s, w, n, ee] = _bboxBounds
-  const btn        = _activeButton
   const areaId     = _generateAreaId()
   const regionName = _autoRegionName(s, w, n, ee)
 
-  btn.textContent = 'querying…'
-  btn.disabled    = true
+  // Keep the drawn rectangle visible and animate it while querying.
+  _setLayerLoading(_rect)
+  _setImportStatus('querying…')
+  if (btn) { btn.textContent = 'querying…'; btn.disabled = true }
 
   try {
     const nodes = await _queryRectOverpass(_bboxBounds)
     _removeRect()
 
     if (!nodes.length) {
-      btn.textContent = 'no benches found'
-      setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
+      _setImportStatus('no benches', 2500)
+      if (btn) {
+        btn.textContent = 'no benches'
+        setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
+      }
       return
     }
 
@@ -506,37 +580,48 @@ async function _triggerRectImport() {
       created_at: new Date().toISOString()
     })
 
-    btn.textContent = `+${added.length} added`
-    setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
+    _setImportStatus(`+${added.length}`, 2500)
+    if (btn) {
+      btn.textContent = `+${added.length} added`
+      setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
+    }
     if (_onFeaturesImported) _onFeaturesImported(added)
   } catch (err) {
     console.error('[bbox-select] rect import failed:', err)
     _removeRect()
-    btn.textContent = 'failed — retry?'
-    setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 3000)
+    _setImportStatus('failed', 3000)
+    if (btn) {
+      btn.textContent = 'failed — retry?'
+      setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 3000)
+    }
   }
 }
 
-async function _triggerPolygonImport(points) {
-  const btn        = _activeButton
-  const areaId     = _generateAreaId()
+async function _triggerPolygonImport(points, btn, loadingLayer) {
+  const areaId      = _generateAreaId()
   const leafletPoly = L.polygon(points)
-  const bounds     = leafletPoly.getBounds()
-  const regionName = _regionNameFromBounds(bounds)
+  const bounds      = leafletPoly.getBounds()
+  const regionName  = _regionNameFromBounds(bounds)
   const bbox = [
     bounds.getSouth().toFixed(5), bounds.getWest().toFixed(5),
     bounds.getNorth().toFixed(5), bounds.getEast().toFixed(5)
   ]
 
-  btn.textContent = 'querying…'
-  btn.disabled    = true
+  // Animate the loading polygon while querying.
+  _setLayerLoading(loadingLayer)
+  _setImportStatus('querying…')
+  if (btn) { btn.textContent = 'querying…'; btn.disabled = true }
 
   try {
     const nodes = await _queryPolygonOverpass(points)
+    _dropLayer(loadingLayer)
 
     if (!nodes.length) {
-      btn.textContent = 'no benches found'
-      setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
+      _setImportStatus('no benches', 2500)
+      if (btn) {
+        btn.textContent = 'no benches'
+        setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
+      }
       return
     }
 
@@ -549,22 +634,25 @@ async function _triggerPolygonImport(points) {
       bench_count: added.length, created_at: new Date().toISOString()
     })
 
-    btn.textContent = `+${added.length} added`
-    setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
+    _setImportStatus(`+${added.length}`, 2500)
+    if (btn) {
+      btn.textContent = `+${added.length} added`
+      setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
+    }
     if (_onFeaturesImported) _onFeaturesImported(added)
   } catch (err) {
     console.error('[bbox-select] polygon import failed:', err)
-    btn.textContent = 'failed — retry?'
-    setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 3000)
+    _dropLayer(loadingLayer)
+    _setImportStatus('failed', 3000)
+    if (btn) {
+      btn.textContent = 'failed — retry?'
+      setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 3000)
+    }
   }
 }
 
-async function _triggerCircleImport(center, radius) {
-  const btn    = _activeButton
+async function _triggerCircleImport(center, radius, btn, layer) {
   const areaId = _generateAreaId()
-
-  // L.Circle.getBounds() requires a map (pixel projection). Compute geographic
-  // bbox directly: radius in meters → degrees of lat/lng.
   const dlat   = radius / 111320
   const dlng   = radius / (111320 * Math.cos(center.lat * Math.PI / 180))
   const bounds = {
@@ -579,15 +667,20 @@ async function _triggerCircleImport(center, radius) {
     (center.lat + dlat).toFixed(5), (center.lng + dlng).toFixed(5)
   ]
 
-  btn.textContent = 'querying…'
-  btn.disabled    = true
+  _setLayerLoading(layer)
+  _setImportStatus('querying…')
+  if (btn) { btn.textContent = 'querying…'; btn.disabled = true }
 
   try {
     const nodes = await _queryCircleOverpass(center.lat, center.lng, radius)
+    _dropLayer(layer)
 
     if (!nodes.length) {
-      btn.textContent = 'no benches found'
-      setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
+      _setImportStatus('no benches', 2500)
+      if (btn) {
+        btn.textContent = 'no benches'
+        setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
+      }
       return
     }
 
@@ -600,23 +693,25 @@ async function _triggerCircleImport(center, radius) {
       bench_count: added.length, created_at: new Date().toISOString()
     })
 
-    btn.textContent = `+${added.length} added`
-    setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
+    _setImportStatus(`+${added.length}`, 2500)
+    if (btn) {
+      btn.textContent = `+${added.length} added`
+      setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
+    }
     if (_onFeaturesImported) _onFeaturesImported(added)
   } catch (err) {
     console.error('[bbox-select] circle import failed:', err)
-    btn.textContent = 'failed — retry?'
-    setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 3000)
+    _dropLayer(layer)
+    _setImportStatus('failed', 3000)
+    if (btn) {
+      btn.textContent = 'failed — retry?'
+      setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 3000)
+    }
   }
 }
 
 // ─── Public init ──────────────────────────────────────────────────────────────
 
-/**
- * @param {L.Map} map
- * @param {Function} onFeaturesImported - Called with the array of new GeoJSON features
- *   after they have been persisted to IndexedDB.
- */
 export function initBboxSelect(map, onFeaturesImported) {
   _map                = map
   _onFeaturesImported = onFeaturesImported
@@ -630,12 +725,16 @@ export function initBboxSelect(map, onFeaturesImported) {
     if (!btn) continue
     btn.addEventListener('click', () => {
       const wasSameMode = _drawMode && _activeButton === btn
-      if (_drawMode) _cleanup()        // cancel any current draw
-      _dismissImportPanel()            // close panel (map needs to be clear)
+      if (_drawMode) _cleanup()
+      // Keep the panel open when switching / toggling modes — it closes when the
+      // user starts drawing (_onPointerDown) or explicitly cancels (Escape / toggle btn).
       if (!wasSameMode) _enterDrawMode(mode, btn)
-      // wasSameMode = user clicked the already-active button → cancel only
     })
   }
+
+  // Polygon "close polygon" floating button
+  _polyDoneBtn.addEventListener('click', () => _closePolygon())
+  _polyDoneBtn.addEventListener('pointerdown', (e) => e.stopPropagation())
 
   const container = map.getContainer()
   container.addEventListener('pointerdown',   _onPointerDown,   { capture: true, passive: false })
@@ -644,7 +743,7 @@ export function initBboxSelect(map, onFeaturesImported) {
   container.addEventListener('pointercancel', _onPointerCancel, { capture: true })
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && _drawMode)       _cleanup()
+    if (e.key === 'Escape' && _drawMode)        _cleanup()
     if (e.key === 'Escape' && _importPanelOpen) _closeImportPanel()
   })
 }

@@ -30,6 +30,7 @@ import { loadBenches } from './store.js'
 import { initBboxSelect, autoImportNearby } from './bbox-select.js'
 import { initAreas } from './areas.js'
 import { initGps } from './gps.js'
+import { initOnboarding } from './onboarding.js'
 
 const benchCountEl  = document.getElementById('bench-count')
 const mapEl         = document.getElementById('map')
@@ -42,6 +43,9 @@ if ('serviceWorker' in navigator) {
 async function main() {
   // Initialise map
   const map = initMap()
+  // Force Leaflet to read the container's computed height (which the fixed toolbar
+  // may have altered after the initial layout pass).
+  requestAnimationFrame(() => map.invalidateSize())
 
   // Load bench data (IndexedDB cache → network fallback via store.js)
   const { features } = await loadBenches()
@@ -157,6 +161,10 @@ async function main() {
       doImport(...STOCKHOLM, 'Stockholm')
     }
   }
+
+  // ─── Onboarding ───────────────────────────────────────────────────────────────
+
+  initOnboarding()
 
   // ─── URL hash state ───────────────────────────────────────────────────────────
 
