@@ -64,9 +64,18 @@ filterToggleBtn.addEventListener('click', () => {
     filterToggleBtn.setAttribute('aria-expanded', 'false')
     panelOpen = false
   } else {
+    document.dispatchEvent(new CustomEvent('panel-open', { detail: { id: 'filter-panel' } }))
     animateFilterPanelIn(filterPanelEl)
     filterToggleBtn.setAttribute('aria-expanded', 'true')
     panelOpen = true
+  }
+})
+
+document.addEventListener('panel-open', (e) => {
+  if (e.detail.id !== 'filter-panel' && panelOpen) {
+    animateFilterPanelOut(filterPanelEl)
+    filterToggleBtn.setAttribute('aria-expanded', 'false')
+    panelOpen = false
   }
 })
 

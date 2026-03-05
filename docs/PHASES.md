@@ -110,7 +110,7 @@ added_at: ISO date
 
 **Deliverables:**
 
-- [x] Full-text search across bench names, notes, and region (`src/search.js`) — 200ms debounce, Escape to clear, live count update
+- [-] Full-text search across bench names, notes, and region (`src/search.js`) — removed in Phase 7 (not surfaced in toolbar; filter chips cover the common cases)
 - [x] URL hash state (`#lat,lng,zoom`) for shareable map positions (`src/hash.js`) — restores view on load, writes silently via `history.replaceState`
 - [x] Export panel: download filtered view as GeoJSON, CSV, or YAML (`src/export.js`)
 - [x] Bench count badge updates live when filters or search narrow results
@@ -170,6 +170,26 @@ added_at: ISO date
 
 ---
 
+## Phase 7 — Mobile UX Polish `v1.2` ✅
+
+> *"Get out of the way."*
+
+**Goal:** IRL testing on iPhone revealed seven UX issues. This phase fixes them all without adding new features.
+
+**Deliverables:**
+
+- [x] Sidebar becomes a **bottom sheet on mobile (≤600 px)** — occupies the bottom 50dvh so the map is always visible above. Desktop behaviour unchanged (right-side slide-in).
+- [x] **Single-panel-at-a-time** — a `panel-open` CustomEvent propagates through all panel modules (filter, import, export, areas, sidebar). Opening any panel automatically closes all others. On mobile, opening a toolbar panel also dismisses the bench detail sheet.
+- [x] **Querying button colour** — `import` button adopts the accent colour while an Overpass query is in-flight, giving instant visual feedback on slow connections.
+- [x] **Circle draw loading animation** — the circle preview now carries `dashArray: '5 4'` so the `dash-march` CSS keyframes are actually visible during the query (previously the stroke-dashoffset animation ran against a solid stroke).
+- [x] **GPS arrow** — pressing "nearest bench" draws a dashed polyline with an SVG arrowhead from the GPS dot to the closest bench so the user can orient before the map flies there.
+- [x] **Empty area search history** — if an Overpass query returns 0 benches the area is still saved to IndexedDB and shown in the areas panel (dimmed, italic, "empty search" label) with a faint grey dashed boundary overlay.
+- [x] **Search removed** — the name/notes/region text filter was not surfaced in the toolbar and added cognitive overhead with minimal benefit. Removed `src/search.js` and all wiring.
+
+**Done when:** All seven IRL pain-points are resolved and the full Playwright suite passes.
+
+---
+
 ## Milestone Summary
 
 | Version | Phase | Theme | Status |
@@ -181,3 +201,4 @@ added_at: ISO date
 | `v0.5` | 4 | Discovery | ✅ |
 | `v1.0` | 5 | Enrichment | ✅ |
 | `v1.1` | 6 | GPS & Live Data | ✅ |
+| `v1.2` | 7 | Mobile UX Polish | ✅ |

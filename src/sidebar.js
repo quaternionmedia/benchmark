@@ -65,6 +65,13 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && isOpen) closeSidebar()
 })
 
+// On mobile (≤600 px), close the sidebar when any other panel opens
+document.addEventListener('panel-open', (e) => {
+  if (e.detail.id !== 'sidebar' && isOpen && window.matchMedia('(max-width: 600px)').matches) {
+    closeSidebar()
+  }
+})
+
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /**
@@ -81,6 +88,8 @@ export function openSidebar(props, latlng) {
   // it during a flyTo zoom animation (DOM element gets detached).
   _opener   = document.activeElement
   _openerId = _opener?.dataset?.id ?? null
+
+  document.dispatchEvent(new CustomEvent('panel-open', { detail: { id: 'sidebar' } }))
 
   if (isOpen) {
     animateSidebarContentSwap(contentEl, () => renderContent(props, latlng))

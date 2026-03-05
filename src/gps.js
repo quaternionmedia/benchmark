@@ -8,6 +8,7 @@
 import L from 'leaflet'
 
 let _locationMarker = null
+let _arrowLine      = null
 
 /**
  * Haversine great-circle distance in km.
@@ -22,6 +23,27 @@ function _haversine(lat1, lng1, lat2, lng2) {
     Math.cos(lat2 * (Math.PI / 180)) *
     Math.sin(dLng / 2) ** 2
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+}
+
+function _injectArrowDefs(map) {
+  const svg = map.getPanes().overlayPane.querySelector('svg')
+  if (!svg || svg.querySelector('#gps-arrow-head')) return
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs')
+  defs.innerHTML =
+    '<marker id="gps-arrow-head" markerWidth="6" markerHeight="6" ' +
+    'refX="5" refY="3" orient="auto">' +
+    '<path d="M0,0 L0,6 L6,3 z" fill="#d4553b" opacity="0.65"/></marker>'
+  svg.insertBefore(defs, svg.firstChild)
+}
+
+function _drawArrow(map, gpsLatlng, benchLatlng) {
+  if (_arrowLine) { _arrowLine.remove(); _arrowLine = null }
+  _arrowLine = L.polyline([gpsLatlng, benchLatlng], {
+    color: '#d4553b', weight: 1.5, opacity: 0.55,
+    dashArray: '5 3', interactive: false
+  }).addTo(map)
+  _injectArrowDefs(map)
+  if (_arrowLine._path) _arrowLine._path.setAttribute('marker-end', 'url(#gps-arrow-head)')
 }
 
 /**
@@ -91,6 +113,7 @@ export function initGps(map, registry, onBenchFound) {
 
         if (nearest) {
           const ll = nearest.marker.getLatLng()
+          _drawArrow(map, [latitude, longitude], ll)
           onBenchFound(nearest.props, [ll.lat, ll.lng])
         }
       },

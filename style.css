@@ -564,34 +564,6 @@ body {
 .leaflet-popup-tip { background: var(--bg); }
 .leaflet-popup-close-button { color: var(--ink-muted) !important; }
 
-/* ─── SEARCH INPUT ───────────────────────────────── */
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.search-input {
-  background: none;
-  border: 1px solid var(--border);
-  padding: 5px 10px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--ink);
-  letter-spacing: 0.02em;
-  width: clamp(120px, 25vw, 200px);
-  outline: none;
-  transition: border-color 0.15s, width 0.25s var(--ease-out);
-}
-
-.search-input:focus {
-  border-color: var(--ink-muted);
-  width: clamp(160px, 35vw, 260px);
-}
-
-.search-input::placeholder { color: var(--border); }
-.search-input::-webkit-search-cancel-button { display: none; }
 
 /* ─── IMPORT PANEL ───────────────────────────────── */
 
@@ -769,6 +741,9 @@ body {
 .area-item-actions { display: flex; gap: 4px; }
 .area-action-btn { padding: 3px 8px; font-size: 10px; }
 
+.area-item--empty { opacity: 0.6; }
+.area-item--empty .area-item-name { color: var(--ink-muted); font-style: italic; }
+
 .areas-empty, .areas-loading {
   font-size: 11px;
   color: var(--ink-muted);
@@ -827,6 +802,13 @@ body {
   color: var(--bg);
 }
 
+/* Querying state — highlights the import button while an Overpass query is in flight */
+.btn-icon.querying {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
 /* Crosshair cursor while in draw mode */
 #map.draw-mode,
 #map.draw-mode .leaflet-interactive { cursor: crosshair !important; }
@@ -858,8 +840,34 @@ body {
   .areas-panel  { width: 100vw; border-right: none; }
 }
 
-/* Phone: stack filter group labels above chips */
+/* Phone: sidebar becomes a bottom sheet (50 % height), filter panel stacks vertically */
 @media (max-width: 600px) {
+  /* ── Sidebar bottom sheet ─────────────────────── */
+  .sidebar {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: var(--toolbar-h);
+    height: 50dvh;
+    width: 100vw;
+    border-left: none;
+    border-top: 2px solid var(--border);
+    border-radius: 12px 12px 0 0;
+    /* JS animation uses translateY on mobile; set initial state to off-screen below */
+    transform: translateY(100%);
+  }
+
+  /* Tighter sidebar content to fit more in half the screen */
+  #sidebar-content     { padding: 12px 14px; }
+  .bench-detail-header { margin-bottom: 10px; }
+  .bench-detail-name   { font-size: 17px; }
+  .bench-meta-cell     { padding: 6px 10px; }
+  .bench-meta-grid     { margin-bottom: 10px; }
+  .bench-condition-badge { margin-bottom: 10px; }
+  .bench-notes         { font-size: 11px; margin-bottom: 8px; }
+  .bench-meta-footer   { font-size: 10px; }
+
+  /* ── Filter panel ──────────────────────────────── */
   .filter-panel-inner { flex-direction: column; padding: 12px 14px; }
   .filter-group { flex-direction: column; gap: 8px; }
   .filter-panel-inner h3 { font-size: 13px; }
@@ -872,7 +880,7 @@ body {
     --toolbar-h: calc(40px + env(safe-area-inset-bottom, 0px));
   }
   .toolbar .btn-icon { min-height: 36px; font-size: 9px; letter-spacing: 0.02em; }
-  .header-count-row  { display: none; }   /* hide logo+count; only search visible */
+  .header-count-row  { display: none; }
 }
 
 /* ─── POLYGON DONE BUTTON ────────────────────────── */

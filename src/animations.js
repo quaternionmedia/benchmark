@@ -23,40 +23,72 @@ export function animateMarkerSelect(markerEl) {
 
 // ─── SIDEBAR ─────────────────────────────────────────────────────────────────
 
+/** True when the sidebar should behave as a bottom sheet (≤600 px viewport). */
+const _isMobileSheet = () => window.matchMedia('(max-width: 600px)').matches
+
 /**
- * Slide sidebar in from the right.
+ * Slide sidebar in — from right on desktop, from bottom on mobile.
  * @param {HTMLElement} sidebarEl
  * @param {Function} onComplete - Called when animation finishes
  */
 export function animateSidebarIn(sidebarEl, onComplete) {
   sidebarEl.classList.remove('hidden')
-  anime({
-    targets: sidebarEl,
-    translateX: ['100%', '0%'],
-    opacity: [0.6, 1],
-    duration: 380,
-    easing: 'cubicBezier(0.16, 1, 0.3, 1)',
-    complete: onComplete
-  })
+  if (_isMobileSheet()) {
+    anime({
+      targets: sidebarEl,
+      translateY: ['100%', '0%'],
+      translateX: '0%',
+      opacity: [0.8, 1],
+      duration: 380,
+      easing: 'cubicBezier(0.16, 1, 0.3, 1)',
+      complete: onComplete
+    })
+  } else {
+    anime({
+      targets: sidebarEl,
+      translateX: ['100%', '0%'],
+      translateY: '0%',
+      opacity: [0.6, 1],
+      duration: 380,
+      easing: 'cubicBezier(0.16, 1, 0.3, 1)',
+      complete: onComplete
+    })
+  }
 }
 
 /**
- * Slide sidebar out to the right.
+ * Slide sidebar out — to right on desktop, to bottom on mobile.
  * @param {HTMLElement} sidebarEl
  * @param {Function} onComplete - Called when animation finishes
  */
 export function animateSidebarOut(sidebarEl, onComplete) {
-  anime({
-    targets: sidebarEl,
-    translateX: ['0%', '100%'],
-    opacity: [1, 0.4],
-    duration: 280,
-    easing: 'cubicBezier(0.7, 0, 0.84, 0)',
-    complete: () => {
-      sidebarEl.classList.add('hidden')
-      if (onComplete) onComplete()
-    }
-  })
+  if (_isMobileSheet()) {
+    anime({
+      targets: sidebarEl,
+      translateY: ['0%', '100%'],
+      translateX: '0%',
+      opacity: [1, 0.4],
+      duration: 280,
+      easing: 'cubicBezier(0.7, 0, 0.84, 0)',
+      complete: () => {
+        sidebarEl.classList.add('hidden')
+        if (onComplete) onComplete()
+      }
+    })
+  } else {
+    anime({
+      targets: sidebarEl,
+      translateX: ['0%', '100%'],
+      translateY: '0%',
+      opacity: [1, 0.4],
+      duration: 280,
+      easing: 'cubicBezier(0.7, 0, 0.84, 0)',
+      complete: () => {
+        sidebarEl.classList.add('hidden')
+        if (onComplete) onComplete()
+      }
+    })
+  }
 }
 
 /**
