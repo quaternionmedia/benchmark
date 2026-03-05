@@ -226,6 +226,7 @@ function _openImportPanel() {
   animateFilterPanelIn(_importPanelEl)
   _importToggleBtn.setAttribute('aria-expanded', 'true')
   _importPanelOpen = true
+  document.dispatchEvent(new CustomEvent('panel-open', { detail: { id: 'import-panel' } }))
   if (_map) _enterDrawMode('circle', _buttons.circle)
 }
 
@@ -238,8 +239,12 @@ function _closeImportPanel() {
 
 function _setImportStatus(text, durationMs) {
   _importToggleBtn.textContent = text
+  _importToggleBtn.classList.toggle('querying', text === 'querying…')
   if (durationMs) {
-    setTimeout(() => { _importToggleBtn.textContent = 'import' }, durationMs)
+    setTimeout(() => {
+      _importToggleBtn.textContent = 'import'
+      _importToggleBtn.classList.remove('querying')
+    }, durationMs)
   }
 }
 
@@ -495,7 +500,7 @@ function _onPointerMove(e) {
     } else {
       _circlePreview = L.circle(_circleCenter, {
         radius, color: 'var(--accent, #c84b2f)', weight: 2, fillOpacity: 0.08,
-        interactive: false, className: 'import-drawing'
+        dashArray: '5 4', interactive: false, className: 'import-drawing'
       }).addTo(_map)
     }
     return
@@ -563,11 +568,14 @@ async function _triggerRectImport(btn) {
     _removeRect()
 
     if (!nodes.length) {
+      await saveArea({ id: areaId, name: regionName, type: 'rect',
+        bbox: [s, w, n, ee], bench_count: 0, created_at: new Date().toISOString() })
       _setImportStatus('no benches', 2500)
       if (btn) {
-        btn.textContent = 'no benches'
+        btn.textContent = 'no benches found'
         setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
       }
+      if (_onFeaturesImported) _onFeaturesImported([])
       return
     }
 
@@ -617,11 +625,15 @@ async function _triggerPolygonImport(points, btn, loadingLayer) {
     _dropLayer(loadingLayer)
 
     if (!nodes.length) {
+      await saveArea({ id: areaId, name: regionName, type: 'polygon',
+        bbox, polygon: points.map(ll => [ll.lat, ll.lng]),
+        bench_count: 0, created_at: new Date().toISOString() })
       _setImportStatus('no benches', 2500)
       if (btn) {
-        btn.textContent = 'no benches'
+        btn.textContent = 'no benches found'
         setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
       }
+      if (_onFeaturesImported) _onFeaturesImported([])
       return
     }
 
@@ -676,11 +688,15 @@ async function _triggerCircleImport(center, radius, btn, layer) {
     _dropLayer(layer)
 
     if (!nodes.length) {
+      await saveArea({ id: areaId, name: regionName, type: 'circle',
+        bbox, center: [center.lat, center.lng], radius,
+        bench_count: 0, created_at: new Date().toISOString() })
       _setImportStatus('no benches', 2500)
       if (btn) {
-        btn.textContent = 'no benches'
+        btn.textContent = 'no benches found'
         setTimeout(() => { btn.textContent = btn.dataset.label; btn.disabled = false }, 2500)
       }
+      if (_onFeaturesImported) _onFeaturesImported([])
       return
     }
 
@@ -745,5 +761,9 @@ export function initBboxSelect(map, onFeaturesImported) {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && _drawMode)        _cleanup()
     if (e.key === 'Escape' && _importPanelOpen) _closeImportPanel()
+  })
+
+  document.addEventListener('panel-open', (e) => {
+    if (e.detail.id !== 'import-panel' && _importPanelOpen) _closeImportPanel()
   })
 }

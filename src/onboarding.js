@@ -82,7 +82,24 @@ function _showPing(targetId, durationMs) {
   }, durationMs)
 }
 
-// ─── Public init ──────────────────────────────────────────────────────────────
+// ─── Help tip content ─────────────────────────────────────────────────────────
+
+const HELP_HTML =
+  `<strong>welcome to benchmark</strong><br>` +
+  `tap a bench marker to see its details.<br>` +
+  `use <em>import</em> to draw a shape and fetch nearby benches.<br>` +
+  `use <em>filter</em> and <em>export</em> to explore.`
+
+// ─── Public API ───────────────────────────────────────────────────────────────
+
+/**
+ * Show the full help tip immediately, regardless of run count.
+ * Called by the persistent ? button.
+ */
+export function showHelp() {
+  const { el } = _makeTip(HELP_HTML, 'got it')
+  _showTip(el, 8000)
+}
 
 /**
  * Call once after the map and toolbar are ready.
@@ -92,15 +109,12 @@ export function initOnboarding() {
   const runs = _getRuns()
   _bumpRuns()
 
+  // Wire the persistent help button
+  document.getElementById('help-btn')?.addEventListener('click', showHelp)
+
   if (runs === 0) {
     // Full tooltip — explains the three actions
-    const { el } = _makeTip(
-      `<strong>welcome to benchmark</strong><br>` +
-      `tap a bench marker to see its details.<br>` +
-      `use <em>import</em> to draw a shape and fetch nearby benches.<br>` +
-      `use <em>filter</em>, <em>search</em>, and <em>export</em> to explore.`,
-      'got it'
-    )
+    const { el } = _makeTip(HELP_HTML, 'got it')
     _showTip(el, 8000)
     return
   }

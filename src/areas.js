@@ -23,6 +23,7 @@ const escHtml = (s) => String(s)
 
 const OVERLAY_VISIBLE = { color: '#c84b2f', weight: 1.5, dashArray: '6 4', fillOpacity: 0.05, opacity: 0.40, interactive: false }
 const OVERLAY_HIDDEN  = { color: '#c84b2f', weight: 1,   dashArray: '4 6', fillOpacity: 0,    opacity: 0.15, interactive: false }
+const OVERLAY_EMPTY   = { color: '#888080', weight: 1,   dashArray: '3 6', fillOpacity: 0,    opacity: 0.20, interactive: false }
 
 // ─── Module state ─────────────────────────────────────────────────────────────
 
@@ -39,29 +40,31 @@ const _overlays = new Map()
 // ─── Overlay helpers ──────────────────────────────────────────────────────────
 
 function _makeLayer(area) {
+  const isEmpty = (area.bench_count ?? 0) === 0
+  const style   = isEmpty ? OVERLAY_EMPTY : OVERLAY_VISIBLE
   if (area.type === 'circle' && area.center && area.radius) {
-    return L.circle(area.center, { radius: area.radius, ...OVERLAY_VISIBLE })
+    return L.circle(area.center, { radius: area.radius, ...style })
   }
   if (area.type === 'polygon' && area.polygon?.length >= 3) {
-    return L.polygon(area.polygon, OVERLAY_VISIBLE)
+    return L.polygon(area.polygon, style)
   }
   // rect (default) — use bbox
   const [s, w, n, e] = area.bbox
-  return L.rectangle([[+s, +w], [+n, +e]], OVERLAY_VISIBLE)
+  return L.rectangle([[+s, +w], [+n, +e]], style)
 }
 
 function _ensureOverlay(area) {
-  const hidden = _hiddenAreaIds.has(area.id)
+  const isEmpty = (area.bench_count ?? 0) === 0
+  const hidden  = _hiddenAreaIds.has(area.id)
   if (_overlays.has(area.id)) {
-    // Update style only
     const layer = _overlays.get(area.id)
-    layer.setStyle(hidden ? OVERLAY_HIDDEN : OVERLAY_VISIBLE)
+    layer.setStyle(isEmpty ? OVERLAY_EMPTY : (hidden ? OVERLAY_HIDDEN : OVERLAY_VISIBLE))
     return
   }
   const layer = _makeLayer(area)
   layer.addTo(_map)
   _overlays.set(area.id, layer)
-  if (hidden) layer.setStyle(OVERLAY_HIDDEN)
+  if (!isEmpty && hidden) layer.setStyle(OVERLAY_HIDDEN)
 }
 
 function _dropOverlay(areaId) {
@@ -98,6 +101,10 @@ export function initAreas({ map, registry, clusterGroup, soloGroup, applyAndUpda
     if (e.key === 'Escape' && _panelOpen) _closePanel()
   })
 
+  document.addEventListener('panel-open', (e) => {
+    if (e.detail.id !== 'areas-panel' && _panelOpen) _closePanel()
+  })
+
   // Draw overlays even before the panel is opened
   _syncOverlays()
 
@@ -118,6 +125,7 @@ function _openPanel() {
   _toggleBtn.setAttribute('aria-expanded', 'true')
   _renderAreaList()
   animateFilterPanelIn(_panelEl)
+  document.dispatchEvent(new CustomEvent('panel-open', { detail: { id: 'areas-panel' } }))
 }
 
 function _closePanel() {
@@ -148,22 +156,24 @@ async function _renderAreaList() {
 }
 
 function _buildAreaItem(area) {
-  const hidden = _hiddenAreaIds.has(area.id)
-  const n      = area.bench_count ?? 0
+  const hidden  = _hiddenAreaIds.has(area.id)
+  const n       = area.bench_count ?? 0
+  const isEmpty = n === 0
 
   const el = document.createElement('div')
-  el.className    = 'area-item'
+  el.className    = `area-item${isEmpty ? ' area-item--empty' : ''}`
   el.dataset.areaId = area.id
   el.innerHTML = `
     <div class="area-item-main">
       <button type="button" class="area-visibility-btn${hidden ? '' : ' active'}"
               aria-pressed="${hidden ? 'false' : 'true'}"
-              title="${hidden ? 'Show' : 'Hide'} benches">
-        ${hidden ? '○' : '●'}
+              title="${isEmpty ? 'No benches' : (hidden ? 'Show' : 'Hide') + ' benches'}"
+              ${isEmpty ? 'disabled' : ''}>
+        ${isEmpty ? '○' : (hidden ? '○' : '●')}
       </button>
       <div class="area-item-info">
         <span class="area-item-name">${escHtml(area.name)}</span>
-        <span class="area-item-meta">${area.type ?? 'bbox'} · ${n} bench${n !== 1 ? 'es' : ''} · ${area.created_at.slice(0, 10)}</span>
+        <span class="area-item-meta">${area.type ?? 'bbox'} · ${isEmpty ? 'empty search' : `${n} bench${n !== 1 ? 'es' : ''}`} · ${area.created_at.slice(0, 10)}</span>
       </div>
     </div>
     <div class="area-item-actions">
@@ -175,7 +185,9 @@ function _buildAreaItem(area) {
   el.querySelector('[data-action="zoom"]').addEventListener('click',   () => _zoomToArea(area))
   el.querySelector('[data-action="rename"]').addEventListener('click', () => _renameArea(area))
   el.querySelector('[data-action="delete"]').addEventListener('click', () => _deleteArea(area))
-  el.querySelector('.area-visibility-btn').addEventListener('click',   () => _toggleVisibility(area))
+  if (!isEmpty) {
+    el.querySelector('.area-visibility-btn').addEventListener('click', () => _toggleVisibility(area))
+  }
 
   return el
 }

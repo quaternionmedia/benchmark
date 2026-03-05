@@ -33,9 +33,18 @@ exportBtn.addEventListener('click', () => {
     exportBtn.setAttribute('aria-expanded', 'false')
     panelOpen = false
   } else {
+    document.dispatchEvent(new CustomEvent('panel-open', { detail: { id: 'export-panel' } }))
     animateFilterPanelIn(exportPanelEl)
     exportBtn.setAttribute('aria-expanded', 'true')
     panelOpen = true
+  }
+})
+
+document.addEventListener('panel-open', (e) => {
+  if (e.detail.id !== 'export-panel' && panelOpen) {
+    animateFilterPanelOut(exportPanelEl)
+    exportBtn.setAttribute('aria-expanded', 'false')
+    panelOpen = false
   }
 })
 

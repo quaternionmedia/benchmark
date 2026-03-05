@@ -23,7 +23,6 @@ import { renderMarkers, addMarkersToGroup, applyMarkerFilter, removeBenchesFromG
 import { openSidebar } from './sidebar.js'
 import { onFilterChange, buildPredicate } from './filters.js'
 import { animateBenchCount, animateMapFlyTo, cancelBenchCountAnimation } from './animations.js'
-import { onSearchChange, buildSearchPredicate } from './search.js'
 import { initHashSync } from './hash.js'
 import { initExport } from './export.js'
 import { loadBenches } from './store.js'
@@ -65,16 +64,14 @@ async function main() {
     condition: 'all', material: 'all',
     backrest: false, armrests: false, accessible: false, covered: false
   }
-  let latestSearchTerm = ''
   let _getHiddenAreaIds = () => new Set()
 
   function getCombinedPredicate() {
     const fp     = buildPredicate(latestFilterState)
-    const sp     = buildSearchPredicate(latestSearchTerm)
     const hidden = _getHiddenAreaIds()
     return (props) => {
       if (props.area_id && hidden.has(props.area_id)) return false
-      return fp(props) && sp(props)
+      return fp(props)
     }
   }
 
@@ -88,11 +85,6 @@ async function main() {
 
   onFilterChange((filterState) => {
     latestFilterState = filterState
-    applyAndUpdateCount()
-  })
-
-  onSearchChange((term) => {
-    latestSearchTerm = term
     applyAndUpdateCount()
   })
 

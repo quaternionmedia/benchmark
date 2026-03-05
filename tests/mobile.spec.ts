@@ -35,7 +35,6 @@ test.describe('Mobile layout (375 × 667)', () => {
   })
 
   test('key header controls are visible', async ({ page }) => {
-    await expect(page.locator('#search-input')).toBeVisible()
     await expect(page.locator('#filter-toggle')).toBeVisible()
     await expect(page.locator('#gps-locate')).toBeVisible()
     await expect(page.locator('#gps-nearest')).toBeVisible()

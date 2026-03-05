@@ -31,17 +31,12 @@
 
   <div id="app">
 
-    <!-- Header: logo, bench count, search -->
+    <!-- Header: logo + bench count -->
     <header id="header">
       <div class="header-count-row">
         <span class="logo">benchmark</span>
         <!-- aria-live announces count changes to screen readers -->
         <span class="bench-count" id="bench-count" aria-live="polite" aria-atomic="true"></span>
-      </div>
-      <div class="header-actions">
-        <input type="search" id="search-input" class="search-input"
-               placeholder="search…" aria-label="Search benches"
-               autocomplete="off" inputmode="search" />
       </div>
     </header>
 
@@ -183,6 +178,9 @@
       <button type="button" class="btn-icon" id="gps-nearest"
               title="Find the nearest bench" aria-label="Find nearest bench">nearest</button>
     </nav>
+
+    <!-- Persistent help button — reopens onboarding tip at any time -->
+    <button type="button" id="help-btn" class="help-btn" aria-label="Show help">?</button>
 
   </div>
 
