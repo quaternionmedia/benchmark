@@ -17,7 +17,7 @@
     "animejs": "^3.2.2",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3",
-    "yaml": "^2.4.5"
+    "yaml": "^2.8.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.44.0",
