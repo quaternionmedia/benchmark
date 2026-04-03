@@ -12,7 +12,11 @@ test.describe('App load', () => {
   test('loads without console errors', async ({ page }) => {
     const errors: string[] = []
     page.on('console', msg => {
-      if (msg.type() === 'error') errors.push(msg.text())
+      // Exclude browser-generated network errors (e.g. tile server 503s) —
+      // those are infrastructure noise, not app bugs.
+      if (msg.type() === 'error' && !msg.text().startsWith('Failed to load resource:')) {
+        errors.push(msg.text())
+      }
     })
     page.on('pageerror', err => errors.push(err.message))
 

@@ -819,7 +819,7 @@ body {
   position: fixed;
   bottom: calc(var(--toolbar-h) + 8px);
   left: 10px;
-  z-index: 1100;
+  z-index: 890;
   width: 26px;
   height: 26px;
   border-radius: 50%;
