@@ -1,0 +1,6348 @@
+region:
+  name: Kyoto Central
+  description: Imported from OpenStreetMap via Overpass API on 2026-04-06
+benches:
+  - id: kyoto-central-001
+    name: Kyoto Central bench 001
+    lat: 35.0128872
+    lng: 135.7823934
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-002
+    name: Kyoto Central bench 002
+    lat: 35.0130728
+    lng: 135.7823746
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-003
+    name: Kyoto Central bench 003
+    lat: 35.0131113
+    lng: 135.782373
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-004
+    name: Kyoto Central bench 004
+    lat: 35.0140087
+    lng: 135.7799958
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-005
+    name: Kyoto Central bench 005
+    lat: 35.0144719
+    lng: 135.7800058
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 4
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-006
+    name: Kyoto Central bench 006
+    lat: 35.0122024
+    lng: 135.7834976
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-007
+    name: Kyoto Central bench 007
+    lat: 35.011489
+    lng: 135.7826649
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-008
+    name: Kyoto Central bench 008
+    lat: 35.0132462
+    lng: 135.7822278
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-009
+    name: Kyoto Central bench 009
+    lat: 35.0122035
+    lng: 135.7835634
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-010
+    name: Kyoto Central bench 010
+    lat: 35.0122046
+    lng: 135.7836244
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-011
+    name: Kyoto Central bench 011
+    lat: 35.0126538
+    lng: 135.7840996
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-012
+    name: Kyoto Central bench 012
+    lat: 35.0064002
+    lng: 135.7711438
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-013
+    name: Kyoto Central bench 013
+    lat: 35.006434
+    lng: 135.7711411
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-014
+    name: Kyoto Central bench 014
+    lat: 35.009404
+    lng: 135.788162
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-015
+    name: Kyoto Central bench 015
+    lat: 35.010983
+    lng: 135.7879945
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-016
+    name: Kyoto Central bench 016
+    lat: 35.0133746
+    lng: 135.7823181
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-017
+    name: Kyoto Central bench 017
+    lat: 35.011918
+    lng: 135.7844796
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-018
+    name: Kyoto Central bench 018
+    lat: 35.0133755
+    lng: 135.782339
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-019
+    name: Kyoto Central bench 019
+    lat: 35.0119191
+    lng: 135.7841081
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-020
+    name: Kyoto Central bench 020
+    lat: 35.0119191
+    lng: 135.7841324
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-021
+    name: Kyoto Central bench 021
+    lat: 35.0119228
+    lng: 135.7841205
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-022
+    name: Kyoto Central bench 022
+    lat: 35.0119196
+    lng: 135.7834964
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-023
+    name: Kyoto Central bench 023
+    lat: 35.0119219
+    lng: 135.7832045
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-024
+    name: Kyoto Central bench 024
+    lat: 35.0199877
+    lng: 135.7898384
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 4
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-025
+    name: Kyoto Central bench 025
+    lat: 35.0187038
+    lng: 135.7881155
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-026
+    name: Kyoto Central bench 026
+    lat: 35.0187608
+    lng: 135.7881236
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-027
+    name: Kyoto Central bench 027
+    lat: 35.0187862
+    lng: 135.7883844
+    material: metal
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-028
+    name: Kyoto Central bench 028
+    lat: 35.0187874
+    lng: 135.7884072
+    material: metal
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-029
+    name: Kyoto Central bench 029
+    lat: 35.018788
+    lng: 135.7881257
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-030
+    name: Kyoto Central bench 030
+    lat: 35.0187884
+    lng: 135.7884276
+    material: metal
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-031
+    name: Kyoto Central bench 031
+    lat: 35.0187912
+    lng: 135.7883237
+    material: metal
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-032
+    name: Kyoto Central bench 032
+    lat: 35.0188116
+    lng: 135.7883217
+    material: metal
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-033
+    name: Kyoto Central bench 033
+    lat: 35.0188156
+    lng: 135.7881285
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-034
+    name: Kyoto Central bench 034
+    lat: 35.0188293
+    lng: 135.7883547
+    material: metal
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-035
+    name: Kyoto Central bench 035
+    lat: 35.0188371
+    lng: 135.7883055
+    material: metal
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-036
+    name: Kyoto Central bench 036
+    lat: 35.0188446
+    lng: 135.7881447
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-037
+    name: Kyoto Central bench 037
+    lat: 35.0188652
+    lng: 135.7882697
+    material: metal
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-038
+    name: Kyoto Central bench 038
+    lat: 35.0188685
+    lng: 135.788203
+    material: metal
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-039
+    name: Kyoto Central bench 039
+    lat: 34.995627
+    lng: 135.7846743
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-040
+    name: Kyoto Central bench 040
+    lat: 34.9954706
+    lng: 135.7839849
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-041
+    name: Kyoto Central bench 041
+    lat: 34.9954847
+    lng: 135.7839184
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-042
+    name: Kyoto Central bench 042
+    lat: 34.9950005
+    lng: 135.7833898
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-043
+    name: Kyoto Central bench 043
+    lat: 34.9950132
+    lng: 135.7833627
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-044
+    name: Kyoto Central bench 044
+    lat: 34.9950256
+    lng: 135.7833344
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-045
+    name: Kyoto Central bench 045
+    lat: 34.9950706
+    lng: 135.7832173
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-046
+    name: Kyoto Central bench 046
+    lat: 34.9950309
+    lng: 135.7854553
+    material: metal
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-047
+    name: Kyoto Central bench 047
+    lat: 34.995043
+    lng: 135.7854616
+    material: metal
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-048
+    name: Kyoto Central bench 048
+    lat: 34.9958274
+    lng: 135.7666686
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-049
+    name: Kyoto Central bench 049
+    lat: 34.9958298
+    lng: 135.7666372
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-050
+    name: Kyoto Central bench 050
+    lat: 34.9984429
+    lng: 135.7792971
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-051
+    name: Kyoto Central bench 051
+    lat: 34.9985226
+    lng: 135.7793124
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-052
+    name: Kyoto Central bench 052
+    lat: 34.9985877
+    lng: 135.7793104
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-053
+    name: Kyoto Central bench 053
+    lat: 34.998603
+    lng: 135.7793146
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-054
+    name: Kyoto Central bench 054
+    lat: 35.0008119
+    lng: 135.7797293
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-055
+    name: Kyoto Central bench 055
+    lat: 35.0008131
+    lng: 135.7796729
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-056
+    name: Kyoto Central bench 056
+    lat: 35.021057
+    lng: 135.7636558
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-057
+    name: Kyoto Central bench 057
+    lat: 35.0229191
+    lng: 135.7627828
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-058
+    name: Kyoto Central bench 058
+    lat: 35.0210594
+    lng: 135.7625929
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-059
+    name: Kyoto Central bench 059
+    lat: 35.0210643
+    lng: 135.7626841
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-060
+    name: Kyoto Central bench 060
+    lat: 35.021066
+    lng: 135.7627243
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-061
+    name: Kyoto Central bench 061
+    lat: 35.0210643
+    lng: 135.7629141
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-062
+    name: Kyoto Central bench 062
+    lat: 35.0210649
+    lng: 135.7629584
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-063
+    name: Kyoto Central bench 063
+    lat: 35.0210638
+    lng: 135.7633922
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-064
+    name: Kyoto Central bench 064
+    lat: 35.0210627
+    lng: 135.7634432
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-065
+    name: Kyoto Central bench 065
+    lat: 35.0210589
+    lng: 135.7636169
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-066
+    name: Kyoto Central bench 066
+    lat: 35.022425
+    lng: 135.7625156
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-067
+    name: Kyoto Central bench 067
+    lat: 35.0224272
+    lng: 135.7625572
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-068
+    name: Kyoto Central bench 068
+    lat: 35.0224236
+    lng: 135.7629332
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-069
+    name: Kyoto Central bench 069
+    lat: 35.0224243
+    lng: 135.7629774
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-070
+    name: Kyoto Central bench 070
+    lat: 35.0224178
+    lng: 135.7634703
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-071
+    name: Kyoto Central bench 071
+    lat: 35.0224236
+    lng: 135.7635092
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-072
+    name: Kyoto Central bench 072
+    lat: 35.0224243
+    lng: 135.7636393
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-073
+    name: Kyoto Central bench 073
+    lat: 35.0224199
+    lng: 135.7636941
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-074
+    name: Kyoto Central bench 074
+    lat: 35.0210644
+    lng: 135.7625416
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-075
+    name: Kyoto Central bench 075
+    lat: 35.0221711
+    lng: 135.7608557
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-076
+    name: Kyoto Central bench 076
+    lat: 35.015435
+    lng: 135.7818836
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-077
+    name: Kyoto Central bench 077
+    lat: 35.0154355
+    lng: 135.7819525
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-078
+    name: Kyoto Central bench 078
+    lat: 35.0154524
+    lng: 135.7819837
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-079
+    name: Kyoto Central bench 079
+    lat: 35.0154536
+    lng: 135.7818293
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-080
+    name: Kyoto Central bench 080
+    lat: 35.01548
+    lng: 135.7819846
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-081
+    name: Kyoto Central bench 081
+    lat: 35.0155069
+    lng: 135.7819516
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-082
+    name: Kyoto Central bench 082
+    lat: 35.0155069
+    lng: 135.7819805
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-083
+    name: Kyoto Central bench 083
+    lat: 35.0155071
+    lng: 135.7818463
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-084
+    name: Kyoto Central bench 084
+    lat: 35.0155071
+    lng: 135.7818844
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-085
+    name: Kyoto Central bench 085
+    lat: 35.016802
+    lng: 135.7832689
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-086
+    name: Kyoto Central bench 086
+    lat: 35.015845
+    lng: 135.78429
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-087
+    name: Kyoto Central bench 087
+    lat: 35.0158978
+    lng: 135.7842896
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-088
+    name: Kyoto Central bench 088
+    lat: 35.016046
+    lng: 135.7843319
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-089
+    name: Kyoto Central bench 089
+    lat: 35.0161802
+    lng: 135.7843044
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-090
+    name: Kyoto Central bench 090
+    lat: 35.0163
+    lng: 135.7840996
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-091
+    name: Kyoto Central bench 091
+    lat: 35.0164024
+    lng: 135.7840231
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-092
+    name: Kyoto Central bench 092
+    lat: 35.0164373
+    lng: 135.7838973
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-093
+    name: Kyoto Central bench 093
+    lat: 35.0122069
+    lng: 135.7837558
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-094
+    name: Kyoto Central bench 094
+    lat: 35.0122057
+    lng: 135.7836861
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-095
+    name: Kyoto Central bench 095
+    lat: 35.0122013
+    lng: 135.783434
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-096
+    name: Kyoto Central bench 096
+    lat: 35.0125801
+    lng: 135.7840965
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-097
+    name: Kyoto Central bench 097
+    lat: 35.0126169
+    lng: 135.784098
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-098
+    name: Kyoto Central bench 098
+    lat: 35.0132918
+    lng: 135.7820506
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-099
+    name: Kyoto Central bench 099
+    lat: 35.0133031
+    lng: 135.7820506
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-100
+    name: Kyoto Central bench 100
+    lat: 35.014064
+    lng: 135.7829144
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-101
+    name: Kyoto Central bench 101
+    lat: 35.0142375
+    lng: 135.7828521
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-102
+    name: Kyoto Central bench 102
+    lat: 35.014267
+    lng: 135.7828487
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-103
+    name: Kyoto Central bench 103
+    lat: 35.0142982
+    lng: 135.782845
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-104
+    name: Kyoto Central bench 104
+    lat: 35.008262
+    lng: 135.7847067
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-105
+    name: Kyoto Central bench 105
+    lat: 35.0083265
+    lng: 135.7833158
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-106
+    name: Kyoto Central bench 106
+    lat: 35.0073232
+    lng: 135.7835234
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-107
+    name: Kyoto Central bench 107
+    lat: 35.0073545
+    lng: 135.7835331
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-108
+    name: Kyoto Central bench 108
+    lat: 35.0075641
+    lng: 135.7832725
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-109
+    name: Kyoto Central bench 109
+    lat: 35.0246448
+    lng: 135.7859175
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-110
+    name: Kyoto Central bench 110
+    lat: 35.0246684
+    lng: 135.7859155
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-111
+    name: Kyoto Central bench 111
+    lat: 35.0100858
+    lng: 135.7680979
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-112
+    name: Kyoto Central bench 112
+    lat: 35.0100777
+    lng: 135.7680979
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-113
+    name: Kyoto Central bench 113
+    lat: 35.0100855
+    lng: 135.7681225
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-114
+    name: Kyoto Central bench 114
+    lat: 35.0068907
+    lng: 135.7785176
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-115
+    name: Kyoto Central bench 115
+    lat: 35.006946
+    lng: 135.7786239
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-116
+    name: Kyoto Central bench 116
+    lat: 35.0069228
+    lng: 135.7786092
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-117
+    name: Kyoto Central bench 117
+    lat: 35.0069117
+    lng: 135.7785981
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-118
+    name: Kyoto Central bench 118
+    lat: 35.0068852
+    lng: 135.778571
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-119
+    name: Kyoto Central bench 119
+    lat: 35.0068716
+    lng: 135.7785683
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-120
+    name: Kyoto Central bench 120
+    lat: 35.0062746
+    lng: 135.7827825
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-121
+    name: Kyoto Central bench 121
+    lat: 35.0066571
+    lng: 135.783022
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-122
+    name: Kyoto Central bench 122
+    lat: 35.0066514
+    lng: 135.7829496
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-123
+    name: Kyoto Central bench 123
+    lat: 35.0066496
+    lng: 135.7829262
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-124
+    name: Kyoto Central bench 124
+    lat: 35.0066478
+    lng: 135.7829026
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-125
+    name: Kyoto Central bench 125
+    lat: 35.00665
+    lng: 135.7831782
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-126
+    name: Kyoto Central bench 126
+    lat: 35.0033904
+    lng: 135.7831141
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-127
+    name: Kyoto Central bench 127
+    lat: 35.0036164
+    lng: 135.7823611
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-128
+    name: Kyoto Central bench 128
+    lat: 35.0036455
+    lng: 135.7823101
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-129
+    name: Kyoto Central bench 129
+    lat: 35.0037393
+    lng: 135.7815595
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-130
+    name: Kyoto Central bench 130
+    lat: 35.0036726
+    lng: 135.7813704
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-131
+    name: Kyoto Central bench 131
+    lat: 35.0037961
+    lng: 135.7813895
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-132
+    name: Kyoto Central bench 132
+    lat: 35.003781
+    lng: 135.7813724
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-133
+    name: Kyoto Central bench 133
+    lat: 35.0037618
+    lng: 135.7813616
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-134
+    name: Kyoto Central bench 134
+    lat: 35.003541
+    lng: 135.7804147
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-135
+    name: Kyoto Central bench 135
+    lat: 35.0035619
+    lng: 135.7804355
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-136
+    name: Kyoto Central bench 136
+    lat: 35.0036698
+    lng: 135.780434
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-137
+    name: Kyoto Central bench 137
+    lat: 35.0036879
+    lng: 135.7804102
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-138
+    name: Kyoto Central bench 138
+    lat: 35.0037063
+    lng: 135.7803825
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-139
+    name: Kyoto Central bench 139
+    lat: 35.0036418
+    lng: 135.78008
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-140
+    name: Kyoto Central bench 140
+    lat: 35.0075755
+    lng: 135.7601733
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-141
+    name: Kyoto Central bench 141
+    lat: 35.0116759
+    lng: 135.782614
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-142
+    name: Kyoto Central bench 142
+    lat: 35.0198203
+    lng: 135.7634821
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-143
+    name: Kyoto Central bench 143
+    lat: 35.0033906
+    lng: 135.7818914
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-144
+    name: Kyoto Central bench 144
+    lat: 35.0034027
+    lng: 135.7815602
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-145
+    name: Kyoto Central bench 145
+    lat: 35.0073309
+    lng: 135.7672649
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-146
+    name: Kyoto Central bench 146
+    lat: 35.0073337
+    lng: 135.7672548
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-147
+    name: Kyoto Central bench 147
+    lat: 35.0073379
+    lng: 135.7672423
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-148
+    name: Kyoto Central bench 148
+    lat: 35.0073294
+    lng: 135.7672367
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-149
+    name: Kyoto Central bench 149
+    lat: 35.0073267
+    lng: 135.7672495
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-150
+    name: Kyoto Central bench 150
+    lat: 35.0073227
+    lng: 135.7672612
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-151
+    name: Kyoto Central bench 151
+    lat: 35.0073035
+    lng: 135.7672527
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-152
+    name: Kyoto Central bench 152
+    lat: 35.0073057
+    lng: 135.76724
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-153
+    name: Kyoto Central bench 153
+    lat: 35.0073064
+    lng: 135.7672283
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-154
+    name: Kyoto Central bench 154
+    lat: 35.0072926
+    lng: 135.7672265
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-155
+    name: Kyoto Central bench 155
+    lat: 35.0072933
+    lng: 135.7672381
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-156
+    name: Kyoto Central bench 156
+    lat: 35.0072925
+    lng: 135.7672514
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-157
+    name: Kyoto Central bench 157
+    lat: 35.0072827
+    lng: 135.7672521
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-158
+    name: Kyoto Central bench 158
+    lat: 35.0072813
+    lng: 135.7672391
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-159
+    name: Kyoto Central bench 159
+    lat: 35.0072712
+    lng: 135.7672551
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-160
+    name: Kyoto Central bench 160
+    lat: 35.0050389
+    lng: 135.7676593
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-161
+    name: Kyoto Central bench 161
+    lat: 35.0050558
+    lng: 135.767699
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-162
+    name: Kyoto Central bench 162
+    lat: 35.0050533
+    lng: 135.7677292
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-163
+    name: Kyoto Central bench 163
+    lat: 35.0050298
+    lng: 135.7677641
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-164
+    name: Kyoto Central bench 164
+    lat: 35.005006
+    lng: 135.7677731
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-165
+    name: Kyoto Central bench 165
+    lat: 35.0049706
+    lng: 135.7677604
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-166
+    name: Kyoto Central bench 166
+    lat: 35.0049545
+    lng: 135.7677372
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-167
+    name: Kyoto Central bench 167
+    lat: 35.0050174
+    lng: 135.7676445
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-168
+    name: Kyoto Central bench 168
+    lat: 35.0049928
+    lng: 135.767643
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-169
+    name: Kyoto Central bench 169
+    lat: 35.0049702
+    lng: 135.7676551
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-170
+    name: Kyoto Central bench 170
+    lat: 35.0049544
+    lng: 135.7676783
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-171
+    name: Kyoto Central bench 171
+    lat: 35.0049487
+    lng: 135.7677076
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-172
+    name: Kyoto Central bench 172
+    lat: 35.0050134
+    lng: 135.7675615
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-173
+    name: Kyoto Central bench 173
+    lat: 35.0049967
+    lng: 135.7675614
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-174
+    name: Kyoto Central bench 174
+    lat: 35.0049747
+    lng: 135.7675612
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-175
+    name: Kyoto Central bench 175
+    lat: 35.0073238
+    lng: 135.7654706
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-176
+    name: Kyoto Central bench 176
+    lat: 35.0071389
+    lng: 135.7654917
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-177
+    name: Kyoto Central bench 177
+    lat: 35.0073099
+    lng: 135.7652884
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-178
+    name: Kyoto Central bench 178
+    lat: 35.006193
+    lng: 135.7613373
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-179
+    name: Kyoto Central bench 179
+    lat: 35.007488
+    lng: 135.7604055
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-180
+    name: Kyoto Central bench 180
+    lat: 35.0075034
+    lng: 135.7604525
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-181
+    name: Kyoto Central bench 181
+    lat: 35.0075151
+    lng: 135.7604343
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-182
+    name: Kyoto Central bench 182
+    lat: 35.0075037
+    lng: 135.7604166
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-183
+    name: Kyoto Central bench 183
+    lat: 35.0075039
+    lng: 135.760391
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-184
+    name: Kyoto Central bench 184
+    lat: 35.0074876
+    lng: 135.760434
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-185
+    name: Kyoto Central bench 185
+    lat: 35.0042969
+    lng: 135.7684344
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-186
+    name: Kyoto Central bench 186
+    lat: 35.004284
+    lng: 135.7683399
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-187
+    name: Kyoto Central bench 187
+    lat: 35.0229189
+    lng: 135.7610805
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-188
+    name: Kyoto Central bench 188
+    lat: 35.0229189
+    lng: 135.7610362
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-189
+    name: Kyoto Central bench 189
+    lat: 35.0229162
+    lng: 135.7612455
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-190
+    name: Kyoto Central bench 190
+    lat: 35.0229162
+    lng: 135.7612012
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-191
+    name: Kyoto Central bench 191
+    lat: 35.022914
+    lng: 135.7617034
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-192
+    name: Kyoto Central bench 192
+    lat: 35.022914
+    lng: 135.7616592
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-193
+    name: Kyoto Central bench 193
+    lat: 35.0229151
+    lng: 135.7615418
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-194
+    name: Kyoto Central bench 194
+    lat: 35.0229151
+    lng: 135.7614976
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-195
+    name: Kyoto Central bench 195
+    lat: 35.0229162
+    lng: 135.761394
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-196
+    name: Kyoto Central bench 196
+    lat: 35.0229162
+    lng: 135.7613497
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-197
+    name: Kyoto Central bench 197
+    lat: 35.0219453
+    lng: 135.760873
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-198
+    name: Kyoto Central bench 198
+    lat: 35.021986
+    lng: 135.7608716
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-199
+    name: Kyoto Central bench 199
+    lat: 35.0210656
+    lng: 135.7610795
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-200
+    name: Kyoto Central bench 200
+    lat: 35.0210661
+    lng: 135.7610379
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-201
+    name: Kyoto Central bench 201
+    lat: 34.9964979
+    lng: 135.7801276
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-202
+    name: Kyoto Central bench 202
+    lat: 35.0187245
+    lng: 135.76637
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-203
+    name: Kyoto Central bench 203
+    lat: 35.0195859
+    lng: 135.760593
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-204
+    name: Kyoto Central bench 204
+    lat: 35.0195869
+    lng: 135.7605189
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-205
+    name: Kyoto Central bench 205
+    lat: 35.0195879
+    lng: 135.7604449
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-206
+    name: Kyoto Central bench 206
+    lat: 35.0195888
+    lng: 135.7603708
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-207
+    name: Kyoto Central bench 207
+    lat: 35.0195903
+    lng: 135.7602588
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-208
+    name: Kyoto Central bench 208
+    lat: 35.0195912
+    lng: 135.760189
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-209
+    name: Kyoto Central bench 209
+    lat: 35.0195928
+    lng: 135.7600576
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-210
+    name: Kyoto Central bench 210
+    lat: 35.0183056
+    lng: 135.7620209
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-211
+    name: Kyoto Central bench 211
+    lat: 35.0182737
+    lng: 135.7619499
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-212
+    name: Kyoto Central bench 212
+    lat: 35.0182364
+    lng: 135.7618962
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-213
+    name: Kyoto Central bench 213
+    lat: 35.0181738
+    lng: 135.7618084
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-214
+    name: Kyoto Central bench 214
+    lat: 35.0181743
+    lng: 135.7618546
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-215
+    name: Kyoto Central bench 215
+    lat: 35.0182605
+    lng: 135.7621665
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-216
+    name: Kyoto Central bench 216
+    lat: 35.018232
+    lng: 135.7621859
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-217
+    name: Kyoto Central bench 217
+    lat: 35.0182029
+    lng: 135.7622
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-218
+    name: Kyoto Central bench 218
+    lat: 35.0181754
+    lng: 135.7622134
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-219
+    name: Kyoto Central bench 219
+    lat: 35.0178531
+    lng: 135.7610057
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-220
+    name: Kyoto Central bench 220
+    lat: 35.0177828
+    lng: 135.7610714
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-221
+    name: Kyoto Central bench 221
+    lat: 35.0178075
+    lng: 135.7610533
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-222
+    name: Kyoto Central bench 222
+    lat: 35.0178267
+    lng: 135.7610319
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-223
+    name: Kyoto Central bench 223
+    lat: 35.0181156
+    lng: 135.7611546
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-224
+    name: Kyoto Central bench 224
+    lat: 35.0181128
+    lng: 135.7611077
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-225
+    name: Kyoto Central bench 225
+    lat: 35.0181084
+    lng: 135.7610614
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-226
+    name: Kyoto Central bench 226
+    lat: 35.0180002
+    lng: 135.7614309
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-227
+    name: Kyoto Central bench 227
+    lat: 35.0179464
+    lng: 135.7614014
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-228
+    name: Kyoto Central bench 228
+    lat: 35.0178805
+    lng: 135.7613678
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-229
+    name: Kyoto Central bench 229
+    lat: 35.0178267
+    lng: 135.761333
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-230
+    name: Kyoto Central bench 230
+    lat: 35.0181112
+    lng: 135.7615167
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-231
+    name: Kyoto Central bench 231
+    lat: 35.0181518
+    lng: 135.7616012
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-232
+    name: Kyoto Central bench 232
+    lat: 35.01792
+    lng: 135.7629731
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-233
+    name: Kyoto Central bench 233
+    lat: 35.0179596
+    lng: 135.7629383
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-234
+    name: Kyoto Central bench 234
+    lat: 35.0179794
+    lng: 135.7629034
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-235
+    name: Kyoto Central bench 235
+    lat: 35.0180123
+    lng: 135.7628712
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-236
+    name: Kyoto Central bench 236
+    lat: 35.018054
+    lng: 135.7628283
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-237
+    name: Kyoto Central bench 237
+    lat: 35.0180716
+    lng: 135.7627827
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-238
+    name: Kyoto Central bench 238
+    lat: 35.0181024
+    lng: 135.7627237
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-239
+    name: Kyoto Central bench 239
+    lat: 35.0181265
+    lng: 135.7626834
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-240
+    name: Kyoto Central bench 240
+    lat: 35.0181463
+    lng: 135.7626432
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-241
+    name: Kyoto Central bench 241
+    lat: 35.0181529
+    lng: 135.762603
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-242
+    name: Kyoto Central bench 242
+    lat: 35.0181639
+    lng: 135.7625386
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-243
+    name: Kyoto Central bench 243
+    lat: 35.0181858
+    lng: 135.7624876
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-244
+    name: Kyoto Central bench 244
+    lat: 35.0182012
+    lng: 135.7624206
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-245
+    name: Kyoto Central bench 245
+    lat: 35.0182012
+    lng: 135.7623616
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-246
+    name: Kyoto Central bench 246
+    lat: 35.0181705
+    lng: 135.7623079
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-247
+    name: Kyoto Central bench 247
+    lat: 35.0194797
+    lng: 135.7604787
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-248
+    name: Kyoto Central bench 248
+    lat: 35.0194862
+    lng: 135.7603955
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-249
+    name: Kyoto Central bench 249
+    lat: 35.0194824
+    lng: 135.760244
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-250
+    name: Kyoto Central bench 250
+    lat: 35.0194824
+    lng: 135.760183
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-251
+    name: Kyoto Central bench 251
+    lat: 35.0194879
+    lng: 135.7600529
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-252
+    name: Kyoto Central bench 252
+    lat: 35.009462
+    lng: 135.7753898
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-253
+    name: Kyoto Central bench 253
+    lat: 35.0085687
+    lng: 135.7707354
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-254
+    name: Kyoto Central bench 254
+    lat: 35.0236317
+    lng: 135.780766
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 12
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-255
+    name: Kyoto Central bench 255
+    lat: 35.0218325
+    lng: 135.7608731
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-256
+    name: Kyoto Central bench 256
+    lat: 35.0218017
+    lng: 135.7608712
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-257
+    name: Kyoto Central bench 257
+    lat: 35.0221067
+    lng: 135.7608576
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-258
+    name: Kyoto Central bench 258
+    lat: 35.0210233
+    lng: 135.7606349
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-259
+    name: Kyoto Central bench 259
+    lat: 35.0210239
+    lng: 135.7605826
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-260
+    name: Kyoto Central bench 260
+    lat: 35.0210271
+    lng: 135.7604536
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-261
+    name: Kyoto Central bench 261
+    lat: 35.0210294
+    lng: 135.7603913
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-262
+    name: Kyoto Central bench 262
+    lat: 35.0219335
+    lng: 135.760593
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-263
+    name: Kyoto Central bench 263
+    lat: 35.0219357
+    lng: 135.7606278
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-264
+    name: Kyoto Central bench 264
+    lat: 35.0218994
+    lng: 135.760605
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-265
+    name: Kyoto Central bench 265
+    lat: 34.9996017
+    lng: 135.7809828
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-266
+    name: Kyoto Central bench 266
+    lat: 34.9996015
+    lng: 135.7809972
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-267
+    name: Kyoto Central bench 267
+    lat: 34.9997187
+    lng: 135.7809922
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-268
+    name: Kyoto Central bench 268
+    lat: 35.0132251
+    lng: 135.785939
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-269
+    name: Kyoto Central bench 269
+    lat: 35.0134214
+    lng: 135.7866423
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-270
+    name: Kyoto Central bench 270
+    lat: 35.0128815
+    lng: 135.7862643
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-271
+    name: Kyoto Central bench 271
+    lat: 35.0128818
+    lng: 135.786236
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-272
+    name: Kyoto Central bench 272
+    lat: 35.0128831
+    lng: 135.786205
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-273
+    name: Kyoto Central bench 273
+    lat: 35.0122591
+    lng: 135.7852904
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-274
+    name: Kyoto Central bench 274
+    lat: 35.012292
+    lng: 135.7852972
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-275
+    name: Kyoto Central bench 275
+    lat: 35.0122085
+    lng: 135.7862654
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-276
+    name: Kyoto Central bench 276
+    lat: 35.0122074
+    lng: 135.7862037
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-277
+    name: Kyoto Central bench 277
+    lat: 35.0122371
+    lng: 135.7861729
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-278
+    name: Kyoto Central bench 278
+    lat: 35.0122734
+    lng: 135.7861461
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-279
+    name: Kyoto Central bench 279
+    lat: 35.0122206
+    lng: 135.7852757
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-280
+    name: Kyoto Central bench 280
+    lat: 35.0128037
+    lng: 135.7868846
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-281
+    name: Kyoto Central bench 281
+    lat: 35.0128191
+    lng: 135.7867866
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-282
+    name: Kyoto Central bench 282
+    lat: 35.012818
+    lng: 135.7868362
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-283
+    name: Kyoto Central bench 283
+    lat: 35.0128202
+    lng: 135.7868107
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-284
+    name: Kyoto Central bench 284
+    lat: 35.0122723
+    lng: 135.7862051
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-285
+    name: Kyoto Central bench 285
+    lat: 35.012269
+    lng: 135.7862695
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-286
+    name: Kyoto Central bench 286
+    lat: 35.0122228
+    lng: 135.7851939
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-287
+    name: Kyoto Central bench 287
+    lat: 35.0122217
+    lng: 135.7852341
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-288
+    name: Kyoto Central bench 288
+    lat: 34.9973892
+    lng: 135.7874295
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-289
+    name: Kyoto Central bench 289
+    lat: 34.9973914
+    lng: 135.787457
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-290
+    name: Kyoto Central bench 290
+    lat: 34.9973378
+    lng: 135.7876984
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-291
+    name: Kyoto Central bench 291
+    lat: 34.9975172
+    lng: 135.7867844
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-292
+    name: Kyoto Central bench 292
+    lat: 34.9998173
+    lng: 135.7889198
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-293
+    name: Kyoto Central bench 293
+    lat: 34.9997998
+    lng: 135.7889024
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-294
+    name: Kyoto Central bench 294
+    lat: 34.9997899
+    lng: 135.7889356
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 6
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-295
+    name: Kyoto Central bench 295
+    lat: 34.9998168
+    lng: 135.788898
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 6
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-296
+    name: Kyoto Central bench 296
+    lat: 34.9995126
+    lng: 135.7888566
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-297
+    name: Kyoto Central bench 297
+    lat: 34.9995375
+    lng: 135.7888571
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-298
+    name: Kyoto Central bench 298
+    lat: 35.0001168
+    lng: 135.7886289
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-299
+    name: Kyoto Central bench 299
+    lat: 35.000099
+    lng: 135.7886072
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-300
+    name: Kyoto Central bench 300
+    lat: 35.0001345
+    lng: 135.7886506
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-301
+    name: Kyoto Central bench 301
+    lat: 35.0000813
+    lng: 135.7885855
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-302
+    name: Kyoto Central bench 302
+    lat: 34.9997913
+    lng: 135.7889134
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-303
+    name: Kyoto Central bench 303
+    lat: 34.9998088
+    lng: 135.7889309
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-304
+    name: Kyoto Central bench 304
+    lat: 35.0217015
+    lng: 135.7710955
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-305
+    name: Kyoto Central bench 305
+    lat: 35.0217899
+    lng: 135.7710975
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-306
+    name: Kyoto Central bench 306
+    lat: 35.0217465
+    lng: 135.7710982
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-307
+    name: Kyoto Central bench 307
+    lat: 35.0218586
+    lng: 135.7710882
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-308
+    name: Kyoto Central bench 308
+    lat: 35.0223171
+    lng: 135.7710996
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-309
+    name: Kyoto Central bench 309
+    lat: 35.0223934
+    lng: 135.7710975
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-310
+    name: Kyoto Central bench 310
+    lat: 35.0225598
+    lng: 135.7710774
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 5
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-311
+    name: Kyoto Central bench 311
+    lat: 35.0226779
+    lng: 135.7710969
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-312
+    name: Kyoto Central bench 312
+    lat: 35.0227871
+    lng: 135.7708833
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-313
+    name: Kyoto Central bench 313
+    lat: 35.0228179
+    lng: 135.770883
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-314
+    name: Kyoto Central bench 314
+    lat: 35.0228486
+    lng: 135.7708826
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-315
+    name: Kyoto Central bench 315
+    lat: 35.0229574
+    lng: 135.7708796
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-316
+    name: Kyoto Central bench 316
+    lat: 35.0229881
+    lng: 135.7708793
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-317
+    name: Kyoto Central bench 317
+    lat: 35.0230189
+    lng: 135.7708789
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-318
+    name: Kyoto Central bench 318
+    lat: 35.0229931
+    lng: 135.7709621
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-319
+    name: Kyoto Central bench 319
+    lat: 35.0230068
+    lng: 135.7709742
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-320
+    name: Kyoto Central bench 320
+    lat: 35.0230189
+    lng: 135.7709903
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-321
+    name: Kyoto Central bench 321
+    lat: 35.0231935
+    lng: 135.7709748
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-322
+    name: Kyoto Central bench 322
+    lat: 35.0232893
+    lng: 135.7708709
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-323
+    name: Kyoto Central bench 323
+    lat: 35.0233451
+    lng: 135.7708712
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-324
+    name: Kyoto Central bench 324
+    lat: 35.0235812
+    lng: 135.7708504
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-325
+    name: Kyoto Central bench 325
+    lat: 35.0235622
+    lng: 135.7708511
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-326
+    name: Kyoto Central bench 326
+    lat: 35.0236224
+    lng: 135.7708612
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-327
+    name: Kyoto Central bench 327
+    lat: 35.0236292
+    lng: 135.7708766
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-328
+    name: Kyoto Central bench 328
+    lat: 35.0241259
+    lng: 135.7710607
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-329
+    name: Kyoto Central bench 329
+    lat: 35.0243055
+    lng: 135.7710607
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-330
+    name: Kyoto Central bench 330
+    lat: 35.0246932
+    lng: 135.7710727
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-331
+    name: Kyoto Central bench 331
+    lat: 35.0249545
+    lng: 135.7710801
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-332
+    name: Kyoto Central bench 332
+    lat: 35.0249765
+    lng: 135.7710788
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-333
+    name: Kyoto Central bench 333
+    lat: 35.0183961
+    lng: 135.7711364
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-334
+    name: Kyoto Central bench 334
+    lat: 35.0184445
+    lng: 135.7711344
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-335
+    name: Kyoto Central bench 335
+    lat: 35.019176
+    lng: 135.7711311
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-336
+    name: Kyoto Central bench 336
+    lat: 35.0191309
+    lng: 135.771131
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-337
+    name: Kyoto Central bench 337
+    lat: 35.0203188
+    lng: 135.7708709
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-338
+    name: Kyoto Central bench 338
+    lat: 35.0205725
+    lng: 135.7708655
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-339
+    name: Kyoto Central bench 339
+    lat: 35.0208822
+    lng: 135.7708508
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-340
+    name: Kyoto Central bench 340
+    lat: 35.0208075
+    lng: 135.7708548
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-341
+    name: Kyoto Central bench 341
+    lat: 35.020165
+    lng: 135.7709574
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-342
+    name: Kyoto Central bench 342
+    lat: 35.0201914
+    lng: 135.7709473
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 4
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-343
+    name: Kyoto Central bench 343
+    lat: 35.0210969
+    lng: 135.770946
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 4
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-344
+    name: Kyoto Central bench 344
+    lat: 35.0186043
+    lng: 135.7709789
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-345
+    name: Kyoto Central bench 345
+    lat: 35.0185637
+    lng: 135.7709795
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-346
+    name: Kyoto Central bench 346
+    lat: 35.0164038
+    lng: 135.7711629
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-347
+    name: Kyoto Central bench 347
+    lat: 35.0164433
+    lng: 135.7711713
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-348
+    name: Kyoto Central bench 348
+    lat: 35.0165566
+    lng: 135.7711919
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-349
+    name: Kyoto Central bench 349
+    lat: 35.017004
+    lng: 135.7709903
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-350
+    name: Kyoto Central bench 350
+    lat: 35.01702
+    lng: 135.7709903
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-351
+    name: Kyoto Central bench 351
+    lat: 35.0179404
+    lng: 135.7710821
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-352
+    name: Kyoto Central bench 352
+    lat: 35.0158601
+    lng: 135.7711398
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-353
+    name: Kyoto Central bench 353
+    lat: 35.0159205
+    lng: 135.7710979
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-354
+    name: Kyoto Central bench 354
+    lat: 35.0159128
+    lng: 135.7710848
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-355
+    name: Kyoto Central bench 355
+    lat: 35.0159749
+    lng: 135.7712028
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-356
+    name: Kyoto Central bench 356
+    lat: 35.0159502
+    lng: 135.7712115
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-357
+    name: Kyoto Central bench 357
+    lat: 35.016026
+    lng: 135.7711639
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-358
+    name: Kyoto Central bench 358
+    lat: 35.0117777
+    lng: 135.7713309
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 8
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-359
+    name: Kyoto Central bench 359
+    lat: 35.0119348
+    lng: 135.7713296
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 4
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-360
+    name: Kyoto Central bench 360
+    lat: 35.0121115
+    lng: 135.7713223
+    material: stone
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 4
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-361
+    name: Kyoto Central bench 361
+    lat: 35.0131762
+    lng: 135.7712987
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-362
+    name: Kyoto Central bench 362
+    lat: 35.0109467
+    lng: 135.7713524
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-363
+    name: Kyoto Central bench 363
+    lat: 35.0109275
+    lng: 135.771352
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-364
+    name: Kyoto Central bench 364
+    lat: 35.0002515
+    lng: 135.7626208
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-365
+    name: Kyoto Central bench 365
+    lat: 35.0002515
+    lng: 135.7626033
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-366
+    name: Kyoto Central bench 366
+    lat: 35.0141686
+    lng: 135.7817793
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-367
+    name: Kyoto Central bench 367
+    lat: 35.0140563
+    lng: 135.7819643
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-368
+    name: Kyoto Central bench 368
+    lat: 35.0139716
+    lng: 135.7820977
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-369
+    name: Kyoto Central bench 369
+    lat: 35.0139188
+    lng: 135.7820607
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-370
+    name: Kyoto Central bench 370
+    lat: 35.0139335
+    lng: 135.7823605
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-371
+    name: Kyoto Central bench 371
+    lat: 35.0148451
+    lng: 135.7821876
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-372
+    name: Kyoto Central bench 372
+    lat: 35.0041991
+    lng: 135.7719416
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-373
+    name: Kyoto Central bench 373
+    lat: 35.004376
+    lng: 135.7719681
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-374
+    name: Kyoto Central bench 374
+    lat: 35.004154
+    lng: 135.7719384
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-375
+    name: Kyoto Central bench 375
+    lat: 35.0043356
+    lng: 135.7719572
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-376
+    name: Kyoto Central bench 376
+    lat: 35.0152111
+    lng: 135.7850472
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-377
+    name: Kyoto Central bench 377
+    lat: 35.0171567
+    lng: 135.7888464
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-378
+    name: Kyoto Central bench 378
+    lat: 35.0171203
+    lng: 135.7888455
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-379
+    name: Kyoto Central bench 379
+    lat: 35.0116511
+    lng: 135.7699576
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-380
+    name: Kyoto Central bench 380
+    lat: 35.0116538
+    lng: 135.7699066
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-381
+    name: Kyoto Central bench 381
+    lat: 35.0240931
+    lng: 135.7898438
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-382
+    name: Kyoto Central bench 382
+    lat: 35.0241301
+    lng: 135.7899601
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-383
+    name: Kyoto Central bench 383
+    lat: 35.024041
+    lng: 135.7899129
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-384
+    name: Kyoto Central bench 384
+    lat: 35.0240461
+    lng: 135.7899662
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-385
+    name: Kyoto Central bench 385
+    lat: 35.0144473
+    lng: 135.7700119
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-386
+    name: Kyoto Central bench 386
+    lat: 35.0143987
+    lng: 135.7700957
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-387
+    name: Kyoto Central bench 387
+    lat: 35.0143468
+    lng: 135.7699817
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-388
+    name: Kyoto Central bench 388
+    lat: 35.0143474
+    lng: 135.7699596
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-389
+    name: Kyoto Central bench 389
+    lat: 35.0143369
+    lng: 135.7699717
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-390
+    name: Kyoto Central bench 390
+    lat: 35.0143581
+    lng: 135.769971
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-391
+    name: Kyoto Central bench 391
+    lat: 35.0215782
+    lng: 135.7893818
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-392
+    name: Kyoto Central bench 392
+    lat: 35.0213415
+    lng: 135.7892175
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-393
+    name: Kyoto Central bench 393
+    lat: 35.0213654
+    lng: 135.7892199
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-394
+    name: Kyoto Central bench 394
+    lat: 35.0118992
+    lng: 135.7691886
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-395
+    name: Kyoto Central bench 395
+    lat: 35.0198986
+    lng: 135.7654401
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-396
+    name: Kyoto Central bench 396
+    lat: 35.0198878
+    lng: 135.7648184
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-397
+    name: Kyoto Central bench 397
+    lat: 35.0198882
+    lng: 135.7646082
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-398
+    name: Kyoto Central bench 398
+    lat: 35.0198827
+    lng: 135.7650146
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-399
+    name: Kyoto Central bench 399
+    lat: 35.0199021
+    lng: 135.7656263
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-400
+    name: Kyoto Central bench 400
+    lat: 35.0198991
+    lng: 135.7654071
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-401
+    name: Kyoto Central bench 401
+    lat: 35.0198887
+    lng: 135.7645752
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-402
+    name: Kyoto Central bench 402
+    lat: 35.0198873
+    lng: 135.7648514
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-403
+    name: Kyoto Central bench 403
+    lat: 35.0199026
+    lng: 135.7655933
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-404
+    name: Kyoto Central bench 404
+    lat: 35.0198822
+    lng: 135.7650476
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-405
+    name: Kyoto Central bench 405
+    lat: 35.0140431
+    lng: 135.7641764
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-406
+    name: Kyoto Central bench 406
+    lat: 35.0140948
+    lng: 135.7640893
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-407
+    name: Kyoto Central bench 407
+    lat: 35.0140711
+    lng: 135.7641208
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-408
+    name: Kyoto Central bench 408
+    lat: 35.0141911
+    lng: 135.7641701
+    material: plastic
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-409
+    name: Kyoto Central bench 409
+    lat: 35.0007201
+    lng: 135.7683873
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-410
+    name: Kyoto Central bench 410
+    lat: 35.0028494
+    lng: 135.7691832
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-411
+    name: Kyoto Central bench 411
+    lat: 35.0016438
+    lng: 135.7688452
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-412
+    name: Kyoto Central bench 412
+    lat: 34.9976328
+    lng: 135.7644558
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-413
+    name: Kyoto Central bench 413
+    lat: 34.9975674
+    lng: 135.7642993
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-414
+    name: Kyoto Central bench 414
+    lat: 35.0032608
+    lng: 135.7805447
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-415
+    name: Kyoto Central bench 415
+    lat: 34.9994541
+    lng: 135.7838419
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-416
+    name: Kyoto Central bench 416
+    lat: 35.019928
+    lng: 135.7637099
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-417
+    name: Kyoto Central bench 417
+    lat: 35.018906
+    lng: 135.7627093
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-418
+    name: Kyoto Central bench 418
+    lat: 35.0198782
+    lng: 135.7636112
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-419
+    name: Kyoto Central bench 419
+    lat: 35.018079
+    lng: 135.7650728
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-420
+    name: Kyoto Central bench 420
+    lat: 35.0180598
+    lng: 135.7651009
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-421
+    name: Kyoto Central bench 421
+    lat: 35.0178894
+    lng: 135.7651832
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-422
+    name: Kyoto Central bench 422
+    lat: 35.0179306
+    lng: 135.7651604
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-423
+    name: Kyoto Central bench 423
+    lat: 35.0159148
+    lng: 135.7720896
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-424
+    name: Kyoto Central bench 424
+    lat: 35.0160312
+    lng: 135.7720782
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-425
+    name: Kyoto Central bench 425
+    lat: 35.0160559
+    lng: 135.7720796
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-426
+    name: Kyoto Central bench 426
+    lat: 35.0162141
+    lng: 135.7720755
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-427
+    name: Kyoto Central bench 427
+    lat: 35.0162511
+    lng: 135.7720799
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-428
+    name: Kyoto Central bench 428
+    lat: 35.0122398
+    lng: 135.7829603
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 4
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-429
+    name: Kyoto Central bench 429
+    lat: 35.012281
+    lng: 135.7829502
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 4
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-430
+    name: Kyoto Central bench 430
+    lat: 35.0129511
+    lng: 135.787333
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-431
+    name: Kyoto Central bench 431
+    lat: 35.0073068
+    lng: 135.7885896
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-432
+    name: Kyoto Central bench 432
+    lat: 35.0072661
+    lng: 135.7885654
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-433
+    name: Kyoto Central bench 433
+    lat: 35.0071848
+    lng: 135.7885869
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-434
+    name: Kyoto Central bench 434
+    lat: 35.0072299
+    lng: 135.7885681
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-435
+    name: Kyoto Central bench 435
+    lat: 35.0071618
+    lng: 135.7888229
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-436
+    name: Kyoto Central bench 436
+    lat: 35.0071859
+    lng: 135.7888149
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-437
+    name: Kyoto Central bench 437
+    lat: 35.0071321
+    lng: 135.7888363
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-438
+    name: Kyoto Central bench 438
+    lat: 35.0072139
+    lng: 135.7887974
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-439
+    name: Kyoto Central bench 439
+    lat: 35.0052488
+    lng: 135.7899883
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-440
+    name: Kyoto Central bench 440
+    lat: 35.0089948
+    lng: 135.777021
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 6
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-441
+    name: Kyoto Central bench 441
+    lat: 35.0245405
+    lng: 135.767779
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-442
+    name: Kyoto Central bench 442
+    lat: 35.0245545
+    lng: 135.767779
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-443
+    name: Kyoto Central bench 443
+    lat: 35.0049605
+    lng: 135.7621486
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-444
+    name: Kyoto Central bench 444
+    lat: 35.0049286
+    lng: 135.7619441
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-445
+    name: Kyoto Central bench 445
+    lat: 35.0079875
+    lng: 135.766892
+    material: other
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-446
+    name: Kyoto Central bench 446
+    lat: 35.0158914
+    lng: 135.77209
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-447
+    name: Kyoto Central bench 447
+    lat: 35.0158156
+    lng: 135.7720947
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-448
+    name: Kyoto Central bench 448
+    lat: 35.0163989
+    lng: 135.7720363
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-449
+    name: Kyoto Central bench 449
+    lat: 35.0163802
+    lng: 135.7720591
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-450
+    name: Kyoto Central bench 450
+    lat: 35.0163549
+    lng: 135.7720698
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-451
+    name: Kyoto Central bench 451
+    lat: 35.0164219
+    lng: 135.7720309
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-452
+    name: Kyoto Central bench 452
+    lat: 35.0171984
+    lng: 135.772033
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-453
+    name: Kyoto Central bench 453
+    lat: 35.0172259
+    lng: 135.7720558
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-454
+    name: Kyoto Central bench 454
+    lat: 35.0068973
+    lng: 135.7674099
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-455
+    name: Kyoto Central bench 455
+    lat: 35.0068581
+    lng: 135.7674055
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-456
+    name: Kyoto Central bench 456
+    lat: 35.0067498
+    lng: 135.7676358
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-457
+    name: Kyoto Central bench 457
+    lat: 35.0064763
+    lng: 135.7710936
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-458
+    name: Kyoto Central bench 458
+    lat: 35.0064407
+    lng: 135.7710956
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-459
+    name: Kyoto Central bench 459
+    lat: 35.0064142
+    lng: 135.7710934
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-460
+    name: Kyoto Central bench 460
+    lat: 35.0063892
+    lng: 135.7710957
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-461
+    name: Kyoto Central bench 461
+    lat: 35.0065005
+    lng: 135.7710912
+    material: wood
+    backrest: false
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-462
+    name: Kyoto Central bench 462
+    lat: 35.0063846
+    lng: 135.7612093
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-463
+    name: Kyoto Central bench 463
+    lat: 35.006219
+    lng: 135.76122
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-464
+    name: Kyoto Central bench 464
+    lat: 35.0083531
+    lng: 135.7750652
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-465
+    name: Kyoto Central bench 465
+    lat: 35.0083668
+    lng: 135.7751021
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-466
+    name: Kyoto Central bench 466
+    lat: 35.0084047
+    lng: 135.7750987
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-467
+    name: Kyoto Central bench 467
+    lat: 35.0084283
+    lng: 135.7749425
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-468
+    name: Kyoto Central bench 468
+    lat: 35.0084305
+    lng: 135.7748801
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-469
+    name: Kyoto Central bench 469
+    lat: 35.0084047
+    lng: 135.7748332
+    material: concrete
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-470
+    name: Kyoto Central bench 470
+    lat: 35.0080988
+    lng: 135.7762789
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-471
+    name: Kyoto Central bench 471
+    lat: 35.008213
+    lng: 135.7762527
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-472
+    name: Kyoto Central bench 472
+    lat: 35.0082295
+    lng: 135.7762527
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-473
+    name: Kyoto Central bench 473
+    lat: 35.0082981
+    lng: 135.7763688
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-474
+    name: Kyoto Central bench 474
+    lat: 35.0082649
+    lng: 135.7764982
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-475
+    name: Kyoto Central bench 475
+    lat: 35.0082937
+    lng: 135.7765009
+    material: wood
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 3
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-476
+    name: Kyoto Central bench 476
+    lat: 35.0020638
+    lng: 135.7824873
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-477
+    name: Kyoto Central bench 477
+    lat: 35.0020748
+    lng: 135.7824599
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-478
+    name: Kyoto Central bench 478
+    lat: 35.0072751
+    lng: 135.7859503
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-479
+    name: Kyoto Central bench 479
+    lat: 35.0072715
+    lng: 135.7859408
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-480
+    name: Kyoto Central bench 480
+    lat: 35.0072591
+    lng: 135.7859602
+    material: other
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 2
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-481
+    name: Kyoto Central bench 481
+    lat: 35.0155773
+    lng: 135.7721667
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-482
+    name: Kyoto Central bench 482
+    lat: 35.0155328
+    lng: 135.7721655
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-483
+    name: Kyoto Central bench 483
+    lat: 35.0155625
+    lng: 135.7721663
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-484
+    name: Kyoto Central bench 484
+    lat: 35.0155476
+    lng: 135.7721659
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-485
+    name: Kyoto Central bench 485
+    lat: 35.0155191
+    lng: 135.7721275
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-486
+    name: Kyoto Central bench 486
+    lat: 35.015518
+    lng: 135.7721463
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-487
+    name: Kyoto Central bench 487
+    lat: 35.015518
+    lng: 135.7721651
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
+  - id: kyoto-central-488
+    name: Kyoto Central bench 488
+    lat: 35.0155921
+    lng: 135.7721671
+    material: stone
+    backrest: true
+    armrests: false
+    accessible: null
+    condition: unknown
+    seats: 1
+    covered: false
+    added_by: overpass-import
+    added_at: 2026-04-06
