@@ -74,20 +74,20 @@ Use `unknown` rather than guessing if you haven't seen the bench yourself.
 ## Example Entry
 
 ```yaml
-  - id: stockholm-demo-001
-    name: "Molin's Fountain Bench"
-    lat: 59.3320
-    lng: 18.0717
-    material: metal
+  - id: my-city-park-001
+    name: "Park Entrance Bench"
+    lat: 51.5074
+    lng: -0.1278
+    material: wood
     backrest: true
-    armrests: true
-    accessible: true
+    armrests: false
+    accessible: false
     condition: good
-    seats: 3
+    seats: 2
     covered: false
     added_by: community
-    added_at: "2026-03-01"
-    notes: "Cast-iron bench facing the fountain. Busy on summer evenings."
+    added_at: "2026-01-01"
+    notes: "Slatted wooden bench near the main gate."
     image_url: null
 ```
 
@@ -104,22 +104,22 @@ Each bench becomes a GeoJSON `Feature`:
   "type": "Feature",
   "geometry": {
     "type": "Point",
-    "coordinates": [18.0717, 59.3320]
+    "coordinates": [-0.1278, 51.5074]
   },
   "properties": {
-    "id": "stockholm-demo-001",
-    "name": "Molin's Fountain Bench",
-    "region": "Stockholm — Kungsträdgården",
-    "material": "metal",
+    "id": "my-city-park-001",
+    "name": "Park Entrance Bench",
+    "region": "My City Park",
+    "material": "wood",
     "backrest": true,
-    "armrests": true,
-    "accessible": true,
+    "armrests": false,
+    "accessible": false,
     "condition": "good",
-    "seats": 3,
+    "seats": 2,
     "covered": false,
     "added_by": "community",
-    "added_at": "2026-03-01",
-    "notes": "Cast-iron bench facing the fountain. Busy on summer evenings.",
+    "added_at": "2026-01-01",
+    "notes": "Slatted wooden bench near the main gate.",
     "image_url": null
   }
 }
@@ -149,7 +149,6 @@ If validation fails the build is aborted and errors are printed to the console.
 
 IDs follow the pattern `<region-slug>-<NNN>`:
 
-- `stockholm-demo-001`
 - `my-city-park-001`
 - `some-region-012`
 

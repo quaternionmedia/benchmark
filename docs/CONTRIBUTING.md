@@ -175,7 +175,7 @@ public/data/benches.geojson
 dist/
 ```
 
-For local dev, run `npm run validate` once to generate `benches.geojson`, then `npm run dev`.
+For local dev, just run `npm run dev` — the Vite plugin compiles any YAML regions automatically at startup. If there are no YAML files, `benches.geojson` will be empty and benches load live from Overpass on page load.
 
 `benches.geojson` is a generated file — do not edit it directly. Always edit the source YAML.
 
@@ -185,9 +185,8 @@ For local dev, run `npm run validate` once to generate `benches.geojson`, then `
 benchmark/
 ├── public/
 │   └── data/
-│       ├── regions/            ← Edit bench data here
-│       │   └── stockholm-demo.yaml   ← Seed example
-│       └── benches.geojson     ← Generated, do not edit
+│       ├── regions/            ← Hand-curated bench YAML files (optional)
+│       └── benches.geojson     ← Compiled from YAML (empty if no regions)
 ├── src/
 │   ├── main.js                 ← App entry point; wires all modules
 │   ├── map.js                  ← Leaflet map init and flyTo
@@ -204,8 +203,7 @@ benchmark/
 │   └── bbox-select.js          ← Rect / polygon / circle draw tools
 ├── scripts/
 │   ├── compile-yaml.js         ← YAML → GeoJSON compiler + validator
-│   ├── generate-catalogue.js   ← Auto-generates docs/CATALOGUE.md
-│   └── overpass-import.js      ← Maintainer bulk-import tool
+│   └── generate-catalogue.js   ← Auto-generates docs/CATALOGUE.md
 ├── tests/
 │   ├── app.spec.ts             ← App load, title, bench count
 │   ├── markers.spec.ts         ← Marker rendering and condition classes
@@ -314,8 +312,8 @@ YAML is whitespace-sensitive. Common issues:
 - Boolean values: `true` / `false` (not `yes` / `no`)
 - ID must be unique across all region files — the validator will tell you which ID is duplicated
 
-**Dev server shows a blank map or "0 benches"**
-Run `npm run validate` first to compile the YAML seed data into `public/data/benches.geojson`. The dev server doesn't run this step automatically.
+**Dev server shows "0 benches" briefly on load**
+The app auto-imports benches from Overpass on every page load. The count starts at 0 and fills in once the query resolves (~1–3 s on a good connection). If it stays at 0, check your network connection or the browser console for Overpass errors. If you have hand-curated YAML files, run `npm run validate` first to include them in the static seed.
 
 **Tests fail with timeout errors**
 Make sure the dev server is running in a separate terminal (`npm run dev`) before running `npm test`. Playwright will try to start it automatically, but if port 8347 is already in use by something else, the server will fail silently.

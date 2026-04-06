@@ -128,7 +128,7 @@ added_at: ISO date
 
 **Deliverables:**
 
-- [x] `scripts/overpass-import.js` — **maintainer tool** that queries Overpass for `amenity=bench` in a named preset area and writes YAML to `public/data/regions/` for review and commit. Use for bulk seeding curated regions only; generated files are not committed automatically.
+- [-] `scripts/overpass-import.js` — **removed** (was a maintainer tool for bulk-seeding YAML regions; superseded by the in-browser auto-import on page load).
 - [x] `src/store.js` — IndexedDB stale-while-revalidate cache (`loadBenches`, `mergeFeatures`, `clearCache`). `setBenchProvider(fn)` hook lets a future backend replace the IDB+fetch strategy without touching calling code.
 - [x] `src/bbox-select.js` — In-app drag-to-draw area importer: user draws a rectangle on the map, app queries Overpass, saves new benches to **IndexedDB** via `mergeFeatures()`, and renders live markers immediately. No YAML files created; no git involvement.
 - [-] `src/heatmap.js` — `Leaflet.heat` density layer (removed; toolbar complexity outweighed the benefit)
@@ -160,11 +160,11 @@ added_at: ISO date
 - [x] `src/gps.js` — GPS module with two header buttons:
   - **locate me** — `map.locate()` flies to the user's current position and drops a pulsing accent dot
   - **nearest** — `navigator.geolocation` + Haversine distance ranking; flies to and opens the closest bench
-- [x] Auto-import on first load — when the registry is empty, queries Overpass for benches within 1 km of the user's GPS position, falling back to central Stockholm if denied or unavailable
+- [x] Auto-import on every page load — queries Overpass for benches within 1 mile of the user's GPS position (circle query), falling back to the Vasa Museum in Stockholm if denied or unavailable; new results are merged into IndexedDB and deduplicated
 - [x] Directions button in bench sidebar — "directions ↗" (Google Maps) and "apple maps ↗" links using exact bench coordinates, opening in a new tab
 - [x] Dark mode by default — CSS custom properties default to a dark palette; `@media (prefers-color-scheme: light)` restores the warm cream theme; Leaflet tiles inverted + hue-rotated in dark mode
 - [x] Contribution model simplified — GitHub issue templates removed; benches added via direct YAML pull requests only
-- [x] Fictional seed data replaced with `stockholm-demo.yaml` — three verified Kungsträdgården benches
+- [-] `stockholm-demo.yaml` seed file removed — benches now loaded live from Overpass on every page load
 
 **Done when:** A new user opens the app on mobile, grants location, and immediately sees benches nearby — no manual setup.
 

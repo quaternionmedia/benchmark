@@ -25,7 +25,7 @@ A frontend-only, open-source map of benches. Browse, filter, and contribute benc
 |---|---|
 | Map | [Leaflet.js](https://leafletjs.com/) + [leaflet.markercluster](https://github.com/Leaflet/Leaflet.markercluster) + OpenStreetMap tiles |
 | Animations | [anime.js](https://animejs.com/) |
-| Data | YAML seed regions → GeoJSON at build time; live Overpass import in-browser via IndexedDB |
+| Data | Live Overpass (OSM) import on page load, stored per-user in IndexedDB; optional hand-curated YAML regions |
 | Build | [Vite](https://vitejs.dev/) |
 | Hosting | GitHub Pages via GitHub Actions |
 
@@ -37,7 +37,6 @@ All open source. No backend. No database. No running costs.
 git clone https://github.com/quaternionmedia/benchmark.git
 cd benchmark
 npm install
-npm run validate   # compile YAML → GeoJSON (required before dev)
 npm run dev
 ```
 
@@ -47,10 +46,9 @@ npm run dev
 |---|---|
 | `npm run dev` | Dev server at localhost:5173 |
 | `npm run build` | Compile YAML + build for production |
-| `npm run validate` | Validate and compile all YAML files |
+| `npm run validate` | Validate and compile any hand-curated YAML regions |
 | `npm run validate:fix` | Auto-fix minor YAML issues and recompile |
 | `npm run catalogue` | Regenerate docs/CATALOGUE.md |
-| `npm run overpass-import` | Maintainer tool: bulk-seed a region from Overpass API |
 | `npm test` | Run Playwright end-to-end tests |
 
 ## Contributing
