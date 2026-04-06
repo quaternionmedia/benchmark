@@ -4,7 +4,7 @@
  * Reads all region YAML files and compiles them into a single benches.geojson
  */
 
-import { readFileSync, writeFileSync, readdirSync } from 'fs'
+import { readFileSync, writeFileSync, readdirSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { parse, stringify as yamlStringify } from 'yaml'
@@ -134,6 +134,7 @@ function compile() {
 
   console.log(`📦 Compiling YAML regions → GeoJSON${fix ? ' (--fix mode)' : ''}...\n`)
 
+  mkdirSync(REGIONS_DIR, { recursive: true })
   const files = readdirSync(REGIONS_DIR).filter(f => (f.endsWith('.yaml') || f.endsWith('.yml')) && !f.endsWith('.bak'))
 
   if (files.length === 0) {
