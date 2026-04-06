@@ -126,32 +126,31 @@ async function main() {
     openSidebar(props, latlng)
   })
 
-  // ─── Auto-import nearby benches on first load ──────────────────────────────
+  // ─── Auto-import nearby benches on page load ──────────────────────────────
 
-  if (features.length === 0) {
-    const onNearbyImported = (newFeatures) => {
-      const newReg = addMarkersToGroup(clusterGroup, newFeatures, (props, latlng, isKeyboard = false) => {
-        if (!isKeyboard) { flyToBench(map, latlng, () => {}); animateMapFlyTo(mapEl) }
-        openSidebar(props, latlng)
-      })
-      for (const [id, entry] of newReg) registry.set(id, entry)
-      applyAndUpdateCount()
-      const coords = newFeatures.map(f => [f.geometry.coordinates[1], f.geometry.coordinates[0]])
-      if (coords.length) map.fitBounds(coords, { padding: [40, 40] })
-    }
+  const onNearbyImported = (newFeatures) => {
+    const newReg = addMarkersToGroup(clusterGroup, newFeatures, (props, latlng, isKeyboard = false) => {
+      if (!isKeyboard) { flyToBench(map, latlng, () => {}); animateMapFlyTo(mapEl) }
+      openSidebar(props, latlng)
+    })
+    for (const [id, entry] of newReg) registry.set(id, entry)
+    applyAndUpdateCount()
+    const coords = newFeatures.map(f => [f.geometry.coordinates[1], f.geometry.coordinates[0]])
+    if (coords.length) map.fitBounds(coords, { padding: [40, 40] })
+  }
 
-    const doImport = (lat, lng, name) => autoImportNearby(lat, lng, name, onNearbyImported)
-    const STOCKHOLM = [59.3293, 18.0686]
+  const doImport = (lat, lng, name) => autoImportNearby(lat, lng, name, onNearbyImported)
+  // Vasa Museum, Stockholm — fallback when geolocation is unavailable
+  const VASA_MUSEUM = [59.3282, 18.0912]
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => doImport(pos.coords.latitude, pos.coords.longitude, 'Nearby'),
-        ()    => doImport(...STOCKHOLM, 'Stockholm'),
-        { timeout: 5000 }
-      )
-    } else {
-      doImport(...STOCKHOLM, 'Stockholm')
-    }
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => doImport(pos.coords.latitude, pos.coords.longitude, 'Nearby'),
+      ()    => doImport(...VASA_MUSEUM, 'Stockholm'),
+      { timeout: 5000 }
+    )
+  } else {
+    doImport(...VASA_MUSEUM, 'Stockholm')
   }
 
   // ─── Onboarding ───────────────────────────────────────────────────────────────

@@ -143,21 +143,12 @@ function nodesToFeatures(nodes, regionName, areaId) {
 
 // ─── Public auto-import helper ────────────────────────────────────────────────
 
-function _bboxFromCenter(lat, lng, radiusKm) {
-  const dlat = radiusKm / 111
-  const dlng = radiusKm / (111 * Math.cos(lat * Math.PI / 180))
-  return [
-    (lat - dlat).toFixed(5),
-    (lng - dlng).toFixed(5),
-    (lat + dlat).toFixed(5),
-    (lng + dlng).toFixed(5)
-  ]
-}
+// 0.2 miles in metres
+const ONE_MILE_M = 322
 
-export async function autoImportNearby(lat, lng, regionName, onFeaturesImported, radiusKm = 1) {
+export async function autoImportNearby(lat, lng, regionName, onFeaturesImported, radiusM = ONE_MILE_M) {
   try {
-    const bbox  = _bboxFromCenter(lat, lng, radiusKm)
-    const nodes = await _queryRectOverpass(bbox)
+    const nodes = await _queryCircleOverpass(lat, lng, radiusM)
     if (!nodes.length) return
     const candidates = nodesToFeatures(nodes, regionName)
     const added      = await mergeFeatures(candidates)
