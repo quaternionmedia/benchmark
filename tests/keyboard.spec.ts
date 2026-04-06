@@ -80,6 +80,14 @@ test.describe('Sidebar keyboard accessibility', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(`./${STOCKHOLM_HASH}`)
     await page.waitForFunction(
+      () => {
+        const el = document.getElementById('bench-count')
+        const m = el?.textContent?.match(/(\d+)/)
+        return m != null && parseInt(m[1]) > 0
+      },
+      { timeout: 15_000 }
+    )
+    await page.waitForFunction(
       () => document.querySelectorAll('.bench-marker').length > 0,
       { timeout: 15_000 }
     )
@@ -134,8 +142,8 @@ test.describe('Sidebar keyboard accessibility', () => {
   })
 
   test('Escape restores focus to the element that opened the sidebar', async ({ page }) => {
-    // Focus a specific marker via keyboard, activate via Enter, then Escape
-    const markerEl = page.locator('[data-id="stockholm-demo-001"]')
+    // Focus the first visible marker via keyboard, activate via Enter, then Escape
+    const markerEl = page.locator('.bench-marker').first()
     await markerEl.focus()
     await expect(markerEl).toBeFocused({ timeout: 1_000 })
 

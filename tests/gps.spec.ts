@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-// Place the mock position inside Kungsträdgården — within range of all seed benches.
+// Place the mock position inside Kungsträdgården — benches will be auto-imported nearby.
 const MOCK_LAT = 59.332
 const MOCK_LNG = 18.0717
 
