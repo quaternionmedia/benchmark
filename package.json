@@ -10,7 +10,6 @@
     "validate": "node scripts/compile-yaml.js",
     "validate:fix": "node scripts/compile-yaml.js --fix",
     "catalogue": "node scripts/generate-catalogue.js",
-    "overpass-import": "node scripts/overpass-import.js",
     "test": "playwright test"
   },
   "dependencies": {
